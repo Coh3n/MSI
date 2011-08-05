@@ -528,6 +528,14 @@ end;
 
 procedure initScriptSetup();
 begin
+  forms[FRM_SCRIPT_SETUP] := TForm.create(forms[FRM_MAIN]);
+  with forms[FRM_SCRIPT_SETUP] do
+  begin
+    width := 300;
+    height := 500;
+    caption := 'Script Settings';
+    visible := false;
+  end;
 end;
 
 procedure initPlayerAdvanced();
@@ -1016,23 +1024,14 @@ begin
     onPaint := @onPaints;
   end;
 
-  forms[FRM_SCRIPT_SETUP] := TForm.create(forms[FRM_MAIN]);
-  with forms[FRM_SCRIPT_SETUP] do
-  begin
-    width := 300;
-    height := 500;
-    caption := 'Script Settings';
-    visible := false;
-  end;
-
   mainMenuCreate();
   scriptListCreate();
 
   openDialog := TOpenDialog.create(forms[FRM_MAIN]);
-  openDialog.title := 'Choose a player file to open';
+  openDialog.title := ' Choose a player file to open';
 
   saveDialog := TSaveDialog.create(forms[FRM_MAIN]);
-  saveDialog.title := 'Save your player file';
+  saveDialog.title := ' Save your player file';
   saveDialog.defaultExt := '.txt';
 
   buttons[BTN_SETTINGS] := TButton.create(forms[FRM_MAIN]);
