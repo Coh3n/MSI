@@ -499,8 +499,8 @@ begin
   forms[FORM_SETTINGS_PLAYER] := TForm.create(forms[FORM_MAIN]);
   with forms[FORM_SETTINGS_PLAYER] do
   begin
-    width := 475;
-    height := 235;
+    width := 405;
+    height := 270;
     visible := false;
   end;
 
@@ -508,8 +508,8 @@ begin
   with edits[EDIT_TIME_TOTAL] do
   begin
     parent := forms[FORM_SETTINGS_PLAYER];
-    top := 10;
-    left := 145;
+    top := PLAYER_SPACING;
+    left := 110;
     hint := 'The total time for this player to run in minutes (combines '+#13+#10+
             'the time from each script).  Leave at 0 to run forever.';
     text := '0';
@@ -639,11 +639,11 @@ begin
   with checkLists[CHECKLIST_REWARDS] do
   begin
     parent := edits[EDIT_TIME_TOTAL].parent;
-    hint := 'Check off the rewards you want from random events';
+    hint := 'Check off the rewards you want from random events (XP is default)';
     left := labels[LABEL_REWARDS].left;
     top := (labels[LABEL_REWARDS].top + labels[LABEL_REWARDS].height);
     width := PLAYER_LIST_WIDTH;
-    height := (comboBoxes[COMBO_LAMPSKILL].top - 5);
+    height := (comboBoxes[COMBO_LAMPSKILL].top + comboBoxes[COMBO_LAMPSKILL].height - top);
     showHint := true;
     s := ['XP Lamp', 'Costume', 'Coins', 'Gem', 'Clay Ore', 'Coal Ore',
           'Mystery Box', 'Emote'];
@@ -658,8 +658,8 @@ begin
     caption := 'Save';
     hint := 'Save the player''s settings';
     width := 100;
-    top := (comboBoxes[COMBO_LAMPSKILL].top + HEIGHT_TEXT_COMPONENTS + 20);
-    left := 125;
+    top := (comboBoxes[COMBO_LAMPSKILL].top + comboBoxes[COMBO_LAMPSKILL].height + PLAYER_SPACING);
+    left := 95;
   end;
 
   buttons[BUTTON_PLAYER_CANCEL] := TButton.create(forms[FORM_SETTINGS_PLAYER]);
@@ -670,7 +670,7 @@ begin
     hint := 'Cancel without saving player''s settings';
     width := buttons[BUTTON_PLAYER_SAVE].width;
     top := buttons[BUTTON_PLAYER_SAVE].top;
-    left := (buttons[BUTTON_PLAYER_SAVE].left + buttons[BUTTON_PLAYER_SAVE].width + 5);
+    left := (buttons[BUTTON_PLAYER_SAVE].left + buttons[BUTTON_PLAYER_SAVE].width + PLAYER_SPACING);
   end;
 end;
 
