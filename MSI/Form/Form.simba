@@ -1,19 +1,20 @@
 
 const
-  // For Username/Password/Pin/etc.
-  PLAYER_SPACING         = 10;  // Spacing between components
-  PLAYER_COMPONENT_LEFT  = 100; // Pixels from right edge of lists[LIST_PLAYERS]
+  // for Username/Password/Pin/etc.
+  PLAYER_SPACING         = 15;  // spacing between components
+  PLAYER_COMPONENT_LEFT  = 110; // pixels from right edge of lists[LIST_PLAYERS]
   PLAYER_LIST_WIDTH      = 155;
+  HEIGHT_MENU            = 20; // the main menu is X pixels in height
 
   HEIGHT_TEXT_COMPONENTS = 20;
-  CENTER_LABELS          = 3; // Pixels needed to centre labels in components
+  CENTER_LABELS          = 3; // pixels needed to centre labels in components
 
   //COLOR_BACKGROUND       = 1909544;
   //COLOR_FONT             = 2070783;
   COLOR_BACKGROUND       = clDefault;
   COLOR_FONT             = clBlack;
 
-// Component constants
+// component constants
 const
   FORM_COUNT = 4;
     FORM_MAIN            = 0;
@@ -683,9 +684,9 @@ begin
     parent := panels[PANEL_PLAYER];
     top := 20;
     width := PLAYER_LIST_WIDTH;
-    left := 10;
+    left := PLAYER_SPACING;
     hint := 'A list of all your players.  Double click to open advanded settings.';
-    height := (panels[PANEL_PLAYER].height - lists[LIST_PLAYERS].top - 65);
+    height := (panels[PANEL_PLAYER].height - lists[LIST_PLAYERS].top - 55);
     for i := 1 to 10 do
       items.add(intToStr(i));
     onDblClick := @onDblClicks;
@@ -784,7 +785,7 @@ begin
     parent := lists[LIST_PLAYERS].parent;
     caption := 'Login Name *';
     top := (edits[EDIT_LOGIN].top  + CENTER_LABELS);
-    left := (lists[LIST_PLAYERS].left + lists[LIST_PLAYERS].width + 10);
+    left := (lists[LIST_PLAYERS].left + lists[LIST_PLAYERS].width + PLAYER_SPACING);
   end;
 
   labels[LABEL_ALIAS] := TLabel.create(forms[FORM_MAIN]);
@@ -860,7 +861,7 @@ begin
     parent := lists[LIST_PLAYERS].parent;
     top := lists[LIST_PLAYERS].top;
     width := lists[LIST_PLAYERS].width;
-    height := (panels[PANEL_PLAYER].height - top - 30);
+    height := (buttons[BUTTON_PLAYER_DELETE].top + buttons[BUTTON_PLAYER_DELETE].height - top);
     left := (lists[LIST_PLAYERS].left + lists[LIST_PLAYERS].width + PLAYER_COMPONENT_LEFT + PLAYER_SPACING + 100);
     hint := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
   end;
@@ -880,7 +881,7 @@ begin
   with buttons[BUTTON_SCRIPT_DELETE] do
   begin
     parent := lists[LIST_PLAYERS].parent;
-    top := (buttons[BUTTON_SCRIPT_ADD].top + height + 5);
+    top := (buttons[BUTTON_SCRIPT_ADD].top + height + PLAYER_SPACING);
     width := buttons[BUTTON_SCRIPT_ADD].width;
     left := buttons[BUTTON_SCRIPT_ADD].left;
     hint := 'Click to remove the selected script from the list';
@@ -891,7 +892,7 @@ begin
   with buttons[BUTTON_SCRIPT_SETTINGS] do
   begin
     parent := lists[LIST_PLAYERS].parent;
-    top := (buttons[BUTTON_SCRIPT_DELETE].top + height + 5);
+    top := (buttons[BUTTON_SCRIPT_DELETE].top + height + PLAYER_SPACING);
     width := buttons[BUTTON_SCRIPT_DELETE].width;
     left := buttons[BUTTON_SCRIPT_DELETE].left;
     hint := 'Click or double click script in list to customize script settings';
@@ -912,8 +913,8 @@ begin
   begin
     parent := lists[LIST_PLAYERS].parent;
     caption := '* = Required field';
-    top := (panels[PANEL_PLAYER].height - 25 - labels[LABEL_REQUIRED].height);
-    left := (panels[PANEL_PLAYER].width - 35 - labels[LABEL_REQUIRED].width);
+    top := (panels[PANEL_PLAYER].height - height - PLAYER_SPACING);
+    left := (panels[PANEL_PLAYER].width - width - PLAYER_SPACING - 30);
   end;
 
   initPlayerAdvanced()
@@ -926,8 +927,8 @@ begin
   forms[FORM_MAIN] := TForm.create(nil);
   with forms[FORM_MAIN] do
   begin
-    width := 670;
-    height := 300;
+    width := 700;
+    height := 345;
     caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
   end;
 
@@ -955,8 +956,8 @@ begin
   begin
     parent := forms[FORM_MAIN];
     width := 150;
-    top := 7;
-    left := 7;
+    top := 10;
+    left := 10;
     hint := 'Takes you to the script settings page';
     caption := '<< Script Settings     ';
   end;
@@ -966,7 +967,7 @@ begin
   begin
     parent := forms[FORM_MAIN];
     top := 2;
-    left := (buttons[BUTTON_SETTINGS].left + buttons[BUTTON_SETTINGS].width + 95);
+    left := (buttons[BUTTON_SETTINGS].left + buttons[BUTTON_SETTINGS].width + 105);
     font.height := 35;
     font.style := [fsItalic];
   end;
@@ -977,7 +978,7 @@ begin
     parent := forms[FORM_MAIN];
     width := buttons[BUTTON_SETTINGS].width;
     top := buttons[BUTTON_SETTINGS].top;
-    left := (parent.width - (width + 7));
+    left := (parent.width - (width + 10));
     hint := 'Takes you to the player setup page';
     caption := '     Player Setup >>';
   end;
@@ -989,8 +990,8 @@ begin
     begin
       parent := forms[FORM_MAIN];
       left := 0;
-      top := 40;
-      height := (forms[FORM_MAIN].height - top);
+      top := 50;
+      height := (forms[FORM_MAIN].height - top - HEIGHT_MENU);
       width := forms[FORM_MAIN].width;
       panels[i].bevelWidth := 0;
       visible := false;
