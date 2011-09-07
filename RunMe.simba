@@ -23,6 +23,7 @@ program MSI_Script;
 //{$DEFINE SPS}          // Uncomment + select color walking to use SPS (color walking)
 {$DEFINE SMART}          // Comment to use MSI with a browser. Reflection will be disabled if commented.
 {$DEFINE MSI_REFLECTION} // Comment to completely exclude the use of Reflection
+//{$DEFINE SRL_REMOTE}     // Comment if you don't want to use the SRL Player Remote
 
 { ============================================================================ }
 {$i MSI/MSI/Core/Setup.simba}
@@ -91,7 +92,6 @@ begin
     Pin        := '';      // Bank pin; leave as '' if player doesn't have one
     Active     := True;    // Use this player?
     Member     := False;   // Is this player a member?
-    Location   := 0;       // See instructions at the top
     BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
     BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
     BreakFor   := 0;       // How long (in minutes) to break for if taking breaks (only called in single player)
@@ -111,7 +111,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -130,7 +129,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -149,7 +147,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -168,7 +165,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -187,7 +183,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -206,7 +201,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;
@@ -225,7 +219,6 @@ begin
     Pin        := '';
     Active     := True;
     Member     := False;
-    Location   := ;
     BreakLoads := ;
     BreakTime  := ;
     BreakFor   := ;

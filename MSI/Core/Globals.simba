@@ -106,8 +106,10 @@ const
   SCRIPT_SV_MAGICS  = 22;
   SCRIPT_SV_MAPLES  = 23;
   SCRIPT_SV_YEWS    = 24;
-  SCRIPT_EV_YEWS    = 25;
-  SCRIPT_IVY        = 26;
+  SCRIPT_SV_OAKS    = 25;
+  SCRIPT_SV_TREES   = 26;
+  SCRIPT_EV_YEWS    = 27;
+  SCRIPT_IVY        = 28;
 
   // Mining
   SCRIPT_POWER_MINER = 30;
@@ -183,11 +185,10 @@ Example:
   MSI_Pointers[MSI_OnDebugCall] := @Coh3n_Debug; // Where Coh3n_Debug would be in an extra I wrote
 *)
 const
-  MSI_OnWriteRemoteCall = 0;
-  MSI_OnResetRemoteCall = 1;
-  MSI_OnGetSkillLevels  = 2;
+  MSI_OnResetRemoteCall = 0;
+  MSI_OnGetSkillLevels  = 1;
 
-  POINTER_ARRAY_LENGTH  = 3;
+  POINTER_ARRAY_LENGTH  = 2;
 
 (*
 Path Constants
@@ -292,6 +293,8 @@ const
   LOC_SV_BANK    = 101;
   LOC_SV_MAPLES  = 102;
   LOC_SV_YEWS    = 103;
+  LOC_SV_OAKS    = 104;
+  LOC_SV_TREES   = 105;
 
   // Guilds
   LOC_GUILD_MINE = 110;
@@ -392,7 +395,8 @@ const
   FISH_BAIT           = 63;
   FISH_ROD_FLY        = 64;
   FISH_HARPOON        = 65;
-  FISH_POT_LOBSTER    = 66;
+  FISH_HARPOON_BARB   = 66;
+  FISH_POT_LOBSTER    = 67;
 
   FISH_RAW_SHRIMP     = 70;
   FISH_RAW_CRAYFISH   = 71;
@@ -668,7 +672,6 @@ const
   ANIM_ALCH_HIGH = 11;
   ANIM_TELE_HOME = 12;
 
-  ANIM_FISHING   = 20;
   ANIM_CHOPPING  = 21;
 
 (*
@@ -836,7 +839,7 @@ type
 
 (*
 TMaterial
-~~~~~~~
+~~~~~~~~~
 
 The type that holds all the attributes of any materials used for a skill.
 *)
@@ -960,7 +963,8 @@ type
     BankType    : TBank;
     GetMaterials: Boolean;
     WhichBank   : Integer;
-    ClickClosest: Boolean;           // Called in MSI_AutoInvFull()
+    ClickClosest: Boolean;
+    AdjustCamera: Boolean;
     AutoObjects : function: Boolean;
     BankObjects : function: Boolean;
     PlayerSetup : function: Boolean;
@@ -1030,7 +1034,6 @@ type
                // Script | Object | Multiple per object
     Items       : array of array of TIntegerArray;  // Logs, drop items, ores, fish, etc.
     ItemAmounts : array of array of TIntegerArray;
-    Experiences : array of array of TExtendedArray; // Item, object (depending on skill)
     Casts       : array of TIntegerArray; // Number of casts per spell
   end;
 
@@ -1111,7 +1114,9 @@ TAnimation
 ~~~~~~~~~~
 
 A record that stores all the necessary information for the different
-animations used for MSI.
+animations used for MSI.  See
+`Dev Tools/aid_TAnimation.simba <https://github.com/SRL/MSI/raw/master/Dev Tools/aid_TAnimation.simba>`_
+for an aiding program for making a TAnimation record.
 *)
 type
   TAnimation = record
@@ -1120,7 +1125,7 @@ type
     MaxPixelShift : Integer; // Maximum pixel shift
     PixelBox      : TBox;    // Box to check for pixel shift
     Interval      : Integer; // How long to check for pixel shift
-    MaxTime       : Integer; // Gets the average pixel shift over MaxTime
+    MaxTime       : Integer; // Gets the average pixel shift from Interval over MaxTime
     WaitTime      : Integer; // How long to wait for animation in ms
   end;
 
@@ -1179,6 +1184,6 @@ var
 
 function MSI_GetCurrentScript(): TScript;
 begin
-  result := MSI_Scripts[MSI_Players[currentPlayer].scripts[currentScript].name];
+  result := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name];
 end;
 

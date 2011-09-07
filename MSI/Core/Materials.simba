@@ -291,6 +291,33 @@ begin
 end;
 
 (*
+MSI_MaterialScreen
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_MaterialScreen: Boolean;
+
+Detects if the chat box option menu is open.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 22 March 2011 by NCDS
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_MaterialScreen) then
+    MSI_Debug('Materials screen is open in chat box');
+*)
+function MSI_MaterialScreen: Boolean;
+begin
+  Result := (GetColor(497, 367) = 5025494);
+end;
+
+(*
 MSI_ConvertMaterial
 ~~~~~~~~~~~~~~~~~~~
 
@@ -321,7 +348,7 @@ Example:
 *)
 function MSI_ConvertMaterial(func: function(m: TMaterial): Boolean; objs: TIntegerArray): Boolean;
 var
-  i, j, t: Integer;
+  i, j, k, t, x, y: Integer;
   material: TMaterial;
 begin
   if (not LoggedIn) then
@@ -345,16 +372,24 @@ begin
           if (length(material.supplies) > 0) then
             for j := 0 to high(material.supplies) do
               if (MSI_UseItemOn(material.supplies[j][0], objs)) then
+              begin
                 if (func(material)) then
                   if (MSI_WaitItemGone(MSI_Items[material.supplies[j][0]])) then
                   begin
                     result := true;
-                    MSI_AddToProggy(PROG_ADD_LOADS, -1, -1, -1);
                     exit;
+                  end;
+              end else
+                for k := 0 to high(material.produces) do
+                  if (findDTM(MSI_Items[material.produces[k]].DTM, x, y, MIX1, MIY1, MIX2, MIY2)) then
+                  begin
+                    MSI_Debug(MSI_Items[material.produces[k]].Name + ' found');
+                    result := true;
+                    break;
                   end;
         end;
 
-      if (GetSystemTime > (t div 3)) then
+      if ((t - getSystemTime) > 60000) then
         MSI_NotBoxes := [];
     until(Result or (GetSystemTime > t));
 end;

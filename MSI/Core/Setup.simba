@@ -24,19 +24,18 @@ The source for can be found
   {$ENDIF}
 {$ENDIF}
 
-{$IFDEF DEBUG_REFLECTION}
-  {$DEFINE REFLECTION_MEMORY_DEBUG}
-  {$i reflection_management.simba}
-{$ENDIF}
-
 {$IFDEF SPS}
-  {$i srl/srl/core/SPS/SPS.simba}
+  {$i sps/sps.simba}
 {$ENDIF}
 
 {$i srl/srl/misc/Reports.scar}
 {$i srl/srl/misc/Stats.simba}
 
 {$i srl/srl/skill/magic.scar}
+
+{$IFDEF SRL_REMOTE}
+  {$i srl/srl/misc/remote.simba}
+{$ENDIF}
 
 //MSI Script
 {$i MSI/MSI/Core/Globals.simba}
@@ -54,7 +53,7 @@ The source for can be found
 {$i MSI/MSI/Core/Materials.simba}
 {$i MSI/MSI/Core/Locations.simba}
 
-{$i MSI/MSI/Core/Skills.simba}
+{$i MSI/MSI/Skills/Common.simba}
 {$i MSI/MSI/Core/Banking.simba}
 
 //MSI Skill Files
@@ -150,7 +149,8 @@ begin
   MSI_AddHeader('MSI_CheckHooks');
 
   // try to get updated hooks
-  r_UpdateKill := false;
+  //r_UpdateKill := false;
+  R_ContinueIfOutdated := True;
   setupReflection();
 
   // to check some hooks, player needs to be logged in
@@ -162,7 +162,7 @@ begin
 
   // check to see if the hooks MSI uses are updated
   MSI_HookBroken[HOOK_WALKING] := (smartGetFieldObject(0, hook_static_MyPlayer) <= 0);
-  MSI_HookBroken[HOOK_LEVEL_SKILL] := (smartGetFieldArrayInt(0, hook_static_GetSkillLevels, 0) <= 0);
+  MSI_HookBroken[HOOK_LEVEL_SKILL] := (smartGetFieldArrayInt(0, hook_static_SkillLevels, 0) <= 0);
 
   for i := 0 to high(MSI_HookBroken) do
     if (MSI_HookBroken[i]) then
