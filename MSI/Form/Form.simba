@@ -606,7 +606,7 @@ begin
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
     Left   := Edits[EDIT_LOGIN].Left;
-    Top    := (Edits[EDIT_PIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING);
+    Top    := Edits[EDIT_PIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
     Hint   := 'Do you want to use this player?';
   end;
 
@@ -625,7 +625,7 @@ begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Caption := 'Active';
     Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + CENTER_LABELS;
-    Left    := Lists[LIST_PLAYERS].Left + Lists[LIST_PLAYERS].Width + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_ACTIVE].Left + CheckBoxes[CHECKBOX_ACTIVE].Width + _SPACING;
   end;
 
   Labels[LABEL_MEMBER] := TLabel.Create(Forms[FORM_MAIN]);
