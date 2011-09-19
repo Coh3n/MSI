@@ -1,14 +1,17 @@
+{$IFNDEF IS_INCLUDE}
+program MSI_PlayerForm;
+{$ENDIF}
 
 const
   // for Username/Password/Pin/etc.
-  PLAYER_SPACING         = 15;  // spacing between components
-  PLAYER_COMPONENT_LEFT  = 110; // pixels from right edge of lists[LST_PLAYERS]
-  PLAYER_LST_WIDTH      = 155;
-  HEIGHT_MNU            = 20; // the main menu is X pixels in height
-  WIDTH_EDTS            = 100; // width of TEdits
+  _SPACING         = 15;  // spacing between components
+  PLAYER_COMPONENT_LEFT  = 110; // pixels from right edge of Lists[LIST_PLAYERS]
+  PLAYER_LIST_WIDTH      = 155;
+  HEIGHT_MENU            = 20; // the main menu is X pixels in Height
+  WIDTH_EDITS            = 100; // Width of TEdits
 
   HEIGHT_TEXT_COMPONENTS = 20;
-  CENTER_LBLS          = 3; // pixels needed to centre labels in components
+  CENTER_LABELS          = 3; // pixels needed to centre Labels in components
 
   //COLOR_BACKGROUND       = 1909544;
   //COLOR_FONT             = 2070783;
@@ -17,103 +20,88 @@ const
 
 // component constants
 const
-  FRM_COUNT = 4;
-    FRM_MAIN            = 1;
-    FRM_SETTINGS_PLAYER = 2;
-    FRM_SCRIPT_SETUP    = 3;
-    FRM_SCRIPT_LST     = 4;
+  FORM_COUNT = 4;
+    FORM_MAIN            = 1;
+    FORM_SETTINGS_PLAYER = 2;
+    FORM_SCRIPT_SETUP    = 3;
+    FORM_SCRIPT_LIST     = 4;
 
-  MNU_COUNT = 4;
-    MNU_FILE = 1;
-      ITM_NEW   = 1;
-      ITM_LOAD  = 2;
-      ITM_SAVE  = 3;
-      ITM_CLOSE = 4;
+  MENU_COUNT = 4;
+    MENU_FILE = 1;
+      ITEM_NEW   = 1;
+      ITEM_LOAD  = 2;
+      ITEM_SAVE  = 3;
+      ITEM_CLOSE = 4;
 
-    MNU_START = 2;
-      ITM_MAIN = 1;
-      ITM_RUN  = 2;
+    MENU_START = 2;
+      ITEM_MAIN = 1;
+      ITEM_RUN  = 2;
 
-    MNU_FEEDBACK = 3;
-      ITM_BUG        = 1;
-      ITM_SUGGESTION = 2;
-      ITM_REPORTS    = 3;
-      ITM_CONTRIBUTE = 4;
+    MENU_FEEDBACK = 3;
+      ITEM_BUG        = 1;
+      ITEM_SUGGESTION = 2;
+      ITEM_REPORTS    = 3;
+      ITEM_CONTRIBUTE = 4;
 
-    MNU_HELP = 4;
-      ITM_FORUM = 1;
-      ITM_HELP  = 2;
-      ITM_DOC   = 3;
-      ITM_ABOUT = 4;
+    MENU_HELP = 4;
+      ITEM_FORUM = 1;
+      ITEM_HELP  = 2;
+      ITEM_DOC   = 3;
+      ITEM_ABOUT = 4;
 
-  PNL_COUNT = 3;
-    PNL_MAIN     = 1;
-    PNL_PLAYER   = 2;
-    PNL_SETTINGS = 3;
+  PANEL_COUNT = 3;
+    PANEL_MAIN     = 1;
+    PANEL_PLAYER   = 2;
+    PANEL_SETTINGS = 3;
 
-  LST_COUNT = 3;
-    LST_PLAYERS        = 1;
-    LST_PLAYER_SCRIPTS = 2;
-    LST_ALL_SCRIPTS    = 3;
+  LIST_COUNT = 3;
+    LIST_PLAYERS        = 1;
+    LIST_PLAYER_SCRIPTS = 2;
+    LIST_ALL_SCRIPTS    = 3;
 
-  CHKLST_COUNT = 1;
-    CHKLST_REWARDS = 1;
+  CHECKLIST_COUNT = 1;
+    CHECKLIST_REWARDS = 1;
 
-  EDT_COUNT = 9;
-    EDT_LOGIN       = 1;
-    EDT_ALIAS       = 2;
-    EDT_PASSWORD    = 3;
-    EDT_PIN         = 4;
-    EDT_TIME_BREAK  = 5;
-    EDT_TIME_TOTAL  = 6;
-    EDT_LOADS_BREAK = 7;
-    EDT_LOADS_TOTAL = 8;
-    EDT_BREAK_FOR   = 9;
+  EDIT_COUNT = 8;
+    EDIT_LOGIN       = 1;
+    EDIT_PASSWORD    = 2;
+    EDIT_PIN         = 3;
+    EDIT_TIME_BREAK  = 4;
+    EDIT_TIME_TOTAL  = 5;
+    EDIT_LOADS_BREAK = 6;
+    EDIT_LOADS_TOTAL = 7;
+    EDIT_BREAK_FOR   = 8;
 
-  CBO_COUNT = 3;
-    CBO_ACTIVE    = 1;
-    CBO_MEMBER    = 2;
-    CBO_LAMPSKILL = 3;
+  COMBOBOX_COUNT = 1;
+    COMBOBOX_LAMPSKILL = 1;
 
-  CHK_COUNT = 2;
-    CHK_SHOW_PASSWORD = 1;
-    CHK_SHOW_PIN      = 2;
+  CHECKBOX_COUNT = 2;
+    CHECKBOX_ACTIVE = 1;
+    CHECKBOX_MEMBER = 2;
 
-  BTN_COUNT = 13;
-    BTN_CONTINUE          = 1;
-    BTN_SETTINGS          = 2;
-    BTN_PLAYER            = 3;
-    BTN_PLAYER_ADD        = 4;
-    BTN_PLAYER_DELETE     = 5;
-    BTN_PLAYER_SAVE       = 6;
-    BTN_PLAYER_CANCEL     = 7;
-    BTN_SCRIPT_ADD        = 8;
-    BTN_SCRIPT_DELETE     = 9;
-    BTN_SCRIPT_SETTINGS   = 10;
-    BTN_SCRIPT_LST_ADD    = 11;
-    BTN_SCRIPT_LST_CANCEL = 12;
-    BTN_ADVANCED_PLAYER   = 13;
+  BUTTON_COUNT = 13;
+    BUTTON_CONTINUE          = 1;
+    BUTTON_SETTINGS          = 2;
+    BUTTON_PLAYER            = 3;
+    BUTTON_PLAYER_ADD        = 4;
+    BUTTON_PLAYER_DELETE     = 5;
+    BUTTON_PLAYER_SAVE       = 6;
+    BUTTON_PLAYER_CANCEL     = 7;
+    BUTTON_SCRIPT_ADD        = 8;
+    BUTTON_SCRIPT_DELETE     = 9;
+    BUTTON_SCRIPT_SETTINGS   = 10;
+    BUTTON_SCRIPT_LIST_ADD    = 11;
+    BUTTON_SCRIPT_LIST_CANCEL = 12;
+    BUTTON_ADVANCED_PLAYER   = 13;
 
-  LBL_COUNT = 19;
-    LBL_PLAYERS     = 1;
-    LBL_SCRIPTS     = 2;
-    LBL_USERNAME    = 3;
-    LBL_ALIAS       = 4;
-    LBL_PASSWORD    = 5;
-    LBL_PIN         = 6;
-    LBL_ACTIVE      = 7;
-    LBL_MEMBER      = 8;
-    LBL_TIME_TOTAL  = 9;
-    LBL_TIME_BREAK  = 10;
-    LBL_LOADS_TOTAL = 11;
-    LBL_LOADS_BREAK = 12;
-    LBL_BREAK_FOR   = 13;
-    LBL_LAMPSKILL   = 14;
-    LBL_REWARDS     = 15;
-    LBL_TITLE       = 16;
-    LBL_SHOW_PSWD   = 17;
-    LBL_SHOW_PIN    = 18;
-    LBL_REQUIRED    = 19;
+  LABEL_COUNT = 7;
+    LABEL_PLAYERS     = 1;
+    LABEL_SCRIPTS     = 2;
+    LABEL_ACTIVE      = 3;
+    LABEL_MEMBER      = 4;
+    LABEL_LAMPSKILL   = 5;
+    LABEL_REWARDS     = 6;
+    LABEL_TITLE       = 7;
 
 // Other variables
 var
@@ -121,65 +109,28 @@ var
 
 // Form components
 var
-  forms: array[1..FRM_COUNT] of TForm;
+  Forms: array[1..FORM_COUNT] of TForm;
 
-  mainMenu: TMainMenu;
-  mainMenuItems: array[1..MNU_COUNT] of array of TMenuItem;
+  MainMenu: TMainMenu;
+  MainMenuItems: array[1..MENU_COUNT] of array of TMenuItem;
 
-  panels     : array[1..PNL_COUNT] of TPanel;
-  lists      : array[1..LST_COUNT] of TListBox;
-  edits      : array[1..EDT_COUNT] of TEdit;
-  labels     : array[1..LBL_COUNT] of TLabel;
-  comboBoxes : array[1..CBO_COUNT] of TComboBox;
-  buttons    : array[1..BTN_COUNT] of TButton;
-  checkBoxes : array[1..CHK_COUNT] of TCheckBox;
-  checkLists : array[1..CHKLST_COUNT] of TCheckListBox;
+  Panels     : array[1..PANEL_COUNT] of TPanel;
+  Lists      : array[1..LIST_COUNT] of TListBox;
+  Edits      : array[1..EDIT_COUNT] of TEdit;
+  Labels     : array[1..LABEL_COUNT] of TLabel;
+  ComboBoxes : array[1..COMBOBOX_COUNT] of TComboBox;
+  Buttons    : array[1..BUTTON_COUNT] of TButton;
+  CheckBoxes : array[1..CHECKBOX_COUNT] of TCheckBox;
+  CheckLists : array[1..CHECKLIST_COUNT] of TCheckListBox;
 
-  openDialog: TOpenDialog;
-  saveDialog: TSaveDialog;
+  OpenDialog : TOpenDialog;
+  SaveDialog : TSaveDialog;
 
-// Prevents people from typing in combo boxes
-// Set to TComboBox.OnKeyPress
-procedure preventTyping(sender: TObject; var key: char);
-begin
-  key := chr(VK_CANCEL);
-end;
+{$i msi/msi/form/misc.simba}
+{$i msi/msi/form/events.simba}
+{$i msi/msi/form/defaults.simba}
 
-function skillToStr(skill: integer): string;
-begin
-  case skill of
-    SKILL_NONE: result := 'Miscellaneous';
-    SKILL_ATTACK: result := 'Attack';
-    SKILL_DEFENCE: result := 'Defence';
-    SKILL_STRENGTH: result := 'Strength';
-    SKILL_HITPOINTS, SKILL_HP: result := 'Constitution';
-    SKILL_RANGE: result := 'Range';
-    SKILL_PRAYER: result := 'Prayer';
-    SKILL_MAGIC: result := 'Magic';
-    SKILL_COOKING: result := 'Cooking';
-    SKILL_WOODCUTTING: result := 'Woodcutting';
-    SKILL_FLETCHING: result := 'Fletching';
-    SKILL_FISHING: result := 'Fishing';
-    SKILL_FIREMAKING: result := 'Firemaking';
-    SKILL_CRAFTING: result := 'Crafting';
-    SKILL_SMITHING: result := 'Smithing';
-    SKILL_MINING: result := 'Mining';
-    SKILL_HERBLORE: result := 'Herblore';
-    SKILL_AGILITY: result := 'Agility';
-    SKILL_THIEVING: result := 'Thieving';
-    SKILL_SLAYER: result := 'Slayer';
-    SKILL_FARMING: result := 'Farming';
-    SKILL_RUNECRAFTING: result := 'Runecrafting';
-    SKILL_HUNTER: result := 'Hunter';
-    SKILL_CONSTRUCTION: result := 'Construction';
-    SKILL_SUMMONING: result := 'Summoning';
-    SKILL_DUNGEONEERING: result := 'Dungeoneering';
-
-    else
-      MSI_SubDebug('[FRM]: Invalid skill in skillToString');
-  end;
-end;
-
+{
 type
   TSkillForm = record
     name: integer;
@@ -201,77 +152,78 @@ begin
     SKILL_NONE: ;
 
     else
-      MSI_SubDebug('[FRM] Invalid skill in getSkillForm');
+      MSI_SubDebug('[FORM] Invalid skill in getSkillForm');
   end;
 end;
 
 procedure createSkillForm(skill: integer);
 begin
 end;
+}
 
 procedure mainMenuClicks(sender: TObject);
 begin
   case sender of
-    mainMenuItems[MNU_FILE][ITM_NEW]:
+    MainMenuItems[MENU_FILE][ITEM_NEW]:
       begin
       end;
 
-    mainMenuItems[MNU_FILE][ITM_LOAD]:
+    MainMenuItems[MENU_FILE][ITEM_LOAD]:
       begin
-        if (openDialog.Execute) then
+        if (OpenDialog.Execute) then
         begin
           // Code to load all player information here
-          edits[EDT_LOGIN].text := ReadINI('0', 'Test', openDialog.FileName);
+          Edits[EDIT_LOGIN].text := ReadINI('0', 'Test', OpenDialog.FileName);
         end;
       end;
 
-    mainMenuItems[MNU_FILE][ITM_SAVE]:
+    MainMenuItems[MENU_FILE][ITEM_SAVE]:
       begin
-        if (saveDialog.Execute) then
+        if (SaveDialog.Execute) then
         begin
           // Code to save all player information here
-          writeINI('0', 'Test', edits[EDT_LOGIN].text, saveDialog.FileName);
+          writeINI('0', 'Test', Edits[EDIT_LOGIN].text, SaveDialog.FileName);
         end;
       end;
 
-    mainMenuItems[MNU_FILE][ITM_CLOSE]:
-      forms[FRM_MAIN].modalResult := mrOk;
+    MainMenuItems[MENU_FILE][ITEM_CLOSE]:
+      Forms[FORM_MAIN].modalResult := mrOk;
 
-    mainMenuItems[MNU_START][ITM_RUN]:
+    MainMenuItems[MENU_START][ITEM_RUN]:
       begin
         MSI_Ready := true;
-        forms[FRM_MAIN].modalResult := mrOk;
+        Forms[FORM_MAIN].modalResult := mrOk;
       end;
 
-    mainMenuItems[MNU_FEEDBACK][ITM_BUG]:
+    MainMenuItems[MENU_FEEDBACK][ITEM_BUG]:
       openWebPage('http://villavu.com/forum/forumdisplay.php?f=412');
 
-    mainMenuItems[MNU_FEEDBACK][ITM_SUGGESTION]:
+    MainMenuItems[MENU_FEEDBACK][ITEM_SUGGESTION]:
       openWebPage('http://villavu.com/forum/forumdisplay.php?f=413');
 
-    mainMenuItems[MNU_FEEDBACK][ITM_REPORTS]:
+    MainMenuItems[MENU_FEEDBACK][ITEM_REPORTS]:
       openWebPage('http://villavu.com/forum/showthread.php?t=56134');
 
-    mainMenuItems[MNU_FEEDBACK][ITM_CONTRIBUTE]:
+    MainMenuItems[MENU_FEEDBACK][ITEM_CONTRIBUTE]:
       openWebPage('http://villavu.com/forum/showthread.php?t=56179');
 
-    mainMenuItems[MNU_START][ITM_MAIN]:
+    MainMenuItems[MENU_START][ITEM_MAIN]:
       begin
-        panels[PNL_PLAYER].visible := false;
-        panels[PNL_SETTINGS].visible := false;
-        panels[PNL_MAIN].visible := true;
+        Panels[PANEL_PLAYER].Visible := false;
+        Panels[PANEL_SETTINGS].Visible := false;
+        Panels[PANEL_MAIN].Visible := true;
       end;
 
-    mainMenuItems[MNU_HELP][ITM_FORUM]:
+    MainMenuItems[MENU_HELP][ITEM_FORUM]:
       openWebPage('http://villavu.com/forum/index.php');
 
-    mainMenuItems[MNU_HELP][ITM_HELP]:
+    MainMenuItems[MENU_HELP][ITEM_HELP]:
       openWebPage('http://villavu.com/forum/showthread.php?t=57723');
 
-    mainMenuItems[MNU_HELP][ITM_DOC]:
+    MainMenuItems[MENU_HELP][ITEM_DOC]:
       openWebPage('http://docs.wizzup.org/msi/index.html#');
 
-    mainMenuItems[MNU_HELP][ITM_ABOUT]:
+    MainMenuItems[MENU_HELP][ITEM_ABOUT]:
       openWebPage('http://villavu.com/forum/showthread.php?t=56614');
   end;
 end;
@@ -280,31 +232,31 @@ end;
 procedure mainMenuCreate();
 var
   i, j: integer;
-  mainMenuNames: array[1..MNU_COUNT] of TStringArray;
+  mainMenuNames: array[1..MENU_COUNT] of TStringArray;
 begin
   // The first one ('File') is the heading, the rest are sub-options
-  mainMenuNames[MNU_FILE] := ['File', 'Clear', 'Load', 'Save', 'Close'];
-  mainMenuNames[MNU_START] := ['Start', 'Show Logo', 'Run'];
-  mainMenuNames[MNU_FEEDBACK] := ['Feedback', 'Report a bug', 'Suggest a feature', 'Progress Reports', 'Want to contribute?'];
-  mainMenuNames[MNU_HELP] := ['Help', 'SRL-Forums', 'MSI Help', 'Documentation', 'What is MSI?'];
+  mainMenuNames[MENU_FILE] := ['File', 'Clear', 'Load', 'Save', 'Close'];
+  mainMenuNames[MENU_START] := ['Start', 'Show Logo', 'Run'];
+  mainMenuNames[MENU_FEEDBACK] := ['Feedback', 'Report a bug', 'Suggest a feature', 'Progress Reports', 'Want to contribute?'];
+  mainMenuNames[MENU_HELP] := ['Help', 'SRL-Forums', 'MSI Help', 'Documentation', 'What is MSI?'];
 
-  mainMenu := TMainMenu.create(forms[FRM_MAIN]);
+  MainMenu := TMainMenu.Create(Forms[FORM_MAIN]);
 
-  for i := low(mainMenuItems) to high(mainMenuItems) do
+  for i := low(MainMenuItems) to high(MainMenuItems) do
   begin
-    setLength(mainMenuItems[i], length(mainMenuNames[i]));
+    setLength(MainMenuItems[i], length(mainMenuNames[i]));
 
-    for j := low(mainMenuItems[i]) to high(mainMenuItems[i]) do
+    for j := low(MainMenuItems[i]) to high(MainMenuItems[i]) do
     begin
-      mainMenuItems[i][j] := TMenuItem.create(forms[FRM_MAIN]);
-      mainMenuItems[i][j].caption := mainMenuNames[i][j];
+      MainMenuItems[i][j] := TMenuItem.Create(Forms[FORM_MAIN]);
+      MainMenuItems[i][j].Caption := mainMenuNames[i][j];
 
-      if (j = low(mainMenuItems[i])) then
-        mainMenu.items.add(mainMenuItems[i][j])
+      if (j = low(MainMenuItems[i])) then
+        MainMenu.Items.Add(MainMenuItems[i][j])
       else
-        mainMenu.items.items[i - 1].add(mainMenuItems[i][j]);
+        MainMenu.Items.Items[i - 1].Add(MainMenuItems[i][j]);
 
-      mainMenuItems[i][j].onClick := @mainMenuClicks;
+      MainMenuItems[i][j].OnClick := @mainMenuClicks;
     end;
   end;
 end;
@@ -312,13 +264,13 @@ end;
 procedure scriptListClicks(sender: TObject);
 begin
   case sender of
-    lists[LST_ALL_SCRIPTS], buttons[BTN_SCRIPT_LST_ADD]:
-      with lists[LST_ALL_SCRIPTS] do
+    Lists[LIST_ALL_SCRIPTS], Buttons[BUTTON_SCRIPT_LIST_ADD]:
+      with Lists[LIST_ALL_SCRIPTS] do
       begin
       end;
 
-    buttons[BTN_SCRIPT_LST_CANCEL]:
-      forms[FRM_SCRIPT_LST].visible := false;
+    Buttons[BUTTON_SCRIPT_LIST_CANCEL]:
+      Forms[FORM_SCRIPT_LIST].Visible := false;
   end;
 end;
 
@@ -327,6 +279,7 @@ var
   i, j: integer;
   scripts: array of TIntegerArray;
 begin
+{
   setLength(scripts, SKILL_COUNT);
 
   for i := 0 to high(MSI_Scripts) do
@@ -340,165 +293,63 @@ begin
       scripts[skillConst][high(scripts[skillConst])] := constant;
     end;
   end;
-
-  forms[FRM_SCRIPT_LST] := TForm.create(forms[FRM_MAIN]);
-  with forms[FRM_SCRIPT_LST] do
+}
+  Forms[FORM_SCRIPT_LIST] := TForm.Create(Forms[FORM_MAIN]);
+  with Forms[FORM_SCRIPT_LIST] do
   begin
-    width := 400;
-    height := 410;
-    caption := 'MSI''s Supported Scripts';
+    Width := 400;
+    Height := 410;
+    Caption := 'MSI''s Supported Scripts';
   end;
 
-  lists[LST_ALL_SCRIPTS] := TListBox.create(forms[FRM_SCRIPT_LST]);
-  with lists[LST_ALL_SCRIPTS] do
+  Lists[LIST_ALL_SCRIPTS] := TListBox.Create(Forms[FORM_SCRIPT_LIST]);
+  with Lists[LIST_ALL_SCRIPTS] do
   begin
-    parent := forms[FRM_SCRIPT_LST];
-    setBounds(0, 0, forms[FRM_SCRIPT_LST].width, forms[FRM_SCRIPT_LST].height - 40);
-    hint := 'Select which script you want to add';
-    color := COLOR_BACKGROUND;
-    font.color := COLOR_FONT;
+    Parent := Forms[FORM_SCRIPT_LIST];
+    setBounds(0, 0, Forms[FORM_SCRIPT_LIST].Width, Forms[FORM_SCRIPT_LIST].Height - 40);
+    Hint := 'Select which script you want to Add';
+    Color := COLOR_BACKGROUND;
+    Font.Color := COLOR_FONT;
     columns := 2;
     onDblClick := @scriptListClicks;
   end;
-
+{
   for i := 0 to high(scripts) do
   begin
     if (length(scripts[i]) <= 0) then
       continue;
 
-    with lists[LST_ALL_SCRIPTS] do
+    with Lists[LIST_ALL_SCRIPTS] do
     begin
-      items.add(skillToStr(i));
+      Items.Add(skillToStr(i));
       for j := 0 to high(scripts[i]) do
-        items.add('     ' + MSI_Scripts[scripts[i][j]].name);
-      items.add('');
+        Items.Add('     ' + MSI_Scripts[scripts[i][j]].name);
+      Items.Add('');
     end;
   end;
-
-  buttons[BTN_SCRIPT_LST_ADD] := TButton.create(forms[FRM_SCRIPT_LST]);
-  with buttons[BTN_SCRIPT_LST_ADD] do
+}
+  Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
+  with Buttons[BUTTON_SCRIPT_LIST_ADD] do
   begin
-    parent := lists[LST_ALL_SCRIPTS].parent;
-    width := 100;
-    top := (lists[LST_ALL_SCRIPTS].height + 7);
-    left := 90;
-    hint := 'Adds the selected script to the player''s script list';
-    caption := 'Add';
-    onClick := @scriptListClicks;
+    Parent := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width := 100;
+    Top := (Lists[LIST_ALL_SCRIPTS].Height + 7);
+    Left := 90;
+    Hint := 'Adds the selected script to the player''s script list';
+    Caption := 'Add';
+    OnClick := @scriptListClicks;
   end;
 
-  buttons[BTN_SCRIPT_LST_CANCEL] := TButton.create(forms[FRM_SCRIPT_LST]);
-  with buttons[BTN_SCRIPT_LST_CANCEL] do
+  Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
+  with Buttons[BUTTON_SCRIPT_LIST_CANCEL] do
   begin
-    parent := lists[LST_ALL_SCRIPTS].parent;
-    width := buttons[BTN_SCRIPT_LST_ADD].width;
-    top := buttons[BTN_SCRIPT_LST_ADD].top;
-    left := (buttons[BTN_SCRIPT_LST_ADD].left + buttons[BTN_SCRIPT_LST_ADD].width + 10);
-    hint := 'Close script list without saving';
-    caption := 'Cancel';
-    onClick := @scriptListClicks;
-  end;
-end;
-
-function getListSelected(list: TListBox): integer;
-var
-  i: integer;
-begin
-  for i := 0 to high(list.items.Count - 1) do
-    if (List.SELECTED[i]) then
-    begin
-      Result := i;
-      Break;
-    end;
-end;
-
-procedure onDblClicks(sender: TObject);
-var
-  i: integer;
-begin
-  case sender of
-    lists[LST_PLAYERS], buttons[BTN_ADVANCED_PLAYER]:
-      begin
-        i := getListSelected(lists[LST_PLAYERS]);
-        forms[FRM_SETTINGS_PLAYER].caption := lists[LST_PLAYERS].items.Strings[i] + '''s Advanced Settings (optional)';
-        forms[FRM_SETTINGS_PLAYER].visible := true;
-      end;
-  end;
-end;
-
-procedure onClicks(sender: TObject);
-var
-  i: integer;
-begin
-  case sender of
-    lists[LST_PLAYERS]:
-      begin
-        i := getListSelected(lists[LST_PLAYERS]);
-        labels[LBL_SCRIPTS].caption := lists[LST_PLAYERS].items.strings[i] + '''s Scripts';
-        buttons[BTN_ADVANCED_PLAYER].enabled := true;
-      end;
-
-    buttons[BTN_CONTINUE]:
-      begin
-        buttons[BTN_PLAYER].enabled := true;
-        buttons[BTN_SETTINGS].enabled := false;
-
-        panels[PNL_MAIN].visible := false;
-        panels[PNL_SETTINGS].visible := true;
-
-        labels[LBL_TITLE].caption := 'Script Settings';
-      end;
-
-    buttons[BTN_SETTINGS]:
-      begin
-        buttons[BTN_PLAYER].enabled := true;
-        buttons[BTN_SETTINGS].enabled := false;
-
-        panels[PNL_PLAYER].visible := false;
-        panels[PNL_SETTINGS].visible := true;
-
-        labels[LBL_TITLE].caption := 'Script Settings';
-      end;
-
-    buttons[BTN_PLAYER]:
-      begin
-        buttons[BTN_PLAYER].enabled := false;
-        buttons[BTN_SETTINGS].enabled := true;
-
-        panels[PNL_PLAYER].visible := true;
-        panels[PNL_SETTINGS].visible := false;
-
-        labels[LBL_TITLE].caption := 'Player Settings';
-      end;
-
-    buttons[BTN_PLAYER_CANCEL]:
-      forms[FRM_SETTINGS_PLAYER].visible := false;
-
-    buttons[BTN_SCRIPT_ADD]:
-      forms[FRM_SCRIPT_LST].visible := true;
-
-    buttons[BTN_SCRIPT_SETTINGS]:
-      forms[FRM_SCRIPT_SETUP].visible := true;
-
-    checkBoxes[CHK_SHOW_PASSWORD]:
-      begin
-        if (checkBoxes[CHK_SHOW_PASSWORD].checked) then
-          edits[EDT_PASSWORD].passwordChar := #0
-        else
-          edits[EDT_PASSWORD].passwordChar := '*';
-
-        edits[EDT_PASSWORD].refresh();
-      end;
-
-    checkBoxes[CHK_SHOW_PIN]:
-      begin
-        if (checkBoxes[CHK_SHOW_PIN].checked) then
-          edits[EDT_PIN].passwordChar := #0
-        else
-          edits[EDT_PIN].passwordChar := '*';
-
-        edits[EDT_PIN].refresh();
-      end;
+    Parent := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
+    Top := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
+    Left := (Buttons[BUTTON_SCRIPT_LIST_ADD].Left + Buttons[BUTTON_SCRIPT_LIST_ADD].Width + 10);
+    Hint := 'Close script list without saving';
+    Caption := 'Cancel';
+    OnClick := @scriptListClicks;
   end;
 end;
 
@@ -507,34 +358,34 @@ begin
   with TForm(sender) do
     with canvas do
     begin
-      moveTo(10, (panels[PNL_PLAYER].top - 3));
-      lineTo((width - 10), (panels[PNL_PLAYER].top - 3));
+      moveTo(10, (Panels[PANEL_PLAYER].Top - 3));
+      lineTo((Width - 10), (Panels[PANEL_PLAYER].Top - 3));
     end;
 end;
 
 procedure initIntro();
 begin
-  buttons[BTN_CONTINUE] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_CONTINUE] do
+  Buttons[BUTTON_CONTINUE] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_CONTINUE] do
   begin
-    parent := panels[PNL_MAIN];
-    caption := 'Continue >>';
-    width := 100;
-    top := (parent.height - 55);
-    left := (parent.width - (width + 10));
-    hint := 'Click to continue to setup MSI';
+    Parent  := Panels[PANEL_MAIN];
+    Width   := 100;
+    Top     := Parent.Height - 55;
+    Left    := Parent.Width - (Width + 10);
+    Caption := 'Continue >>';
+    Hint    := 'Click to continue to setup MSI';
   end;
 end;
 
 procedure initScriptSetup();
 begin
-  forms[FRM_SCRIPT_SETUP] := TForm.create(forms[FRM_MAIN]);
-  with forms[FRM_SCRIPT_SETUP] do
+  Forms[FORM_SCRIPT_SETUP] := TForm.Create(Forms[FORM_MAIN]);
+  with Forms[FORM_SCRIPT_SETUP] do
   begin
-    width := 300;
-    height := 500;
-    caption := 'Script Settings';
-    visible := false;
+    Width   := 300;
+    Height  := 500;
+    Caption := 'Script Settings';
+    Visible := false;
   end;
 end;
 
@@ -543,181 +394,133 @@ var
   i: integer;
   s: TStringArray;
 begin
-  forms[FRM_SETTINGS_PLAYER] := TForm.create(forms[FRM_MAIN]);
-  with forms[FRM_SETTINGS_PLAYER] do
+  Forms[FORM_SETTINGS_PLAYER] := TForm.Create(Forms[FORM_MAIN]);
+  with Forms[FORM_SETTINGS_PLAYER] do
   begin
-    width := 405;
-    height := 270;
-    visible := false;
+    Width   := 405;
+    Height  := 270;
+    Visible := false;
   end;
 
-  edits[EDT_TIME_TOTAL] := TEdit.create(forms[FRM_SETTINGS_PLAYER]);
-  with edits[EDT_TIME_TOTAL] do
+  Edits[EDIT_TIME_TOTAL] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_TIME_TOTAL] do
   begin
-    parent := forms[FRM_SETTINGS_PLAYER];
-    top := PLAYER_SPACING;
-    left := 110;
-    hint := 'The total time for this player to run in minutes (combines '+#13+#10+
-            'the time from each script).  Leave at 0 to run forever.';
-    text := '0';
+    Parent := Forms[FORM_SETTINGS_PLAYER];
+    Top    := _SPACING;
+    Left   := _SPACING;
+    Name   := 'Total_Time';
+    Hint   := 'The total time for this player to run in minutes (leave to run forever)'
   end;
 
-  edits[EDT_TIME_BREAK] := TEdit.create(forms[FRM_SETTINGS_PLAYER]);
-  with edits[EDT_TIME_BREAK] do
+  Edits[EDIT_TIME_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_TIME_BREAK] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    top := (edits[EDT_TIME_TOTAL].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_TIME_TOTAL].left;
-    hint := 'The time to run before breaking or switching players.  '+#13+#10+
-            'Leave at 0 if you don''t want this player take breaks.';
-    text := '0';
+    Parent := Edits[EDIT_TIME_TOTAL].Parent;
+    Top    := Edits[EDIT_TIME_TOTAL].Top + Edits[EDIT_TIME_TOTAL].Height + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    name   := 'Break_After';
+    Hint   := 'Break after how long? (minutes).  Leave if not taking breaks.'
   end;
 
-  edits[EDT_LOADS_TOTAL] := TEdit.create(forms[FRM_SETTINGS_PLAYER]);
-  with edits[EDT_LOADS_TOTAL] do
+  Edits[EDIT_LOADS_TOTAL] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_LOADS_TOTAL] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    top := (edits[EDT_TIME_BREAK].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_TIME_TOTAL].left;;
-    hint := 'The total loads for this player to do (combines the '+#13+#10+
-            'loads from each script).  Leave at 0 to run forever.';
-    text := '0';
+    Parent := Edits[EDIT_TIME_TOTAL].Parent;
+    Top    := Edits[EDIT_TIME_BREAK].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Name   := 'Total_Loads';
+    Hint   := 'The total loads for this player to run (leave to run forever)'
   end;
 
-  edits[EDT_LOADS_BREAK] := TEdit.create(forms[FRM_SETTINGS_PLAYER]);
-  with edits[EDT_LOADS_BREAK] do
+  Edits[EDIT_LOADS_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_LOADS_BREAK] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    top := (edits[EDT_LOADS_TOTAL].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_TIME_TOTAL].left;;
-    hint := 'The loads to do before breaking or switching players.  '+#13+#10+
-            'Leave at 0 if you don''t want to take breaks.';
-    text := '0';
+    Parent := Edits[EDIT_TIME_TOTAL].Parent;
+    Top    := Edits[EDIT_LOADS_TOTAL].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Name   := 'Break_Loads';
+    Hint   := 'Loads to do before breaking (single player) or switching ' +
+              'players (multiplayer).  Leave if you don''t want to break.'
   end;
 
-  edits[EDT_BREAK_FOR] := TEdit.create(forms[FRM_SETTINGS_PLAYER]);
-  with edits[EDT_BREAK_FOR] do
+  Edits[EDIT_BREAK_FOR] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_BREAK_FOR] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    top := (edits[EDT_LOADS_BREAK].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_TIME_TOTAL].left;;
-    hint := 'How long for this player to break for (in minutes) if taking breaks.  ' +#13+#10+
-            'This is only used for single player or if there''s one player active';
-    text := '60';
+    Parent := Edits[EDIT_TIME_TOTAL].Parent;
+    Top    := Edits[EDIT_LOADS_BREAK].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Name   := 'Break_For';
+    Hint   := 'How long to break for (single player)'
   end;
 
-  comboBoxes[CBO_LAMPSKILL] := TComboBox.create(forms[FRM_SETTINGS_PLAYER]);
-  with comboBoxes[CBO_LAMPSKILL] do
+  ComboBoxes[COMBOBOX_LAMPSKILL] := TComboBox.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with ComboBoxes[COMBOBOX_LAMPSKILL] do
   begin
-    parent := edits[EDT_LOADS_TOTAL].parent;
-    top := (edits[EDT_BREAK_FOR].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_TIME_TOTAL].left;
-    hint := 'Choose the skill you want to gain from experience lamps';
-    text := 'Mining';
-
+    Parent := Edits[EDIT_LOADS_TOTAL].Parent;
+    Top    := Edits[EDIT_BREAK_FOR].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Hint   := 'Choose the skill you want to gain from experience lamps';
+    text   := 'Mining';
+{
     for i := 0 to (SKILL_COUNT - 2) do
-      items.add(lowercase(skillToStr(i)));
+      Items.Add(lowercase(skillToStr(i)));
+}
   end;
 
-  labels[LBL_TIME_TOTAL] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_TIME_TOTAL] do
+  Labels[LABEL_LAMPSKILL] := TLabel.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with Labels[LABEL_LAMPSKILL] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Total time';
-    top := (edits[EDT_TIME_TOTAL].top + CENTER_LBLS);
-    left := (edits[EDT_TIME_TOTAL].left - 90);
+    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
+    Top     := ComboBoxes[COMBOBOX_LAMPSKILL].Top + CENTER_LABELS;
+    Caption := 'Lamp skill';
+    Left    := 10;
   end;
 
-  labels[LBL_TIME_BREAK] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_TIME_BREAK] do
+  Labels[LABEL_REWARDS] := TLabel.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with Labels[LABEL_REWARDS] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Break time';
-    top := (edits[EDT_TIME_BREAK].top + CENTER_LBLS);
-    left := labels[LBL_TIME_TOTAL].left;
+    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
+    Caption := 'Reward box rewards';
+    Top     := Edits[EDIT_TIME_TOTAL].Top;
+    Left    := Edits[EDIT_TIME_BREAK].Left + Edits[EDIT_TIME_BREAK].Width + 40;
   end;
 
-  labels[LBL_LOADS_TOTAL] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_LOADS_TOTAL] do
+  CheckLists[CHECKLIST_REWARDS] := TCheckListBox.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with CheckLists[CHECKLIST_REWARDS] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Total loads';
-    top := (edits[EDT_LOADS_TOTAL].top + CENTER_LBLS);
-    left := labels[LBL_TIME_BREAK].left;
-  end;
+    Parent   := Edits[EDIT_TIME_TOTAL].Parent;
+    Hint     := 'Check off the rewards you want from random events (XP is default)';
+    Left     := Labels[LABEL_REWARDS].Left;
+    Top      := Labels[LABEL_REWARDS].Top + Labels[LABEL_REWARDS].Height;
+    Width    := PLAYER_LIST_WIDTH;
+    Height   := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height - Top;
+    ShowHint := true;
 
-  labels[LBL_LOADS_BREAK] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_LOADS_BREAK] do
-  begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Break loads';
-    top := (edits[EDT_LOADS_BREAK].top + CENTER_LBLS);
-    left := labels[LBL_TIME_BREAK].left;
-  end;
-
-  labels[LBL_BREAK_FOR] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_BREAK_FOR] do
-  begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Break for';
-    top := (edits[EDT_BREAK_FOR].top + CENTER_LBLS);
-    left := labels[LBL_TIME_BREAK].left;
-  end;
-
-  labels[LBL_LAMPSKILL] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_LAMPSKILL] do
-  begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Lamp skill';
-    top := (comboBoxes[CBO_LAMPSKILL].top + CENTER_LBLS);
-    left := labels[LBL_TIME_BREAK].left;
-  end;
-
-  labels[LBL_REWARDS] := TLabel.create(forms[FRM_SETTINGS_PLAYER]);
-  with labels[LBL_REWARDS] do
-  begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Reward box rewards';
-    top := edits[EDT_TIME_TOTAL].top;
-    left := (edits[EDT_TIME_BREAK].left + edits[EDT_TIME_BREAK].width + 40);
-  end;
-
-  checkLists[CHKLST_REWARDS] := TCheckListBox.create(forms[FRM_SETTINGS_PLAYER]);
-  with checkLists[CHKLST_REWARDS] do
-  begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    hint := 'Check off the rewards you want from random events (XP is default)';
-    left := labels[LBL_REWARDS].left;
-    top := (labels[LBL_REWARDS].top + labels[LBL_REWARDS].height);
-    width := PLAYER_LST_WIDTH;
-    height := (comboBoxes[CBO_LAMPSKILL].top + comboBoxes[CBO_LAMPSKILL].height - top);
-    showHint := true;
-    s := ['XP Lamp', 'Costume', 'Coins', 'Gem', 'Clay Ore', 'Coal Ore',
-          'Mystery Box', 'Emote'];
+    s := ['XP Lamp', 'Costume', 'Coins', 'Gem', 'Clay Ore', 'Coal Ore', 'Mystery Box', 'Emote'];
     for i := 0 to high(s) do
-      items.add(s[i]);
+      Items.Add(s[i]);
   end;
 
-  buttons[BTN_PLAYER_SAVE] := TButton.create(forms[FRM_SETTINGS_PLAYER]);
-  with buttons[BTN_PLAYER_SAVE] do
+  Buttons[BUTTON_PLAYER_SAVE] := _TButton(Forms[FORM_SETTINGS_PLAYER]);
+  with Buttons[BUTTON_PLAYER_SAVE] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Save';
-    hint := 'Save the player''s settings';
-    width := 100;
-    top := (comboBoxes[CBO_LAMPSKILL].top + comboBoxes[CBO_LAMPSKILL].height + PLAYER_SPACING);
-    left := 95;
+    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
+    Caption := 'Save';
+    Hint    := 'Save the player''s settings';
+    Width   := 100;
+    Top     := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height + _SPACING;
+    Left    := 95;
   end;
 
-  buttons[BTN_PLAYER_CANCEL] := TButton.create(forms[FRM_SETTINGS_PLAYER]);
-  with buttons[BTN_PLAYER_CANCEL] do
+  Buttons[BUTTON_PLAYER_CANCEL] := _TButton(Forms[FORM_SETTINGS_PLAYER]);
+  with Buttons[BUTTON_PLAYER_CANCEL] do
   begin
-    parent := edits[EDT_TIME_TOTAL].parent;
-    caption := 'Cancel';
-    hint := 'Cancel without saving player''s settings';
-    width := buttons[BTN_PLAYER_SAVE].width;
-    top := buttons[BTN_PLAYER_SAVE].top;
-    left := (buttons[BTN_PLAYER_SAVE].left + buttons[BTN_PLAYER_SAVE].width + PLAYER_SPACING);
+    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
+    Caption := 'Cancel';
+    Hint    := 'Cancel without saving player''s settings';
+    Width   := Buttons[BUTTON_PLAYER_SAVE].Width;
+    Top     := Buttons[BUTTON_PLAYER_SAVE].Top;
+    Left    := Buttons[BUTTON_PLAYER_SAVE].Left + Buttons[BUTTON_PLAYER_SAVE].Width + _SPACING;
   end;
 end;
 
@@ -725,287 +528,188 @@ procedure initPlayerSetup();
 var
   i: integer;
 begin
-  lists[LST_PLAYERS] := TListBox.create(panels[PNL_PLAYER]);
-  with lists[LST_PLAYERS] do
+  Lists[LIST_PLAYERS] := TListBox.Create(Panels[PANEL_PLAYER]);
+  with Lists[LIST_PLAYERS] do
   begin
-    parent := panels[PNL_PLAYER];
-    top := 10 + PLAYER_SPACING;
-    width := PLAYER_LST_WIDTH;
-    left := PLAYER_SPACING;
-    hint := 'A list of all your players.  Double click to open advanded settings.';
-    height := (panels[PNL_PLAYER].height - lists[LST_PLAYERS].top - 55);
+    Parent := Panels[PANEL_PLAYER];
+    Top    := 10 + _SPACING;
+    Width  := PLAYER_LIST_WIDTH;
+    Left   := _SPACING;
+    Hint   := 'A list of all your players.  Double click to open advanded settings.';
+    Height := (Panels[PANEL_PLAYER].Height - Lists[LIST_PLAYERS].Top - 55);
+
     for i := 1 to 10 do
-      items.add(intToStr(i));
-    onDblClick := @onDblClicks;
-    onClick := @onClicks;
+      Items.Add(intToStr(i));
+
+    OnDblClick := @_DoubleClick;
+    OnClick    := @_Click;
   end;
 
-  buttons[BTN_ADVANCED_PLAYER] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_ADVANCED_PLAYER] do
+  Buttons[BUTTON_ADVANCED_PLAYER] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_ADVANCED_PLAYER] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    width := lists[LST_PLAYERS].width;
-    top := (lists[LST_PLAYERS].top + lists[LST_PLAYERS].height + PLAYER_SPACING);
-    left := lists[LST_PLAYERS].left;
-    hint := 'Opens an advanced settings window for the selected player';
-    caption := 'Advanced Player Settings';
-    font.size := 8;
-    enabled := false;
-    onClick := @onDblClicks;
+    Parent    := Lists[LIST_PLAYERS].Parent;
+    Width     := Lists[LIST_PLAYERS].Width;
+    Top       := Lists[LIST_PLAYERS].Top + Lists[LIST_PLAYERS].Height + _SPACING;
+    Left      := Lists[LIST_PLAYERS].Left;
+    Hint      := 'Opens an advanced settings window for the selected player';
+    Caption   := 'Advanced Player Settings';
+    Font.size := 8;
+    enabled   := false;
   end;
 
-  labels[LBL_PLAYERS] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_PLAYERS] do
+  Labels[LABEL_PLAYERS] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_PLAYERS] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Player List';
-    top := (lists[LST_PLAYERS].top - labels[LBL_PLAYERS].height);
-    left := lists[LST_PLAYERS].left;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Caption := 'Player List';
+    Top     := Lists[LIST_PLAYERS].Top - Labels[LABEL_PLAYERS].Height;
+    Left    := Lists[LIST_PLAYERS].Left;
   end;
 
-  edits[EDT_LOGIN] := TEdit.create(forms[FRM_MAIN]);
-  with edits[EDT_LOGIN] do
+  Edits[EDIT_LOGIN] := _TEdit(Forms[FORM_MAIN]);
+  with Edits[EDIT_LOGIN] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    top := lists[LST_PLAYERS].top;
-    left := (lists[LST_PLAYERS].left + lists[LST_PLAYERS].width + PLAYER_COMPONENT_LEFT);
-    hint := 'Your Runescape login name or email';
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Top    := Lists[LIST_PLAYERS].Top;
+    Left   := Lists[LIST_PLAYERS].Left + Lists[LIST_PLAYERS].Width + _SPACING;
+    Name   := 'Username';
+    Hint   := 'Your Runescape login name or email';
   end;
 
-  edits[EDT_ALIAS] := TEdit.create(forms[FRM_MAIN]);
-  with edits[EDT_ALIAS] do
+  Edits[EDIT_PASSWORD] := _TEdit(Forms[FORM_MAIN]);
+  with Edits[EDIT_PASSWORD] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    top := (edits[EDT_LOGIN].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_LOGIN].left;
-    hint := 'Your Runescape display name';
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Top    := Edits[EDIT_LOGIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_LOGIN].Left;
+    Name   := 'Password';
+    Hint   := 'Your Runescape password';
+    Tag    := $01;
   end;
 
-  edits[EDT_PASSWORD] := TEdit.create(forms[FRM_MAIN]);
-  with edits[EDT_PASSWORD] do
+  Edits[EDIT_PIN] := _TEdit(Forms[FORM_MAIN]);
+  with Edits[EDIT_PIN] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    top := (edits[EDT_ALIAS].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_LOGIN].left;
-    hint := 'Your Runescape password';
-    passwordChar := '*';
-  end;
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Top    := Edits[EDIT_PASSWORD].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_LOGIN].Left;
+    Name   := 'Pin';
+    Hint   := 'Your Runescape bank pin (leave blank if you don''t have one)';
+    Tag    := $01;
 
-  checkBoxes[CHK_SHOW_PASSWORD] := TCheckBox.create(panels[PNL_PLAYER]);
-  with CheckBoxes[CHK_SHOW_PASSWORD] do
-  begin
-    parent := panels[PNL_PLAYER];
-    top := (edits[EDT_PASSWORD].top + 2);
-    left := (edits[EDT_PASSWORD].left + WIDTH_EDTS + 5);
-    width := 15;
-    height := 15;
-    hint := 'Shows the player''s password';
-  end;
-
-  labels[LBL_SHOW_PSWD] := TLabel.create(panels[PNL_PLAYER]);
-  with labels[LBL_SHOW_PSWD] do
-  begin
-    parent := panels[PNL_PLAYER];
-    caption := 'Show';
-    width := 25;
-    font.size := 8;
-    top := (checkBoxes[CHK_SHOW_PASSWORD].top + CENTER_LBLS);
-    left := (checkBoxes[CHK_SHOW_PASSWORD].left + checkBoxes[CHK_SHOW_PASSWORD].width + 5);
-  end;
-
-  edits[EDT_PIN] := TEdit.create(forms[FRM_MAIN]);
-  with edits[EDT_PIN] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    top := (edits[EDT_PASSWORD].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    left := edits[EDT_LOGIN].left;
-    hint := 'Your Runescape bank pin (leave blank if you don''t have one)';
-    passwordChar := '*';
     maxLength := 4;
   end;
 
-  checkBoxes[CHK_SHOW_PIN] := TCheckBox.create(panels[PNL_PLAYER]);
-  with CheckBoxes[CHK_SHOW_PIN] do
+  CheckBoxes[CHECKBOX_ACTIVE] := TCheckBox.Create(Forms[FORM_MAIN]);
+  with CheckBoxes[CHECKBOX_ACTIVE] do
   begin
-    parent := panels[PNL_PLAYER];
-    top := (edits[EDT_PIN].top + 2);
-    left := (edits[EDT_PIN].left + WIDTH_EDTS + 5);
-    width := 15;
-    height := 15;
-    hint := 'Shows the player''s password';
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Left   := Edits[EDIT_LOGIN].Left;
+    Top    := (Edits[EDIT_PIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING);
+    Hint   := 'Do you want to use this player?';
   end;
 
-  labels[LBL_SHOW_PIN] := TLabel.create(panels[PNL_PLAYER]);
-  with labels[LBL_SHOW_PIN] do
+  CheckBoxes[CHECKBOX_MEMBER] := TCheckBox.Create(Forms[FORM_MAIN]);
+  with CheckBoxes[CHECKBOX_MEMBER] do
   begin
-    parent := panels[PNL_PLAYER];
-    caption := 'Show';
-    width := 25;
-    font.size := 8;
-    top := (checkBoxes[CHK_SHOW_PIN].top + CENTER_LBLS);
-    left := (checkBoxes[CHK_SHOW_PIN].left + checkBoxes[CHK_SHOW_PIN].width + 5);
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Left   := Edits[EDIT_LOGIN].Left;
+    Top    := CheckBoxes[CHECKBOX_ACTIVE].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Hint   := 'Is this player a Runescape member?';
   end;
 
-  comboBoxes[CBO_ACTIVE] := TComboBox.create(forms[FRM_MAIN]);
-  with comboBoxes[CBO_ACTIVE] do
+  Labels[LABEL_ACTIVE] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_ACTIVE] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    left := edits[EDT_LOGIN].left;
-    top := (edits[EDT_PIN].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    text := 'true';
-    items.add('true');
-    items.add('false');
-    hint := 'Do you want to use this player?';
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Caption := 'Active';
+    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + CENTER_LABELS;
+    Left    := Lists[LIST_PLAYERS].Left + Lists[LIST_PLAYERS].Width + _SPACING;
   end;
 
-  comboBoxes[CBO_MEMBER] := TComboBox.create(forms[FRM_MAIN]);
-  with comboBoxes[CBO_MEMBER] do
+  Labels[LABEL_MEMBER] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_MEMBER] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    left := edits[EDT_LOGIN].left;
-    top := (comboBoxes[CBO_ACTIVE].top + HEIGHT_TEXT_COMPONENTS + PLAYER_SPACING);
-    text := 'false';
-    items.add('true');
-    items.add('false');
-    hint := 'Is this player a Runescape member?';
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Caption := 'Member';
+    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + CENTER_LABELS;
+    Left    := Labels[LABEL_ACTIVE].Left;
   end;
 
-  labels[LBL_USERNAME] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_USERNAME] do
+  Buttons[BUTTON_PLAYER_ADD] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_PLAYER_ADD] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Login Name *';
-    top := (edits[EDT_LOGIN].top  + CENTER_LBLS);
-    left := (lists[LST_PLAYERS].left + lists[LST_PLAYERS].width + PLAYER_SPACING);
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Width   := Edits[EDIT_LOGIN].Width;
+    Top     := CheckBoxes[CHECKBOX_MEMBER].Top + CheckBoxes[CHECKBOX_MEMBER].Height + _SPACING;
+    Left    := Edits[EDIT_LOGIN].Left;
+    Hint    := 'Adds the player with the current settings to the Player List';
+    Caption := 'Add Player';
   end;
 
-  labels[LBL_ALIAS] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_ALIAS] do
+  Buttons[BUTTON_PLAYER_DELETE] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_PLAYER_DELETE] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Display Name';
-    top := (edits[EDT_ALIAS].top  + CENTER_LBLS);
-    left := labels[LBL_USERNAME].left;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Width   := Buttons[BUTTON_PLAYER_ADD].Width;
+    Top     := Buttons[BUTTON_PLAYER_ADD].Top + Buttons[BUTTON_PLAYER_ADD].Height + _SPACING;
+    Left    := Buttons[BUTTON_PLAYER_ADD].Left;
+    Hint    := 'Removes the selected player from the Player List';
+    Caption := 'Delete Player';
   end;
 
-  labels[LBL_PASSWORD] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_PASSWORD] do
+  Lists[LIST_PLAYER_SCRIPTS] := TListBox.Create(Forms[FORM_MAIN]);
+  with Lists[LIST_PLAYER_SCRIPTS] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Password *';
-    top := (edits[EDT_PASSWORD].top  + CENTER_LBLS);
-    left := labels[LBL_USERNAME].left;
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Top    := Lists[LIST_PLAYERS].Top;
+    Width  := Lists[LIST_PLAYERS].Width;
+    Height := Buttons[BUTTON_PLAYER_DELETE].Top + Buttons[BUTTON_PLAYER_DELETE].Height - Top;
+    Left   := Edits[EDIT_LOGIN].Left + Edits[EDIT_LOGIN].Width + 50;
+    Hint   := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
   end;
 
-  labels[LBL_PIN] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_PIN] do
+  Buttons[BUTTON_SCRIPT_ADD] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_SCRIPT_ADD] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Bank Pin';
-    top := (edits[EDT_PIN].top  + CENTER_LBLS);
-    left := labels[LBL_USERNAME].left;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Top     := Lists[LIST_PLAYER_SCRIPTS].Top;
+    Width   := 120;
+    Left    := Lists[LIST_PLAYER_SCRIPTS].Left + Lists[LIST_PLAYER_SCRIPTS].Width + _SPACING;
+    Hint    := 'Click to Add a script for the current player';
+    Caption := 'Add Script';
   end;
 
-  labels[LBL_ACTIVE] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_ACTIVE] do
+  Buttons[BUTTON_SCRIPT_DELETE] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_SCRIPT_DELETE] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Active';
-    top := (comboBoxes[CBO_ACTIVE].top  + CENTER_LBLS);
-    left := labels[LBL_USERNAME].left;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Top     := Buttons[BUTTON_SCRIPT_ADD].Top + Height + _SPACING;
+    Width   := Buttons[BUTTON_SCRIPT_ADD].Width;
+    Left    := Buttons[BUTTON_SCRIPT_ADD].Left;
+    Hint    := 'Click to remove the selected script from the list';
+    Caption := 'Delete Script';
   end;
 
-  labels[LBL_MEMBER] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_MEMBER] do
+  Buttons[BUTTON_SCRIPT_SETTINGS] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_SCRIPT_SETTINGS] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Member *';
-    top := (comboBoxes[CBO_MEMBER].top  + CENTER_LBLS);
-    left := labels[LBL_USERNAME].left;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Top     := Buttons[BUTTON_SCRIPT_DELETE].Top + Height + _SPACING;
+    Width   := Buttons[BUTTON_SCRIPT_DELETE].Width;
+    Left    := Buttons[BUTTON_SCRIPT_DELETE].Left;
+    Hint    := 'Click or double click script in list to customize script settings';
+    Caption := 'Script Settings';
   end;
 
-  buttons[BTN_PLAYER_ADD] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_PLAYER_ADD] do
+  Labels[LABEL_SCRIPTS] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_SCRIPTS] do
   begin
-    parent := lists[LST_PLAYERS].parent;
-    width := 90;
-    top := buttons[BTN_ADVANCED_PLAYER].top;
-    left := labels[LBL_USERNAME].left;
-    hint := 'Adds the player with the current settings to the Player List';
-    caption := 'Add Player';
-  end;
-
-  buttons[BTN_PLAYER_DELETE] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_PLAYER_DELETE] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    width := buttons[BTN_PLAYER_ADD].width;
-    top := buttons[BTN_PLAYER_ADD].top;
-    left := (buttons[BTN_PLAYER_ADD].left + width + PLAYER_SPACING);
-    hint := 'Removes the selected player from the Player List';
-    caption := 'Delete Player';
-  end;
-
-  lists[LST_PLAYER_SCRIPTS] := TListBox.create(forms[FRM_MAIN]);
-  with lists[LST_PLAYER_SCRIPTS] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    top := lists[LST_PLAYERS].top;
-    width := lists[LST_PLAYERS].width;
-    height := (buttons[BTN_PLAYER_DELETE].top + buttons[BTN_PLAYER_DELETE].height - top);
-    left := (labels[LBL_SHOW_PSWD].left + labels[LBL_SHOW_PSWD].width + PLAYER_SPACING);
-    hint := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
-  end;
-
-  buttons[BTN_SCRIPT_ADD] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_SCRIPT_ADD] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    top := lists[LST_PLAYER_SCRIPTS].top;
-    width := 120;
-    left := (lists[LST_PLAYER_SCRIPTS].left + lists[LST_PLAYER_SCRIPTS].width + PLAYER_SPACING);
-    hint := 'Click to add a script for the current player';
-    caption := 'Add Script';
-  end;
-
-  buttons[BTN_SCRIPT_DELETE] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_SCRIPT_DELETE] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    top := (buttons[BTN_SCRIPT_ADD].top + height + PLAYER_SPACING);
-    width := buttons[BTN_SCRIPT_ADD].width;
-    left := buttons[BTN_SCRIPT_ADD].left;
-    hint := 'Click to remove the selected script from the list';
-    caption := 'Delete Script';
-  end;
-
-  buttons[BTN_SCRIPT_SETTINGS] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_SCRIPT_SETTINGS] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    top := (buttons[BTN_SCRIPT_DELETE].top + height + PLAYER_SPACING);
-    width := buttons[BTN_SCRIPT_DELETE].width;
-    left := buttons[BTN_SCRIPT_DELETE].left;
-    hint := 'Click or double click script in list to customize script settings';
-    caption := 'Script Settings';
-  end;
-
-  labels[LBL_SCRIPTS] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_SCRIPTS] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := 'Player''s Scripts';
-    top := (lists[LST_PLAYER_SCRIPTS].top - labels[LBL_SCRIPTS].height);
-    left := lists[LST_PLAYER_SCRIPTS].left;
-  end;
-
-  labels[LBL_REQUIRED] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_REQUIRED] do
-  begin
-    parent := lists[LST_PLAYERS].parent;
-    caption := '* = Required field';
-    top := (panels[PNL_PLAYER].height - height - PLAYER_SPACING);
-    left := (panels[PNL_PLAYER].width - width - PLAYER_SPACING - 30);
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Caption := 'Player''s Scripts';
+    Top     := Lists[LIST_PLAYER_SCRIPTS].Top - Labels[LABEL_SCRIPTS].Height;
+    Left    := Lists[LIST_PLAYER_SCRIPTS].Left;
   end;
 
   initPlayerAdvanced();
@@ -1015,138 +719,136 @@ procedure formInit();
 var
   i: integer;
 begin
-  forms[FRM_MAIN] := TForm.create(nil);
-  with forms[FRM_MAIN] do
+  Forms[FORM_MAIN] := TForm.Create(nil);
+  with Forms[FORM_MAIN] do
   begin
-    width := 750;
-    height := 355;
-    caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
-    onPaint := @onPaints;
+    Width   := 750;
+    Height  := 355;
+    Caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
+    OnPaint := @onPaints;
   end;
 
   mainMenuCreate();
   scriptListCreate();
 
-  openDialog := TOpenDialog.create(forms[FRM_MAIN]);
-  openDialog.title := ' Choose a player file to open';
+  OpenDialog := TOpenDialog.Create(Forms[FORM_MAIN]);
+  OpenDialog.Title := ' Choose a player file to open';
 
-  saveDialog := TSaveDialog.create(forms[FRM_MAIN]);
-  saveDialog.title := ' Save your player file';
-  saveDialog.defaultExt := '.txt';
+  SaveDialog := TSaveDialog.Create(Forms[FORM_MAIN]);
+  SaveDialog.Title := ' Save your player file';
+  SaveDialog.DefaultExt := '.txt';
 
-  buttons[BTN_SETTINGS] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_SETTINGS] do
+  Buttons[BUTTON_SETTINGS] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_SETTINGS] do
   begin
-    parent := forms[FRM_MAIN];
-    width := 150;
-    top := 10;
-    left := 10;
-    hint := 'Takes you to the script settings page';
-    caption := '<< Script Settings     ';
+    Parent  := Forms[FORM_MAIN];
+    Width   := 150;
+    Top     := 10;
+    Left    := 10;
+    Hint    := 'Takes you to the script settings page';
+    Caption := '<< Script Settings     ';
   end;
 
-  labels[LBL_TITLE] := TLabel.create(forms[FRM_MAIN]);
-  with labels[LBL_TITLE] do
+  Labels[LABEL_TITLE] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_TITLE] do
   begin
-    parent := forms[FRM_MAIN];
-    top := 2;
-    left := (buttons[BTN_SETTINGS].left + buttons[BTN_SETTINGS].width + 130);
-    font.height := 35;
-    font.style := [fsItalic];
+    Parent      := Forms[FORM_MAIN];
+    Top         := 2;
+    Left        := Buttons[BUTTON_SETTINGS].Left + Buttons[BUTTON_SETTINGS].Width + 130;
+    Font.Height := 35;
+    Font.Style  := [fsItalic];
   end;
 
-  buttons[BTN_PLAYER] := TButton.create(forms[FRM_MAIN]);
-  with buttons[BTN_PLAYER] do
+  Buttons[BUTTON_PLAYER] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_PLAYER] do
   begin
-    parent := forms[FRM_MAIN];
-    width := buttons[BTN_SETTINGS].width;
-    top := buttons[BTN_SETTINGS].top;
-    left := (parent.width - (width + 10));
-    hint := 'Takes you to the player setup page';
-    caption := '     Player Setup >>';
+    Parent  := Forms[FORM_MAIN];
+    Width   := Buttons[BUTTON_SETTINGS].Width;
+    Top     := Buttons[BUTTON_SETTINGS].Top;
+    Left    := Parent.Width - (Width + 10);
+    Hint    := 'Takes you to the player setup page';
+    Caption := '     Player Setup >>';
   end;
 
-  for i := low(panels) to high(panels) do
+  for i := low(Panels) to high(Panels) do
   begin
-    panels[i] := TPanel.create(forms[FRM_MAIN]);
-    with panels[i] do
+    Panels[i] := TPanel.Create(Forms[FORM_MAIN]);
+    with Panels[i] do
     begin
-      parent := forms[FRM_MAIN];
-      left := 0;
-      top := 50;
-      height := (forms[FRM_MAIN].height - top - HEIGHT_MNU);
-      width := forms[FRM_MAIN].width;
-      panels[i].bevelWidth := 0;
-      visible := false;
-      color := COLOR_BACKGROUND;
+      Parent     := Forms[FORM_MAIN];
+      Left       := 0;
+      Top        := 50;
+      Height     := Forms[FORM_MAIN].Height - Top - HEIGHT_MENU;
+      Width      := Forms[FORM_MAIN].Width;
+      BevelWidth := 0;
+      Visible    := false;
+      Color      := COLOR_BACKGROUND;
     end;
   end;
 
-  with panels[PNL_MAIN] do
+  with Panels[PANEL_MAIN] do
   begin
-    visible := true;
-    top := 0;
-    height := parent.height;
+    Visible := true;
+    Top     := 0;
+    Height  := Parent.Height;
   end;
 
   initIntro();
   initScriptSetup();
   initPlayerSetup();
 
-  // Set the common attributes for all forms/components
-  for i := low(forms) to high(forms) do
-    with forms[i] do
+  // Set the common attributes for all Forms/components
+  for i := low(Forms) to high(Forms) do
+    with Forms[i] do
     begin
-      borderStyle := bsSingle;
-      position := poScreenCenter;
-      color := COLOR_BACKGROUND;
+      BorderStyle := bsSingle;
+      Position    := poScreenCenter;
+      Color       := COLOR_BACKGROUND;
     end;
 
-  for i := low(lists) to high(lists) do
-    with lists[i] do
+  for i := low(Lists) to high(Lists) do
+    with Lists[i] do
     begin
-      showHint := true;
+      ShowHint := true;
     end;
 
-  for i := low(labels) to high(labels) do
-    with labels[i] do
+  for i := low(Labels) to high(Labels) do
+    with Labels[i] do
     begin
-      font.color := COLOR_FONT;
+      Font.Color := COLOR_FONT;
     end;
 
-  for i := low(edits) to high(edits) do
-    with edits[i] do
+  for i := low(ComboBoxes) to high(ComboBoxes) do
+    with ComboBoxes[i] do
     begin
-      height := HEIGHT_TEXT_COMPONENTS;
-      width := WIDTH_EDTS;
-      showHint := true;
+      ShowHint   := true;
+      OnKeyPress := @preventTyping;
     end;
 
-  for i := low(comboBoxes) to high(comboBoxes) do
-    with comboBoxes[i] do
+  for i := low(CheckBoxes) to high(CheckBoxes) do
+    with CheckBoxes[i] do
     begin
-      showHint := true;
-      onKeyPress := @preventTyping;
+      ShowHint := true;
+      OnClick  := @_Click;
     end;
 
-  for i := low(buttons) to high(buttons) do
-    with buttons[i] do
+  for i := low(Edits) to high(Edits) do
+    with Edits[i] do
     begin
-      height := 25;
-      font.style := [fsItalic];
-      showHint := true;
-      if (onClick = nil) then
-        onClick := @onClicks;
+      ShowHint := true;
+
+      Height := 20;
+      Width  := 100;
+      text   := name;
+
+      Font.Style := [fsItalic];
+      Font.color := clGray;
+
+      OnEnter := @_Enter;
+      OnExit  := @_Exit;
     end;
 
-  for i := low(checkBoxes) to high(checkBoxes) do
-    with checkBoxes[i] do
-    begin
-      showHint := true;
-      onClick := @onClicks;
-    end;
-
-  forms[FRM_MAIN].showModal;
+  Forms[FORM_MAIN].ShowModal;
 end;
 
 procedure formSafeCall(proc: string);
@@ -1159,6 +861,20 @@ end;
 
 procedure formFree();
 begin
-  forms[FRM_MAIN].free();
+  Forms[FORM_MAIN].free();
 end;
+
+{$IFNDEF IS_INCLUDE}
+begin
+  try
+    try
+      formSafeCall('formInit');
+    finally
+      formSafeCall('formFree');
+    end;
+  except
+    writeln(ExceptionToString(ExceptionType, ExceptionParam));
+  end;
+end.
+{$ENDIF}
 

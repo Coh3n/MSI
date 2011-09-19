@@ -1,0 +1,56 @@
+function skillToStr(skill: integer): string;
+begin
+{
+  case skill of
+    SKILL_NONE: result := 'Miscellaneous';
+    SKILL_ATTACK: result := 'Attack';
+    SKILL_DEFENCE: result := 'Defence';
+    SKILL_STRENGTH: result := 'Strength';
+    SKILL_HITPOINTS, SKILL_HP: result := 'Constitution';
+    SKILL_RANGE: result := 'Range';
+    SKILL_PRAYER: result := 'Prayer';
+    SKILL_MAGIC: result := 'Magic';
+    SKILL_COOKING: result := 'Cooking';
+    SKILL_WOODCUTTING: result := 'Woodcutting';
+    SKILL_FLETCHING: result := 'Fletching';
+    SKILL_FISHING: result := 'Fishing';
+    SKILL_FIREMAKING: result := 'Firemaking';
+    SKILL_CRAFTING: result := 'Crafting';
+    SKILL_SMITHING: result := 'Smithing';
+    SKILL_MINING: result := 'Mining';
+    SKILL_HERBLORE: result := 'Herblore';
+    SKILL_AGILITY: result := 'Agility';
+    SKILL_THIEVING: result := 'Thieving';
+    SKILL_SLAYER: result := 'Slayer';
+    SKILL_FARMING: result := 'Farming';
+    SKILL_RUNECRAFTING: result := 'Runecrafting';
+    SKILL_HUNTER: result := 'Hunter';
+    SKILL_CONSTRUCTION: result := 'Construction';
+    SKILL_SUMMONING: result := 'Summoning';
+    SKILL_DUNGEONEERING: result := 'Dungeoneering';
+
+    else
+      MSI_SubDebug('[FORM]: Invalid skill in skillToString');
+  end;
+}
+end;
+
+function getListSelected(List: TListBox): integer;
+var
+  i: integer;
+begin
+  for i := 0 to high(List.Items.Count - 1) do
+    if (List.Selected[i]) then
+    begin
+      result := i;
+      break;
+    end;
+end;
+
+(**
+ * Prevents people from typing in a ComboBox
+ *)
+procedure preventTyping(sender: TObject; var key: char);
+begin
+  key := chr(VK_CANCEL);
+end;

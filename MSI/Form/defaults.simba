@@ -1,0 +1,30 @@
+function _TEdit(Owner: TComponent): TEdit;
+begin
+  Result := TEdit.Create(Owner);
+  with Result do
+  begin
+    ShowHint := true;
+
+    Height := 20;
+    Width  := 100;
+    Text   := name;
+
+    Font.Style := [fsItalic];
+    Font.Color := clGray;
+
+    OnEnter := @_Enter;
+    OnExit  := @_Exit;
+  end;
+end;
+
+function _TButton(Owner: TComponent): TButton;
+begin
+  Result := TButton.Create(Owner);
+  with Result do
+  begin
+    Font.Style := [fsItalic];
+    ShowHint   := true;
+    Height     := 25;
+    OnClick    := @_Click;
+  end;
+end;

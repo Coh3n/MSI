@@ -1,0 +1,100 @@
+procedure _Enter(Sender: TObject);
+begin
+  with TEdit(sender) do
+    if (text = name) then
+    begin
+      text := '';
+
+      font.color := clBlack;
+      font.style := [];
+    end else
+      if (tag = $01) then
+        passwordChar := #0;
+end;
+
+procedure _Exit(sender: TObject);
+begin
+  with TEdit(sender) do
+    if (text = '') then
+    begin
+      text := name;
+
+      font.color := clGray;
+      font.style := [fsItalic];
+    end else
+      if (tag and $01 = $01) then
+        passwordChar := '*';
+end;
+
+procedure _DoubleClick(sender: TObject);
+var
+  i: integer;
+begin
+  case sender of
+    Lists[LIST_PLAYERS]:
+      begin
+        i := getListSelected(Lists[LIST_PLAYERS]);
+        Forms[FORM_SETTINGS_PLAYER].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Advanced Settings (optional)';
+        Forms[FORM_SETTINGS_PLAYER].Visible := true;
+      end;
+  end;
+end;
+
+procedure _Click(sender: TObject);
+var
+  i: integer;
+begin
+  case sender of
+    Lists[LIST_PLAYERS]:
+      begin
+        i := getListSelected(Lists[LIST_PLAYERS]);
+        Labels[LABEL_SCRIPTS].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Scripts';
+        Buttons[BUTTON_ADVANCED_PLAYER].Enabled := true;
+      end;
+
+    Buttons[BUTTON_ADVANCED_PLAYER]:
+      _DoubleClick(Lists[LIST_PLAYERS]);
+
+    Buttons[BUTTON_CONTINUE]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := true;
+        Buttons[BUTTON_SETTINGS].Enabled := false;
+
+        Panels[PANEL_MAIN].Visible := false;
+        Panels[PANEL_SETTINGS].Visible := true;
+
+        Labels[LABEL_TITLE].caption := 'Script Settings';
+      end;
+
+    Buttons[BUTTON_SETTINGS]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := true;
+        Buttons[BUTTON_SETTINGS].Enabled := false;
+
+        Panels[PANEL_PLAYER].Visible := false;
+        Panels[PANEL_SETTINGS].Visible := true;
+
+        Labels[LABEL_TITLE].caption := 'Script Settings';
+      end;
+
+    Buttons[BUTTON_PLAYER]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := false;
+        Buttons[BUTTON_SETTINGS].Enabled := true;
+
+        Panels[PANEL_PLAYER].Visible := true;
+        Panels[PANEL_SETTINGS].Visible := false;
+
+        Labels[LABEL_TITLE].caption := 'Player Settings';
+      end;
+
+    Buttons[BUTTON_PLAYER_CANCEL]:
+      Forms[FORM_SETTINGS_PLAYER].Visible := false;
+
+    Buttons[BUTTON_SCRIPT_ADD]:
+      Forms[FORM_SCRIPT_LIST].Visible := true;
+
+    Buttons[BUTTON_SCRIPT_SETTINGS]:
+      Forms[FORM_SCRIPT_SETUP].Visible := true;
+  end;
+end;
