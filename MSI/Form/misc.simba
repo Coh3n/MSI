@@ -1,18 +1,3 @@
-procedure saveScripts();
-var
-  i: integer;
-begin
-  writeINI('LengthOfScripts', 'Length', intToStr(length(MSI_Scripts)), SCRIPTS);
-
-  for i := 0 to high(MSI_Scripts) do
-  begin
-    if (MSI_Scripts[i].Name = '') then
-      continue;
-
-    writeINI('Scripts', intToStr(i), MSI_Scripts[i].Name, SCRIPTS);
-  end;
-end;
-
 function skillToStr(skill: integer): string;
 begin
 {

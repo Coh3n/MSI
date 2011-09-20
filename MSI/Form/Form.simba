@@ -1,7 +1,6 @@
 {$IFNDEF IS_INCLUDE}
 program MSI_PlayerForm;
-{$ELSE}
-{$i msi/msi/core/globals.simba}
+{$i msi/msi/core/setup.simba}
 {$ENDIF}
 
 const

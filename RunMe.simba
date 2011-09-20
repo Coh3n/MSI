@@ -26,6 +26,7 @@ program MSI_Script;
 //{$DEFINE SRL_REMOTE}     // Comment if you don't want to use the SRL Player Remote
 
 { ============================================================================ }
+{$DEFINE IS_INCLUDE} // So the form can be run separate from MSI (don't touch this line)
 {$i MSI/MSI/Core/Setup.simba}
 
 const
