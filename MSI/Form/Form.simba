@@ -400,17 +400,45 @@ begin
   Forms[FORM_SETTINGS_PLAYER] := TForm.Create(Forms[FORM_MAIN]);
   with Forms[FORM_SETTINGS_PLAYER] do
   begin
-    Width   := 380;
-    Height  := 250;
+    Width   := 320;
+    Height  := 260;
     Visible := false;
+    Caption := 'Advanced Settings (optional)';
+  end;
+
+  Labels[LABEL_LAMPSKILL] := TLabel.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with Labels[LABEL_LAMPSKILL] do
+  begin
+    Parent  := Forms[FORM_SETTINGS_PLAYER];
+    Top     := _SPACING;
+    Left    := Forms[FORM_SETTINGS_PLAYER].Width / 2 - _SPACING - 125;
+    Caption := 'Lamp skill';
+  end;
+
+  ComboBoxes[COMBOBOX_LAMPSKILL] := TComboBox.Create(Forms[FORM_SETTINGS_PLAYER]);
+  with ComboBoxes[COMBOBOX_LAMPSKILL] do
+  begin
+    Parent := Labels[LABEL_LAMPSKILL].Parent;
+    Top    := Labels[LABEL_LAMPSKILL].Top + Labels[LABEL_LAMPSKILL].Height;
+    Left   := Labels[LABEL_LAMPSKILL].Left;
+    Width  := 125;
+    Height := 20;
+    Text   := 'Mining';
+    Hint   := 'Choose the skill you want to gain from experience lamps';
+
+    ShowHint := true;
+
+    for i := 0 to (SKILL_COUNT - 2) do
+      Items.Add(capitalize(skillToStr(i)));
   end;
 
   Edits[EDIT_TIME_TOTAL] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_TIME_TOTAL] do
   begin
-    Parent := Forms[FORM_SETTINGS_PLAYER];
-    Top    := _SPACING;
-    Left   := _SPACING;
+    Parent := ComboBoxes[COMBOBOX_LAMPSKILL].Parent;
+    Top    := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height + _SPACING;
+    Left   := ComboBoxes[COMBOBOX_LAMPSKILL].Left;
+    Width  := ComboBoxes[COMBOBOX_LAMPSKILL].Width;
     Name   := 'Total_Time';
     Hint   := 'The total time for this player to run in minutes (leave to run forever)'
   end;
@@ -421,16 +449,18 @@ begin
     Parent := Edits[EDIT_TIME_TOTAL].Parent;
     Top    := Edits[EDIT_TIME_TOTAL].Top + Edits[EDIT_TIME_TOTAL].Height + _SPACING;
     Left   := Edits[EDIT_TIME_TOTAL].Left;
-    name   := 'Break_After';
+    Width  := Edits[EDIT_TIME_TOTAL].Width;
+    Name   := 'Break_After';
     Hint   := 'Break after how long? (minutes).  Leave if not taking breaks.'
   end;
 
   Edits[EDIT_LOADS_TOTAL] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_LOADS_TOTAL] do
   begin
-    Parent := Edits[EDIT_TIME_TOTAL].Parent;
-    Top    := Edits[EDIT_TIME_BREAK].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
-    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Parent := Edits[EDIT_TIME_BREAK].Parent;
+    Top    := Edits[EDIT_TIME_BREAK].Top + Edits[EDIT_TIME_BREAK].Height + _SPACING;
+    Left   := Edits[EDIT_TIME_BREAK].Left;
+    Width  := Edits[EDIT_TIME_TOTAL].Width;
     Name   := 'Total_Loads';
     Hint   := 'The total loads for this player to run (leave to run forever)'
   end;
@@ -438,9 +468,10 @@ begin
   Edits[EDIT_LOADS_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_LOADS_BREAK] do
   begin
-    Parent := Edits[EDIT_TIME_TOTAL].Parent;
-    Top    := Edits[EDIT_LOADS_TOTAL].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
-    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Parent := Edits[EDIT_LOADS_TOTAL].Parent;
+    Top    := Edits[EDIT_LOADS_TOTAL].Top + Edits[EDIT_LOADS_TOTAL].Height + _SPACING;
+    Left   := Edits[EDIT_LOADS_TOTAL].Left;
+    Width  := Edits[EDIT_TIME_TOTAL].Width;
     Name   := 'Break_Loads';
     Hint   := 'Loads to do before breaking (single player) or switching ' +
               'players (multiplayer).  Leave if you don''t want to break.'
@@ -449,57 +480,32 @@ begin
   Edits[EDIT_BREAK_FOR] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_BREAK_FOR] do
   begin
-    Parent := Edits[EDIT_TIME_TOTAL].Parent;
-    Top    := Edits[EDIT_LOADS_BREAK].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
-    Left   := Edits[EDIT_TIME_TOTAL].Left;
+    Parent := Edits[EDIT_LOADS_BREAK].Parent;
+    Top    := Edits[EDIT_LOADS_BREAK].Top + Edits[EDIT_LOADS_BREAK].Height + _SPACING;
+    Left   := Edits[EDIT_LOADS_BREAK].Left;
+    Width  := Edits[EDIT_TIME_TOTAL].Width;
     Name   := 'Break_For';
     Hint   := 'How long to break for (single player)'
-  end;
-
-  ComboBoxes[COMBOBOX_LAMPSKILL] := _TComboBox(Forms[FORM_SETTINGS_PLAYER]);
-  with ComboBoxes[COMBOBOX_LAMPSKILL] do
-  begin
-    Parent := Edits[EDIT_LOADS_TOTAL].Parent;
-    Top    := Edits[EDIT_BREAK_FOR].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
-    Left   := Edits[EDIT_TIME_TOTAL].Left;
-    Hint   := 'Choose the skill you want to gain from experience lamps';
-    Name   := 'Lampskill';
-
-    for i := 1 to 10 do
-      Items.Add(intToStr(i));
-{
-    for i := 0 to (SKILL_COUNT - 2) do
-      Items.Add(lowercase(skillToStr(i)));
-}
-  end;
-
-  Labels[LABEL_LAMPSKILL] := TLabel.Create(Forms[FORM_SETTINGS_PLAYER]);
-  with Labels[LABEL_LAMPSKILL] do
-  begin
-    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
-    Top     := ComboBoxes[COMBOBOX_LAMPSKILL].Top + CENTER_LABELS;
-    Caption := 'Lamp skill';
-    Left    := 10;
   end;
 
   Labels[LABEL_REWARDS] := TLabel.Create(Forms[FORM_SETTINGS_PLAYER]);
   with Labels[LABEL_REWARDS] do
   begin
-    Parent  := Edits[EDIT_TIME_TOTAL].Parent;
+    Parent  := Labels[LABEL_LAMPSKILL].Parent;
+    Top     := Labels[LABEL_LAMPSKILL].Top;
+    Left    := Forms[FORM_SETTINGS_PLAYER].Width / 2 + _SPACING;
     Caption := 'Reward box rewards';
-    Top     := Edits[EDIT_TIME_TOTAL].Top;
-    Left    := Edits[EDIT_TIME_BREAK].Left + Edits[EDIT_TIME_BREAK].Width + 40;
   end;
 
   CheckLists[CHECKLIST_REWARDS] := TCheckListBox.Create(Forms[FORM_SETTINGS_PLAYER]);
   with CheckLists[CHECKLIST_REWARDS] do
   begin
-    Parent   := Edits[EDIT_TIME_TOTAL].Parent;
-    Hint     := 'Check off the rewards you want from random events (XP is default)';
-    Left     := Labels[LABEL_REWARDS].Left;
+    Parent   := Labels[LABEL_REWARDS].Parent;
+    Left     := Labels[LABEL_REWARDS].Left
     Top      := Labels[LABEL_REWARDS].Top + Labels[LABEL_REWARDS].Height;
-    Width    := 150;
-    Height   := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height - Top;
+    Width    := 125;
+    Height   := Edits[EDIT_BREAK_FOR].Top + Edits[EDIT_BREAK_FOR].Height - Top + 2;
+    Hint     := 'Check off the rewards you want from random events (XP is default)';
     ShowHint := true;
 
     s := ['XP Lamp', 'Costume', 'Coins', 'Gem', 'Clay Ore', 'Coal Ore', 'Mystery Box', 'Emote'];
@@ -514,8 +520,8 @@ begin
     Caption := 'Save';
     Hint    := 'Save the player''s settings';
     Width   := 100;
-    Top     := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height + _SPACING;
-    Left    := 95;
+    Top     := Edits[EDIT_BREAK_FOR].Top + Edits[EDIT_BREAK_FOR].Height + (_SPACING * 2);
+    Left    := Forms[FORM_SETTINGS_PLAYER].Width / 2 - (Width + (_SPACING / 2));
   end;
 
   Buttons[BUTTON_PLAYER_CANCEL] := _TButton(Forms[FORM_SETTINGS_PLAYER]);
@@ -526,7 +532,7 @@ begin
     Hint    := 'Cancel without saving player''s settings';
     Width   := Buttons[BUTTON_PLAYER_SAVE].Width;
     Top     := Buttons[BUTTON_PLAYER_SAVE].Top;
-    Left    := Buttons[BUTTON_PLAYER_SAVE].Left + Buttons[BUTTON_PLAYER_SAVE].Width + _SPACING;
+    Left    := Forms[FORM_SETTINGS_PLAYER].Width / 2 + (_SPACING / 2);
   end;
 end;
 

@@ -29,14 +29,10 @@ begin
 end;
 
 procedure _DoubleClick(sender: TObject);
-var
-  i: integer;
 begin
   case sender of
     Lists[LIST_PLAYERS]:
       begin
-        i := getListSelected(Lists[LIST_PLAYERS]);
-        Forms[FORM_SETTINGS_PLAYER].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Advanced Settings (optional)';
         Forms[FORM_SETTINGS_PLAYER].Visible := true;
       end;
   end;

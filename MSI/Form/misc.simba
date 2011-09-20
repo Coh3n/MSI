@@ -1,6 +1,5 @@
 function skillToStr(skill: integer): string;
 begin
-{
   case skill of
     SKILL_NONE: result := 'Miscellaneous';
     SKILL_ATTACK: result := 'Attack';
@@ -32,7 +31,6 @@ begin
     else
       MSI_SubDebug('[FORM]: Invalid skill in skillToString');
   end;
-}
 end;
 
 function getListSelected(List: TListBox): integer;
