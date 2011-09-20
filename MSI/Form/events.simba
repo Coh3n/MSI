@@ -1,29 +1,31 @@
 procedure _Enter(Sender: TObject);
 begin
-  with TEdit(sender) do
-    if (text = name) then
-    begin
-      text := '';
+  if (Sender is TEdit) then
+    with TEdit(Sender) do
+      if (text = name) then
+      begin
+        text := '';
 
-      font.color := clBlack;
-      font.style := [];
-    end else
-      if (tag = $01) then
-        passwordChar := #0;
+        font.color := clBlack;
+        font.style := [];
+      end else
+        if (tag = $01) then
+          passwordChar := #0;
 end;
 
-procedure _Exit(sender: TObject);
+procedure _Exit(Sender: TObject);
 begin
-  with TEdit(sender) do
-    if (text = '') then
-    begin
-      text := name;
+  if (Sender is TEdit) then
+    with TEdit(Sender) do
+      if (text = '') then
+      begin
+        text := name;
 
-      font.color := clGray;
-      font.style := [fsItalic];
-    end else
-      if (tag and $01 = $01) then
-        passwordChar := '*';
+        font.color := clGray;
+        font.style := [fsItalic];
+      end else
+        if (tag and $01 = $01) then
+          passwordChar := '*';
 end;
 
 procedure _DoubleClick(sender: TObject);

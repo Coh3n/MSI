@@ -1,12 +1,13 @@
 {$IFNDEF IS_INCLUDE}
 program MSI_PlayerForm;
+{$ELSE}
+{$i msi/msi/core/globals.simba}
 {$ENDIF}
 
 const
   // for Username/Password/Pin/etc.
-  _SPACING         = 15;  // spacing between components
+  _SPACING         = 10;  // spacing between components
   PLAYER_COMPONENT_LEFT  = 110; // pixels from right edge of Lists[LIST_PLAYERS]
-  PLAYER_LIST_WIDTH      = 155;
   HEIGHT_MENU            = 20; // the main menu is X pixels in Height
   WIDTH_EDITS            = 100; // Width of TEdits
 
@@ -173,7 +174,7 @@ begin
         if (OpenDialog.Execute) then
         begin
           // Code to load all player information here
-          Edits[EDIT_LOGIN].text := ReadINI('0', 'Test', OpenDialog.FileName);
+          Edits[EDIT_LOGIN].Text := ReadINI('0', 'Test', OpenDialog.FileName);
         end;
       end;
 
@@ -182,7 +183,7 @@ begin
         if (SaveDialog.Execute) then
         begin
           // Code to save all player information here
-          writeINI('0', 'Test', Edits[EDIT_LOGIN].text, SaveDialog.FileName);
+          writeINI('0', 'Test', Edits[EDIT_LOGIN].Text, SaveDialog.FileName);
         end;
       end;
 
@@ -196,10 +197,10 @@ begin
       end;
 
     MainMenuItems[MENU_FEEDBACK][ITEM_BUG]:
-      openWebPage('http://villavu.com/forum/forumdisplay.php?f=412');
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=444');
 
     MainMenuItems[MENU_FEEDBACK][ITEM_SUGGESTION]:
-      openWebPage('http://villavu.com/forum/forumdisplay.php?f=413');
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=445');
 
     MainMenuItems[MENU_FEEDBACK][ITEM_REPORTS]:
       openWebPage('http://villavu.com/forum/showthread.php?t=56134');
@@ -209,9 +210,9 @@ begin
 
     MainMenuItems[MENU_START][ITEM_MAIN]:
       begin
-        Panels[PANEL_PLAYER].Visible := false;
+        Panels[PANEL_PLAYER].Visible   := false;
         Panels[PANEL_SETTINGS].Visible := false;
-        Panels[PANEL_MAIN].Visible := true;
+        Panels[PANEL_MAIN].Visible     := true;
       end;
 
     MainMenuItems[MENU_HELP][ITEM_FORUM]:
@@ -235,10 +236,10 @@ var
   mainMenuNames: array[1..MENU_COUNT] of TStringArray;
 begin
   // The first one ('File') is the heading, the rest are sub-options
-  mainMenuNames[MENU_FILE] := ['File', 'Clear', 'Load', 'Save', 'Close'];
-  mainMenuNames[MENU_START] := ['Start', 'Show Logo', 'Run'];
+  mainMenuNames[MENU_FILE]     := ['File', 'Clear', 'Load', 'Save', 'Close'];
+  mainMenuNames[MENU_START]    := ['Start', 'Show Logo', 'Run'];
   mainMenuNames[MENU_FEEDBACK] := ['Feedback', 'Report a bug', 'Suggest a feature', 'Progress Reports', 'Want to contribute?'];
-  mainMenuNames[MENU_HELP] := ['Help', 'SRL-Forums', 'MSI Help', 'Documentation', 'What is MSI?'];
+  mainMenuNames[MENU_HELP]     := ['Help', 'SRL-Forums', 'MSI Help', 'Documentation', 'What is MSI?'];
 
   MainMenu := TMainMenu.Create(Forms[FORM_MAIN]);
 
@@ -297,8 +298,8 @@ begin
   Forms[FORM_SCRIPT_LIST] := TForm.Create(Forms[FORM_MAIN]);
   with Forms[FORM_SCRIPT_LIST] do
   begin
-    Width := 400;
-    Height := 410;
+    Width   := 400;
+    Height  := 410;
     Caption := 'MSI''s Supported Scripts';
   end;
 
@@ -306,12 +307,15 @@ begin
   with Lists[LIST_ALL_SCRIPTS] do
   begin
     Parent := Forms[FORM_SCRIPT_LIST];
-    setBounds(0, 0, Forms[FORM_SCRIPT_LIST].Width, Forms[FORM_SCRIPT_LIST].Height - 40);
-    Hint := 'Select which script you want to Add';
-    Color := COLOR_BACKGROUND;
+    Top    := 0;
+    Left   := 0;
+    Width  := Forms[FORM_SCRIPT_LIST].Width;
+    Height := Forms[FORM_SCRIPT_LIST].Height - 40;
+    Color  := COLOR_BACKGROUND;
+    Hint   := 'Select which script you want to Add';
+
     Font.Color := COLOR_FONT;
-    columns := 2;
-    onDblClick := @scriptListClicks;
+    OnDblClick := @scriptListClicks;
   end;
 {
   for i := 0 to high(scripts) do
@@ -331,11 +335,11 @@ begin
   Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
   with Buttons[BUTTON_SCRIPT_LIST_ADD] do
   begin
-    Parent := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width := 100;
-    Top := (Lists[LIST_ALL_SCRIPTS].Height + 7);
-    Left := 90;
-    Hint := 'Adds the selected script to the player''s script list';
+    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width   := 100;
+    Top     := (Lists[LIST_ALL_SCRIPTS].Height + 7);
+    Left    := 90;
+    Hint    := 'Adds the selected script to the player''s script list';
     Caption := 'Add';
     OnClick := @scriptListClicks;
   end;
@@ -343,11 +347,11 @@ begin
   Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
   with Buttons[BUTTON_SCRIPT_LIST_CANCEL] do
   begin
-    Parent := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
-    Top := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
-    Left := (Buttons[BUTTON_SCRIPT_LIST_ADD].Left + Buttons[BUTTON_SCRIPT_LIST_ADD].Width + 10);
-    Hint := 'Close script list without saving';
+    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width   := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
+    Top     := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
+    Left    := (Buttons[BUTTON_SCRIPT_LIST_ADD].Left + Buttons[BUTTON_SCRIPT_LIST_ADD].Width + 10);
+    Hint    := 'Close script list without saving';
     Caption := 'Cancel';
     OnClick := @scriptListClicks;
   end;
@@ -397,8 +401,8 @@ begin
   Forms[FORM_SETTINGS_PLAYER] := TForm.Create(Forms[FORM_MAIN]);
   with Forms[FORM_SETTINGS_PLAYER] do
   begin
-    Width   := 405;
-    Height  := 270;
+    Width   := 380;
+    Height  := 250;
     Visible := false;
   end;
 
@@ -453,14 +457,17 @@ begin
     Hint   := 'How long to break for (single player)'
   end;
 
-  ComboBoxes[COMBOBOX_LAMPSKILL] := TComboBox.Create(Forms[FORM_SETTINGS_PLAYER]);
+  ComboBoxes[COMBOBOX_LAMPSKILL] := _TComboBox(Forms[FORM_SETTINGS_PLAYER]);
   with ComboBoxes[COMBOBOX_LAMPSKILL] do
   begin
     Parent := Edits[EDIT_LOADS_TOTAL].Parent;
     Top    := Edits[EDIT_BREAK_FOR].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
     Left   := Edits[EDIT_TIME_TOTAL].Left;
     Hint   := 'Choose the skill you want to gain from experience lamps';
-    text   := 'Mining';
+    Name   := 'Lampskill';
+
+    for i := 1 to 10 do
+      Items.Add(intToStr(i));
 {
     for i := 0 to (SKILL_COUNT - 2) do
       Items.Add(lowercase(skillToStr(i)));
@@ -492,7 +499,7 @@ begin
     Hint     := 'Check off the rewards you want from random events (XP is default)';
     Left     := Labels[LABEL_REWARDS].Left;
     Top      := Labels[LABEL_REWARDS].Top + Labels[LABEL_REWARDS].Height;
-    Width    := PLAYER_LIST_WIDTH;
+    Width    := 150;
     Height   := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height - Top;
     ShowHint := true;
 
@@ -533,10 +540,10 @@ begin
   begin
     Parent := Panels[PANEL_PLAYER];
     Top    := 10 + _SPACING;
-    Width  := PLAYER_LIST_WIDTH;
+    Width  := 150;
     Left   := _SPACING;
     Hint   := 'A list of all your players.  Double click to open advanded settings.';
-    Height := (Panels[PANEL_PLAYER].Height - Lists[LIST_PLAYERS].Top - 55);
+    Height := Panels[PANEL_PLAYER].Height - Lists[LIST_PLAYERS].Top - 50;
 
     for i := 1 to 10 do
       Items.Add(intToStr(i));
@@ -548,14 +555,14 @@ begin
   Buttons[BUTTON_ADVANCED_PLAYER] := _TButton(Forms[FORM_MAIN]);
   with Buttons[BUTTON_ADVANCED_PLAYER] do
   begin
-    Parent    := Lists[LIST_PLAYERS].Parent;
-    Width     := Lists[LIST_PLAYERS].Width;
-    Top       := Lists[LIST_PLAYERS].Top + Lists[LIST_PLAYERS].Height + _SPACING;
-    Left      := Lists[LIST_PLAYERS].Left;
-    Hint      := 'Opens an advanced settings window for the selected player';
-    Caption   := 'Advanced Player Settings';
-    Font.size := 8;
-    enabled   := false;
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Width   := Lists[LIST_PLAYERS].Width;
+    Top     := Lists[LIST_PLAYERS].Top + Lists[LIST_PLAYERS].Height + _SPACING;
+    Left    := Lists[LIST_PLAYERS].Left;
+    Height  := 30;
+    Hint    := 'Opens an advanced settings window for the selected player';
+    Caption := 'Advanced Player Settings';
+    Enabled := false;
   end;
 
   Labels[LABEL_PLAYERS] := TLabel.Create(Forms[FORM_MAIN]);
@@ -601,21 +608,21 @@ begin
     maxLength := 4;
   end;
 
-  CheckBoxes[CHECKBOX_ACTIVE] := TCheckBox.Create(Forms[FORM_MAIN]);
+  CheckBoxes[CHECKBOX_ACTIVE] := _TCheckBox(Forms[FORM_MAIN]);
   with CheckBoxes[CHECKBOX_ACTIVE] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Left   := Edits[EDIT_LOGIN].Left;
-    Top    := Edits[EDIT_PIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := Edits[EDIT_LOGIN].Left + 1;
+    Top    := Edits[EDIT_PIN].Top + Edits[EDIT_PIN].Height + _SPACING;
     Hint   := 'Do you want to use this player?';
   end;
 
-  CheckBoxes[CHECKBOX_MEMBER] := TCheckBox.Create(Forms[FORM_MAIN]);
+  CheckBoxes[CHECKBOX_MEMBER] := _TCheckBox(Forms[FORM_MAIN]);
   with CheckBoxes[CHECKBOX_MEMBER] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Left   := Edits[EDIT_LOGIN].Left;
-    Top    := CheckBoxes[CHECKBOX_ACTIVE].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Left   := CheckBoxes[CHECKBOX_ACTIVE].Left;
+    Top    := CheckBoxes[CHECKBOX_ACTIVE].Top + CheckBoxes[CHECKBOX_ACTIVE].Height + _SPACING;
     Hint   := 'Is this player a Runescape member?';
   end;
 
@@ -641,11 +648,13 @@ begin
   with Buttons[BUTTON_PLAYER_ADD] do
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
-    Width   := Edits[EDIT_LOGIN].Width;
+    Width   := Edits[EDIT_LOGIN].Width / 2 - (_SPACING / 2);
     Top     := CheckBoxes[CHECKBOX_MEMBER].Top + CheckBoxes[CHECKBOX_MEMBER].Height + _SPACING;
     Left    := Edits[EDIT_LOGIN].Left;
     Hint    := 'Adds the player with the current settings to the Player List';
-    Caption := 'Add Player';
+    Caption := '+';
+
+    Font.Size := 10;
   end;
 
   Buttons[BUTTON_PLAYER_DELETE] := _TButton(Forms[FORM_MAIN]);
@@ -653,10 +662,12 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Width   := Buttons[BUTTON_PLAYER_ADD].Width;
-    Top     := Buttons[BUTTON_PLAYER_ADD].Top + Buttons[BUTTON_PLAYER_ADD].Height + _SPACING;
-    Left    := Buttons[BUTTON_PLAYER_ADD].Left;
+    Top     := Buttons[BUTTON_PLAYER_ADD].Top;
+    Left    := Buttons[BUTTON_PLAYER_ADD].Left + Buttons[BUTTON_PLAYER_ADD].Width + _SPACING;
     Hint    := 'Removes the selected player from the Player List';
-    Caption := 'Delete Player';
+    Caption := '-';
+
+    Font.Size := Buttons[BUTTON_PLAYER_ADD].Font.Size;
   end;
 
   Lists[LIST_PLAYER_SCRIPTS] := TListBox.Create(Forms[FORM_MAIN]);
@@ -666,7 +677,7 @@ begin
     Top    := Lists[LIST_PLAYERS].Top;
     Width  := Lists[LIST_PLAYERS].Width;
     Height := Buttons[BUTTON_PLAYER_DELETE].Top + Buttons[BUTTON_PLAYER_DELETE].Height - Top;
-    Left   := Edits[EDIT_LOGIN].Left + Edits[EDIT_LOGIN].Width + 50;
+    Left   := Edits[EDIT_LOGIN].Left + Edits[EDIT_LOGIN].Width + (_SPACING * 2);
     Hint   := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
   end;
 
@@ -675,7 +686,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Top     := Lists[LIST_PLAYER_SCRIPTS].Top;
-    Width   := 120;
+    Width   := 100;
     Left    := Lists[LIST_PLAYER_SCRIPTS].Left + Lists[LIST_PLAYER_SCRIPTS].Width + _SPACING;
     Hint    := 'Click to Add a script for the current player';
     Caption := 'Add Script';
@@ -722,8 +733,8 @@ begin
   Forms[FORM_MAIN] := TForm.Create(nil);
   with Forms[FORM_MAIN] do
   begin
-    Width   := 750;
-    Height  := 355;
+    Width   := 559;
+    Height  := 304;
     Caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
     OnPaint := @onPaints;
   end;
@@ -753,9 +764,9 @@ begin
   with Labels[LABEL_TITLE] do
   begin
     Parent      := Forms[FORM_MAIN];
-    Top         := 2;
-    Left        := Buttons[BUTTON_SETTINGS].Left + Buttons[BUTTON_SETTINGS].Width + 130;
-    Font.Height := 35;
+    Top         := 8;
+    Left        := 225;
+    Font.Height := 25;
     Font.Style  := [fsItalic];
   end;
 
@@ -816,36 +827,6 @@ begin
     with Labels[i] do
     begin
       Font.Color := COLOR_FONT;
-    end;
-
-  for i := low(ComboBoxes) to high(ComboBoxes) do
-    with ComboBoxes[i] do
-    begin
-      ShowHint   := true;
-      OnKeyPress := @preventTyping;
-    end;
-
-  for i := low(CheckBoxes) to high(CheckBoxes) do
-    with CheckBoxes[i] do
-    begin
-      ShowHint := true;
-      OnClick  := @_Click;
-    end;
-
-  for i := low(Edits) to high(Edits) do
-    with Edits[i] do
-    begin
-      ShowHint := true;
-
-      Height := 20;
-      Width  := 100;
-      text   := name;
-
-      Font.Style := [fsItalic];
-      Font.color := clGray;
-
-      OnEnter := @_Enter;
-      OnExit  := @_Exit;
     end;
 
   Forms[FORM_MAIN].ShowModal;

@@ -17,6 +17,22 @@ begin
   end;
 end;
 
+function _TComboBox(Owner: TComponent): TComboBox;
+begin
+  Result := TComboBox.Create(Owner);
+  with Result do
+  begin
+    ShowHint := true;
+
+    Height := 20;
+    Width  := 100;
+    Text   := name;
+
+    Font.Style := [fsItalic];
+    Font.Color := clGray;
+  end;
+end;
+
 function _TButton(Owner: TComponent): TButton;
 begin
   Result := TButton.Create(Owner);
@@ -26,5 +42,19 @@ begin
     ShowHint   := true;
     Height     := 25;
     OnClick    := @_Click;
+  end;
+end;
+
+function _TCheckBox(Owner: TComponent): TCheckBox;
+begin
+  Result := TCheckBox.Create(Owner);
+  with Result do
+  begin
+    Width := 15;
+    Height := 15;
+
+    ShowHint := true;
+
+    OnClick  := @_Click;
   end;
 end;
