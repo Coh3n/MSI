@@ -1,0 +1,27 @@
+MSI Form TODO
+~~~~~~~~~~~~~
+
+- MSI Settings (side-tabs)
+  - SMART Settings
+    - Signed
+    - Debug
+  - Preferred World
+  - Stats
+    - ID 
+    - Password
+  - Lower CPU
+    - Don't print long report (remove SETUP_PRINT_REPORT)
+  - Save Debug Log
+  - Save Progress Report
+  - Debug Level (doesn't effect what is saved)
+  - Human-like Breaking
+  - Switch Worlds
+  - Antiban Wait
+  - Randoms Check Wait
+  - Walking Method
+
+- Possibly remove Settings panel (not sure yet)
+
+- Intro. page/logo
+
+- email_display.simba
