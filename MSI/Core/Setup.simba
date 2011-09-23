@@ -77,7 +77,10 @@ The source for can be found
 
 //MSI Skill Loops, AI and Mainloop
 {$i MSI/MSI/Core/MainLoop.simba}
-{$i MSI/MSI/Form/Form.simba}
+
+{$IFDEF IS_INCLUDE}
+  {$include_once MSI/MSI/Form/form.simba}
+{$ENDIF}
 
 (*
 MSI_Setup

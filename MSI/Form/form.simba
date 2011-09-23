@@ -852,6 +852,7 @@ end;
 
 {$IFNDEF IS_INCLUDE}
 begin
+  MSI_Setup();
   try
     try
       formSafeCall('formInit');
