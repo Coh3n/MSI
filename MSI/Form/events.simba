@@ -28,6 +28,16 @@ begin
           passwordChar := '*';
 end;
 
+procedure _Paint(sender: TObject);
+begin
+  with TForm(sender) do
+    with canvas do
+    begin
+      moveTo(10, (Panels[PANEL_PLAYER].Top - 3));
+      lineTo((Width - 10), (Panels[PANEL_PLAYER].Top - 3));
+    end;
+end;
+
 procedure _DoubleClick(sender: TObject);
 begin
   case sender of
@@ -94,5 +104,8 @@ begin
 
     Buttons[BUTTON_SCRIPT_SETTINGS]:
       Forms[FORM_SCRIPT_SETUP].Visible := true;
+
+    Buttons[BUTTON_SCRIPT_LIST_CANCEL]:
+      Forms[FORM_SCRIPT_LIST].Visible := false;
   end;
 end;

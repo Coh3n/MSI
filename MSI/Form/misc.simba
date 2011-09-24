@@ -1,7 +1,7 @@
 function skillToStr(skill: integer): string;
 begin
   case skill of
-    SKILL_NONE: result := 'Miscellaneous';
+    SKILL_NONE: result := 'Money Making';
     SKILL_ATTACK: result := 'Attack';
     SKILL_DEFENCE: result := 'Defence';
     SKILL_STRENGTH: result := 'Strength';

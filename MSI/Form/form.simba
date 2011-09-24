@@ -129,6 +129,7 @@ var
 {$i msi/msi/form/misc.simba}
 {$i msi/msi/form/events.simba}
 {$i msi/msi/form/defaults.simba}
+{$i msi/msi/form/scriptList.simba}
 
 {
 type
@@ -259,111 +260,6 @@ begin
       MainMenuItems[i][j].OnClick := @mainMenuClicks;
     end;
   end;
-end;
-
-procedure scriptListClicks(sender: TObject);
-begin
-  case sender of
-    Lists[LIST_ALL_SCRIPTS], Buttons[BUTTON_SCRIPT_LIST_ADD]:
-      with Lists[LIST_ALL_SCRIPTS] do
-      begin
-      end;
-
-    Buttons[BUTTON_SCRIPT_LIST_CANCEL]:
-      Forms[FORM_SCRIPT_LIST].Visible := false;
-  end;
-end;
-
-procedure scriptListCreate();
-var
-  i, j: integer;
-  scripts: array of TIntegerArray;
-begin
-{
-  setLength(scripts, SKILL_COUNT);
-
-  for i := 0 to high(MSI_Scripts) do
-  begin
-    if (MSI_Scripts[i].name = '') then
-      continue;
-
-    with MSI_Scripts[i] do
-    begin
-      setLength(scripts[skillConst], length(scripts[skillConst]) + 1);
-      scripts[skillConst][high(scripts[skillConst])] := constant;
-    end;
-  end;
-}
-  Forms[FORM_SCRIPT_LIST] := TForm.Create(Forms[FORM_MAIN]);
-  with Forms[FORM_SCRIPT_LIST] do
-  begin
-    Width   := 400;
-    Height  := 410;
-    Caption := 'MSI''s Supported Scripts';
-  end;
-
-  Lists[LIST_ALL_SCRIPTS] := TListBox.Create(Forms[FORM_SCRIPT_LIST]);
-  with Lists[LIST_ALL_SCRIPTS] do
-  begin
-    Parent := Forms[FORM_SCRIPT_LIST];
-    Top    := 0;
-    Left   := 0;
-    Width  := Forms[FORM_SCRIPT_LIST].Width;
-    Height := Forms[FORM_SCRIPT_LIST].Height - 40;
-    Color  := COLOR_BACKGROUND;
-    Hint   := 'Select which script you want to Add';
-
-    Font.Color := COLOR_FONT;
-    OnDblClick := @scriptListClicks;
-  end;
-{
-  for i := 0 to high(scripts) do
-  begin
-    if (length(scripts[i]) <= 0) then
-      continue;
-
-    with Lists[LIST_ALL_SCRIPTS] do
-    begin
-      Items.Add(skillToStr(i));
-      for j := 0 to high(scripts[i]) do
-        Items.Add('     ' + MSI_Scripts[scripts[i][j]].name);
-      Items.Add('');
-    end;
-  end;
-}
-  Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
-  with Buttons[BUTTON_SCRIPT_LIST_ADD] do
-  begin
-    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width   := 100;
-    Top     := (Lists[LIST_ALL_SCRIPTS].Height + 7);
-    Left    := 90;
-    Hint    := 'Adds the selected script to the player''s script list';
-    Caption := 'Add';
-    OnClick := @scriptListClicks;
-  end;
-
-  Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
-  with Buttons[BUTTON_SCRIPT_LIST_CANCEL] do
-  begin
-    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width   := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
-    Top     := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
-    Left    := (Buttons[BUTTON_SCRIPT_LIST_ADD].Left + Buttons[BUTTON_SCRIPT_LIST_ADD].Width + 10);
-    Hint    := 'Close script list without saving';
-    Caption := 'Cancel';
-    OnClick := @scriptListClicks;
-  end;
-end;
-
-procedure onPaints(sender: TObject);
-begin
-  with TForm(sender) do
-    with canvas do
-    begin
-      moveTo(10, (Panels[PANEL_PLAYER].Top - 3));
-      lineTo((Width - 10), (Panels[PANEL_PLAYER].Top - 3));
-    end;
 end;
 
 procedure initIntro();
@@ -741,11 +637,11 @@ begin
     Width   := 559;
     Height  := 304;
     Caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
-    OnPaint := @onPaints;
+    OnPaint := @_Paint;
   end;
 
   mainMenuCreate();
-  scriptListCreate();
+  createScriptList();
 
   OpenDialog := TOpenDialog.Create(Forms[FORM_MAIN]);
   OpenDialog.Title := ' Choose a player file to open';
@@ -852,7 +748,10 @@ end;
 
 {$IFNDEF IS_INCLUDE}
 begin
+  ClearDebug();
   MSI_Setup();
+  MSI_FreeAllItems();
+
   try
     try
       formSafeCall('formInit');

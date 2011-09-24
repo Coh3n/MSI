@@ -1216,7 +1216,7 @@ begin
     SCRIPT_ALCHER:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Alcher';
+        Name          := 'High & Low Alcher';
         Constant      := SCRIPT_ALCHER;
         SkillName     := 'Magic';
         SkillConst    := SKILL_MAGIC;
