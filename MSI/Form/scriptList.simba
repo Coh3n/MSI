@@ -52,7 +52,7 @@ begin
         for j := high(ScriptElements[i]) downto 0 do
         begin
           if (expand) then
-            Items.Insert(element, '         ' + MSI_Scripts[ScriptElements[i][j]].Name)
+            Items.Insert(element, '         ' + capitalize(MSI_Scripts[ScriptElements[i][j]].Name))
           else
             Items.Delete(element);
 

@@ -543,7 +543,7 @@ begin
     SCRIPT_EV_YEWS:
       with MSI_Scripts[whichScript] do
       begin
-        Name          := 'Edgeville yews';
+        Name          := 'Edgeville Yews';
         Constant      := SCRIPT_EV_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
