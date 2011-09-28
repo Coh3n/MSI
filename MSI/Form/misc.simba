@@ -45,6 +45,18 @@ begin
     end;
 end;
 
+function removePreSpaces(s: string): string;
+var
+  i: integer;
+begin
+  for i := 1 to length(s) do
+    if (s[i] <> ' ') then
+    begin
+      result := copy(s, i, length(s));
+      break;
+    end;
+end;
+
 (**
  * Prevents people from typing in a ComboBox
  *)

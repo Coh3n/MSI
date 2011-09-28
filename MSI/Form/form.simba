@@ -4,14 +4,8 @@ program MSI_PlayerForm;
 {$ENDIF}
 
 const
-  // for Username/Password/Pin/etc.
-  _SPACING         = 10;  // spacing between components
-  PLAYER_COMPONENT_LEFT  = 110; // pixels from right edge of Lists[LIST_PLAYERS]
-  HEIGHT_MENU            = 20; // the main menu is X pixels in Height
-  WIDTH_EDITS            = 100; // Width of TEdits
-
-  HEIGHT_TEXT_COMPONENTS = 20;
-  CENTER_LABELS          = 3; // pixels needed to centre Labels in components
+  _SPACING    = 10; // spacing between components
+  _MENUHEIGHT = 20; // the main menu is X pixels in Height
 
   //COLOR_BACKGROUND       = 1909544;
   //COLOR_FONT             = 2070783;
@@ -80,28 +74,28 @@ const
     CHECKBOX_MEMBER = 2;
 
   BUTTON_COUNT = 13;
-    BUTTON_CONTINUE          = 1;
-    BUTTON_SETTINGS          = 2;
-    BUTTON_PLAYER            = 3;
-    BUTTON_PLAYER_ADD        = 4;
-    BUTTON_PLAYER_DELETE     = 5;
-    BUTTON_PLAYER_SAVE       = 6;
-    BUTTON_PLAYER_CANCEL     = 7;
-    BUTTON_SCRIPT_ADD        = 8;
-    BUTTON_SCRIPT_DELETE     = 9;
-    BUTTON_SCRIPT_SETTINGS   = 10;
+    BUTTON_CONTINUE           = 1;
+    BUTTON_SETTINGS           = 2;
+    BUTTON_PLAYER             = 3;
+    BUTTON_PLAYER_ADD         = 4;
+    BUTTON_PLAYER_DELETE      = 5;
+    BUTTON_PLAYER_SAVE        = 6;
+    BUTTON_PLAYER_CANCEL      = 7;
+    BUTTON_SCRIPT_ADD         = 8;
+    BUTTON_SCRIPT_DELETE      = 9;
+    BUTTON_SCRIPT_SETTINGS    = 10;
     BUTTON_SCRIPT_LIST_ADD    = 11;
     BUTTON_SCRIPT_LIST_CANCEL = 12;
-    BUTTON_ADVANCED_PLAYER   = 13;
+    BUTTON_ADVANCED_PLAYER    = 13;
 
   LABEL_COUNT = 7;
-    LABEL_PLAYERS     = 1;
-    LABEL_SCRIPTS     = 2;
-    LABEL_ACTIVE      = 3;
-    LABEL_MEMBER      = 4;
-    LABEL_LAMPSKILL   = 5;
-    LABEL_REWARDS     = 6;
-    LABEL_TITLE       = 7;
+    LABEL_PLAYERS   = 1;
+    LABEL_SCRIPTS   = 2;
+    LABEL_ACTIVE    = 3;
+    LABEL_MEMBER    = 4;
+    LABEL_LAMPSKILL = 5;
+    LABEL_REWARDS   = 6;
+    LABEL_TITLE     = 7;
 
 // Other variables
 var
@@ -489,7 +483,7 @@ begin
   with Edits[EDIT_PASSWORD] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Top    := Edits[EDIT_LOGIN].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Top    := Edits[EDIT_LOGIN].Top + Height + _SPACING;
     Left   := Edits[EDIT_LOGIN].Left;
     Name   := 'Password';
     Hint   := 'Your Runescape password';
@@ -500,7 +494,7 @@ begin
   with Edits[EDIT_PIN] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Top    := Edits[EDIT_PASSWORD].Top + HEIGHT_TEXT_COMPONENTS + _SPACING;
+    Top    := Edits[EDIT_PASSWORD].Top + Height + _SPACING;
     Left   := Edits[EDIT_LOGIN].Left;
     Name   := 'Pin';
     Hint   := 'Your Runescape bank pin (leave blank if you don''t have one)';
@@ -532,7 +526,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Caption := 'Active';
-    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + CENTER_LABELS;
+    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + (Height / 5);
     Left    := CheckBoxes[CHECKBOX_ACTIVE].Left + CheckBoxes[CHECKBOX_ACTIVE].Width + _SPACING;
   end;
 
@@ -541,7 +535,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Caption := 'Member';
-    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + CENTER_LABELS;
+    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + (Height / 5);
     Left    := Labels[LABEL_ACTIVE].Left;
   end;
 
@@ -690,7 +684,7 @@ begin
       Parent     := Forms[FORM_MAIN];
       Left       := 0;
       Top        := 50;
-      Height     := Forms[FORM_MAIN].Height - Top - HEIGHT_MENU;
+      Height     := Forms[FORM_MAIN].Height - Top - _MENUHEIGHT;
       Width      := Forms[FORM_MAIN].Width;
       BevelWidth := 0;
       Visible    := false;

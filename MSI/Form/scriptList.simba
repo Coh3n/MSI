@@ -20,7 +20,7 @@ begin
       ScriptElements[skillConst][high(ScriptElements[skillConst])] := constant;
     end;
   end;
-
+{
   for i := 0 to high(ScriptElements) do
   begin
     if (length(ScriptElements[i]) <= 0) then
@@ -28,6 +28,7 @@ begin
 
     Writeln('ScriptElements['+skillToStr(i)+']: '+toStr(ScriptElements[i]));
   end;
+}
 end;
 
 procedure modifyElement(element: integer; expand: boolean);
@@ -82,6 +83,24 @@ begin
       modifyElement(e + 1, false);
 end;
 
+procedure dblClickListElement(Sender: TObject);
+var
+  e: integer;
+begin
+  e := getListSelected(Lists[LIST_ALL_SCRIPTS]);
+
+  // if one of the expandable options (i.e. skill titles)
+  if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) or
+     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then exit;
+
+  // add the splected script to the player's script list
+  Lists[LIST_PLAYER_SCRIPTS].Items.Add(
+    removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e])
+  );
+
+  Forms[FORM_SCRIPT_LIST].Visible := False;
+end;
+
 procedure createScriptList();
 var
   i: integer;
@@ -106,7 +125,8 @@ begin
     Hint   := 'Select which script you want to Add';
 
     Font.Color := COLOR_FONT;
-    OnClick := @ClickListElement;
+    OnClick := @clickListElement;
+    OnDblClick := @dblClickListElement;
   end;
 
   setScriptListElements();
@@ -130,6 +150,7 @@ begin
     Left    := Forms[FORM_SCRIPT_LIST].Width / 2 - (Width + (_SPACING / 2));
     Hint    := 'Adds the selected script to the player''s script list';
     Caption := 'Add';
+    OnClick := @dblClickListElement;
   end;
 
   Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
