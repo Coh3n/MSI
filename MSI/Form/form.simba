@@ -585,6 +585,7 @@ begin
     Left    := Lists[LIST_PLAYER_SCRIPTS].Left + Lists[LIST_PLAYER_SCRIPTS].Width + _SPACING;
     Hint    := 'Click to Add a script for the current player';
     Caption := 'Add Script';
+    Enabled := false;
   end;
 
   Buttons[BUTTON_SCRIPT_DELETE] := _TButton(Forms[FORM_MAIN]);
@@ -596,6 +597,7 @@ begin
     Left    := Buttons[BUTTON_SCRIPT_ADD].Left;
     Hint    := 'Click to remove the selected script from the list';
     Caption := 'Delete Script';
+    Enabled := false;
   end;
 
   Buttons[BUTTON_SCRIPT_SETTINGS] := _TButton(Forms[FORM_MAIN]);
@@ -607,6 +609,7 @@ begin
     Left    := Buttons[BUTTON_SCRIPT_DELETE].Left;
     Hint    := 'Click or double click script in list to customize script settings';
     Caption := 'Script Settings';
+    Enabled := false;
   end;
 
   Labels[LABEL_SCRIPTS] := TLabel.Create(Forms[FORM_MAIN]);

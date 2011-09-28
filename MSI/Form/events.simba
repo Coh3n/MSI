@@ -58,6 +58,7 @@ begin
         i := getListSelected(Lists[LIST_PLAYERS]);
         Labels[LABEL_SCRIPTS].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Scripts';
         Buttons[BUTTON_ADVANCED_PLAYER].Enabled := true;
+        Buttons[BUTTON_SCRIPT_ADD].Enabled := true;
       end;
 
     Buttons[BUTTON_ADVANCED_PLAYER]:
