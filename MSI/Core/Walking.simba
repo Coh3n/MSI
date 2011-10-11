@@ -271,7 +271,7 @@ between given indices.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 04 October 2011 by Nava2
+  | Last Updated: 11 October 2011 by Nava2
 
 Example:
 
@@ -282,20 +282,25 @@ Example:
 *)
 function MSI_FurthestPoint(tPath: TPointArray; P: TPoint; sPoint, ePoint: Integer): Integer;
 var
-  H: Integer;
+  i, j, H: Integer;
+  p: TPointArray;
 begin
   // removes points that aren't in range
-  SetLength(tPath, ePoint + 1);
-  InvertTPA(tPath);
-  SetLength(tPath, Length(tPath) - sPoint);
-  InvertTPA(tPath);
+  setLength(p, ePoint-sPoint+1);
+  i := 0;
+  for j := sPoint to ePoint do
+  begin
+    p[i] := tPath[j];
+    inc(i);
+  end;
+  tPath := p;
 
   // finds the furthest visible Point.
-  H := High(tPath);
-  for Result := H downto 0 do
-    if (Sqrt(Sqr((tPath[Result].X - P.X) * 4.0) + Sqr((tPath[Result].Y - P.Y) * 4.0)) < 69.0) then
+  // H := High(tPath); // H is already ePoint :)
+  for i := 0 to H do // removed a sqrt below
+    if (Sqr((tPath[i].X - P.X) * 4.0) + Sqr((tPath[i].Y - P.Y) * 4.0) < 69.0*69.0) then
     begin
-      IncEx(Result, sPoint);
+      Result := i;
       Exit;
     end;
 
@@ -315,7 +320,7 @@ Creates a TPA between points (fT and tT), tDist intervals, Rand randonmness.
 .. note::
 
   | Author: Nava2
-  | Last Updated: 04 October 2011 by Nava2
+  | Last Updated: 11 October 2011 by Nava2
 
 Example:
 
@@ -349,7 +354,7 @@ begin
   yR := (tT.Y - fT.Y) / hyp;
 
   // set points
-  for l := 1 to High(Result) - 1 do
+  for l := High(Result) - 1 downto 1 do // to -> downto
   begin
     Result[l].X := Round(fT.X + l * tDist * xR) + RandomRange(-Rand, Rand);
     Result[l].Y := Round(fT.Y + l * tDist * yR) + RandomRange(-Rand, Rand);
@@ -518,7 +523,7 @@ begin
     end;
 
     // loops through the points and walks :)
-    while (Distance(P.X, P.Y, Path[D].X, Path[D].Y) > 3) and (Attempts < 10) do
+    while (sqr(P.X - Path[D].X) + sqr(P.Y - Path[D].Y) > 9) and (Attempts < 10) do
     begin
       MSI_WaitWhileResting();
 
