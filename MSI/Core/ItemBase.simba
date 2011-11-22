@@ -580,7 +580,10 @@ begin
   pts := MSI_GetDTMPoints(which);
   clr := MSI_GetItemColor(which);
 
+  { initialize the TMDTM }
   dtm.create();
+  setLength(dtm.Points, 5);
+
   for i := 0 to 4 do { start for loop for all pts }
   begin
     with (dtm.Points[i]) do {dtm pts}
