@@ -11,14 +11,16 @@ MSI Form TODO
     - Password
   - Lower CPU
     - Don't print long report (remove SETUP_PRINT_REPORT)
+    - Lower DebugLevel
   - Save Debug Log
-  - Save Progress Report
-  - Debug Level (doesn't effect what is saved)
+  - Save Progress Report  
   - Human-like Breaking
   - Switch Worlds
-  - Antiban Wait
-  - Randoms Check Wait
-  - Walking Method
+  - Advanced
+    - Debug Level (doesn't effect what is saved)
+    - Antiban Wait
+    - Randoms Check Wait 
+    - RestAt, RestUntil
 
 - Possibly remove Settings panel (not sure yet)
 
