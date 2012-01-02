@@ -1,0 +1,1696 @@
+(*
+ItemBase
+========
+
+The ItemBase file stores information pertaining to individual items. It is a
+database of sorts.
+
+The source for ItemBase.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/ItemBase.simba>`_.
+
+*)
+
+
+(*
+MSI_GetDTMPoints
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetDTMPoints(which: Integer): TPointArray;
+
+Gets the points for an item's ('which') DTM.  The first point in the array is
+the item's mainpoint.  This function is called in MSI_LoadDTM (where the DTM is
+actually created).
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemPoints := MSI_GetDTMPoints(HATCHET_RUNE);
+*)
+function MSI_GetDTMPoints(which: Integer): TPointArray;
+begin
+  case which of
+    HATCHET_BRONZE..HATCHET_RUNE:
+      Result := [
+                  Point(586, 243), // Main point
+                  Point(587, 249),
+                  Point(574, 261),
+                  Point(575, 248),
+                  Point(587, 240)
+                ];
+
+    HATCHET_DRAGON:
+      Result := [
+                  Point(1152, 485),
+                  Point(1162, 484),
+                  Point(1142, 486),
+                  Point(1135, 505),
+                  Point(1162, 491)
+                ];
+
+    LOGS_NORMAL..LOGS_MAGIC:
+      Result := [
+                  Point(623, 291),
+                  Point(624, 279),
+                  Point(635, 296),
+                  Point(614, 299),
+                  Point(609, 289)
+                ];
+
+    PICKAXE_BRONZE..PICKAXE_RUNE:
+      Result := [
+                  Point(578, 218),
+                  Point(589, 222),
+                  Point(577, 215),
+                  Point(563, 217),
+                  Point(574, 241)
+                ];
+
+    PICKAXE_DRAGON:
+      Result := [
+                  Point(1216, 374),
+                  Point(1212, 378),
+                  Point(1200, 390),
+                  Point(1209, 370),
+                  Point(1223, 363)
+                ];
+
+    ORE_CLAY:
+      Result := [
+                  Point(24, 29),
+                  Point(22, 32),
+                  Point(18, 27),
+                  Point(31, 27),
+                  Point(29, 31)
+                ];
+
+    ORE_COPPER..ORE_RUNITE:
+      Result := [
+                  Point(252, 318),
+                  Point(245, 313),
+                  Point(263, 316),
+                  Point(256, 325),
+                  Point(244, 328)
+                ];
+
+    FISH_SMALLNET:
+      Result := [
+                  Point(1173, 396),
+                  Point(1165, 399),
+                  Point(1165, 389),
+                  Point(1184, 391),
+                  Point(1180, 405)
+                ];
+
+    FISH_CAGE_CRAYFISH:
+      Result := [
+                  Point(704, 340),
+                  Point(700, 326),
+                  Point(706, 347),
+                  Point(715, 331),
+                  Point(694, 344)
+                ];
+
+    FISH_ROD_BAIT:
+      Result := [
+                  Point(567, 341),
+                  Point(576, 350),
+                  Point(577, 329),
+                  Point(573, 343),
+                  Point(590, 323)
+                ];
+
+    FISH_BAIT:
+      Result := [
+                  Point(665, 376),
+                  Point(649, 372),
+                  Point(667, 370),
+                  Point(675, 373),
+                  Point(652, 381)
+                ];
+
+    FISH_ROD_FLY:
+      Result := [
+                  Point(615, 373),
+                  Point(632, 357),
+                  Point(617, 385),
+                  Point(608, 381),
+                  Point(619, 365)
+                ];
+
+    FISH_HARPOON:
+      Result := [
+                  Point(629, 321),
+                  Point(612, 351),
+                  Point(622, 323),
+                  Point(633, 324),
+                  Point(618, 335)
+                ];
+
+    FISH_HARPOON_BARB:
+      Result := [
+                  Point(512, 220),
+                  Point(507, 224),
+                  Point(499, 232),
+                  Point(523, 211),
+                  Point(518, 219)
+                ];
+
+    FISH_POT_LOBSTER:
+      Result := [
+                  Point(665, 343),
+                  Point(676, 328),
+                  Point(649, 345),
+                  Point(666, 350),
+                  Point(658, 324)
+                ];
+
+    FISH_RAW_SHRIMP, FISH_COOKED_SHRIMP, FISH_RAW_ANCHOVIE, FISH_COOKED_ANCHOVIE:
+      Result := [
+                  Point(14, 17),
+                  Point(4, 11),
+                  Point(7, 23),
+                  Point(15, 28),
+                  Point(22, 21),
+                  Point(26, 8)
+                ];
+
+    FISH_RAW_CRAYFISH, FISH_COOKED_CRAYFISH:
+      Result := [
+                  Point(15, 14),
+                  Point(11, 5),
+                  Point(8, 24),
+                  Point(7, 30),
+                  Point(19, 18),
+                  Point(23, 10)
+                ];
+
+    FISH_RAW_SARDINE, FISH_COOKED_SARDINE:
+      Result := [
+                  Point(15, 16),
+                  Point(8, 18),
+                  Point(12, 22),
+                  Point(19, 8),
+                  Point(21, 14)
+                ];
+
+    FISH_RAW_HERRING, FISH_COOKED_HERRING:
+      Result := [
+                  Point(12, 19),
+                  Point(15, 12),
+                  Point(3, 25),
+                  Point(15, 24),
+                  Point(29, 16),
+                  Point(11, 13)
+                ];
+
+    FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
+    FISH_RAW_SALMON, FISH_COOKED_SALMON:
+      Result := [
+                  Point(1188, 408),
+                  Point(1195, 399),
+                  Point(1200, 402),
+                  Point(1192, 414),
+                  Point(1188, 415)
+                ];
+
+    FISH_RAW_TUNA, FISH_COOKED_TUNA:
+      Result := [
+                  Point(1217, 378),
+                  Point(1218, 373),
+                  Point(1235, 376),
+                  Point(1229, 382),
+                  Point(1221, 386)
+                ];
+
+    FISH_RAW_LOBSTER, FISH_COOKED_LOBSTER:
+      Result := [
+                  Point(619, 231),
+                  Point(615, 222),
+                  Point(614, 233),
+                  Point(619, 240),
+                  Point(628, 230)
+                ];
+
+    FISH_RAW_SWORDFISH, FISH_COOKED_SWORDFISH:
+      Result := [
+                  Point(1249, 383),
+                  Point(1247, 388),
+                  Point(1244, 382),
+                  Point(1263, 382),
+                  Point(1261, 391)
+                ];
+
+    FISH_RAW_MONKFISH, FISH_COOKED_MONKFISH:
+      Result := [
+                  Point(19, 16),
+                  Point(30, 10),
+                  Point(8, 14),
+                  Point(16, 25),
+                  Point(38, 22)
+                ];
+
+    FISH_RAW_SHARK, FISH_COOKED_SHARK:
+     Result := [
+                 Point(1214, 403),
+                 Point(1211, 413),
+                 Point(1211, 394),
+                 Point(1223, 395),
+                 Point(1224, 417)
+               ];
+
+    GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
+      Result := [
+                  Point(1156, 514),
+                  Point(1164, 525),
+                  Point(1163, 508),
+                  Point(1147, 506),
+                  Point(1147, 522)
+                ];
+
+    MISC_BIRD_NEST:
+      Result := [
+                  Point(1155, 422),
+                  Point(1154, 413),
+                  Point(1141, 422),
+                  Point(1157, 431),
+                  Point(1169, 425)
+                ];
+
+    MISC_FEATHER:
+      Result := [
+                  Point(1198, 422),
+                  Point(1196, 427),
+                  Point(1200, 412),
+                  Point(1208, 420),
+                  Point(1220, 409)
+                ];
+
+    STAFF_AIR..STAFF_FIRE:
+      Result := [
+                  Point(586, 219),
+                  Point(587, 216),
+                  Point(586, 223),
+                  Point(566, 242),
+                  Point(578, 225)
+                ];
+
+    MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_COSMIC, MSI_RUNE_NATURE,
+    MSI_RUNE_WATER, MSI_RUNE_CHAOS, MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE:
+      Result := [
+                  Point(595, 464),
+                  Point(580, 462),
+                  Point(584, 472),
+                  Point(600, 474),
+                  Point(607, 465)
+                ];
+
+    MSI_RUNE_BODY, MSI_RUNE_MIND, MSI_RUNE_LAW:
+      Result := [
+                  Point(566, 443),
+                  Point(549, 448),
+                  Point(552, 456),
+                  Point(566, 460),
+                  Point(576, 450)
+                ];
+
+    MSI_RUNE_AIR, MSI_RUNE_DEATH, MSI_RUNE_BLOOD, MSI_RUNE_SOUL, MSI_RUNE_ASTRAL:
+      Result := [
+                  Point(560, 450),
+                  Point(549, 448),
+                  Point(553, 457),
+                  Point(566, 460),
+                  Point(576, 451)
+                ];
+
+    CLAY_SOFT:
+      Result := [
+                  Point(28, 25),
+                  Point(16, 27),
+                  Point(27, 13),
+                  Point(39, 26),
+                  Point(28, 33)
+                ];
+
+    VIAL_EMPTY, VIAL_WATER:
+      Result := [
+                  Point(580, 234),
+                  Point(580, 243),
+                  Point(585, 232),
+                  Point(569, 239),
+                  Point(586, 240)
+                ];
+
+    JUG_EMPTY, JUG_WATER:
+      Result := [
+                  Point(886, 273),
+                  Point(898, 280),
+                  Point(884, 294),
+                  Point(874, 286),
+                  Point(883, 267)
+                ];
+
+    BOWL_EMPTY, BOWL_WATER:
+      Result := [
+                  Point(970, 278),
+                  Point(968, 269),
+                  Point(984, 278),
+                  Point(969, 290),
+                  Point(953, 280)
+                ];
+
+    BUCKET_EMPTY, BUCKET_WATER:
+      Result := [
+                  Point(883, 314),
+                  Point(883, 303),
+                  Point(894, 316),
+                  Point(885, 330),
+                  Point(876, 320)
+                ];
+
+    TIARA_AIR, TIARA_EARTH, TIARA_WATER, TIARA_BODY, TIARA_MIND, TIARA_FIRE:
+      Result := [
+                  Point(1112, 413),
+                  Point(1099, 407),
+                  Point(1124, 404),
+                  Point(1122, 414),
+                  Point(1103, 414)
+                ];
+
+    DWARVEN_ARMY_AXE:
+      Result := [
+                  Point(29, 24),
+                  Point(20, 15),
+                  Point(29, 18),
+                  Point(15, 26),
+                  Point(39, 33)
+                ];
+
+    else
+      MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
+  end;
+end;
+
+(*
+MSI_GetItemColor
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetItemColor(which: Integer): Integer;
+
+Gets the item 'which''s color.  This color is used to create the item's DTM in
+MSI_LoadDTM.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemColor := MSI_GetItemColor(HATCHET_RUNE);
+*)
+function MSI_GetItemColor(which: Integer): Integer;
+begin
+  case which of
+    HATCHET_BRONZE : Result := 1649466;
+    HATCHET_IRON   : Result := 3618618;
+    HATCHET_STEEL  : Result := 5855581;
+    HATCHET_MITHRIL: Result := 4599598;
+    HATCHET_ADAMANT: Result := 3489076;
+    HATCHET_RUNE   : Result := 4932921;
+    HATCHET_DRAGON : Result := 790869;
+
+    LOGS_NORMAL: Result := 2704989;
+    LOGS_OAK   : Result := 3628669;
+    LOGS_WILLOW: Result := 1325634;
+    LOGS_MAPLE : Result := 800853;
+    LOGS_YEW   : Result := 668228;
+    LOGS_MAGIC : Result := 3759204;
+
+    PICKAXE_BRONZE : Result := 5805509;
+    PICKAXE_IRON   : Result := 3816253;
+    PICKAXE_STEEL  : Result := 13487574;
+    PICKAXE_MITHRIL: Result := 12156541;
+    PICKAXE_ADAMANT: Result := 10204059;
+    PICKAXE_RUNE   : Result := 12495486;
+    PICKAXE_DRAGON : Result := 725070;
+
+    ORE_CLAY      : Result := 5076363;
+    ORE_COPPER    : Result := 3696563;
+    ORE_TIN       : Result := 6776684;
+    ORE_IRON      : Result := 1712955;
+    ORE_SILVER    : Result := 9538186;
+    ORE_COAL      : Result := 1844261;
+    ORE_GOLD      : Result := 1675188;
+    ORE_MITHRIL   : Result := 5519672;
+    ORE_ADAMANTITE: Result := 3884091;
+    ORE_RUNITE    : Result := 5525056;
+
+    FISH_SMALLNET     : Result := 2503746;
+    FISH_CAGE_CRAYFISH: Result := 5461079;
+    FISH_ROD_BAIT     : Result := 5197651;
+    FISH_BAIT         : Result := 1605551;
+    FISH_ROD_FLY      : Result := 3355445;
+    FISH_HARPOON      : Result := 6052960;
+    FISH_POT_LOBSTER  : Result := 6184546;
+    FISH_HARPOON_BARB : Result := 2833740;
+
+    FISH_RAW_SHRIMP    : Result := 4742531;
+    FISH_RAW_CRAYFISH  : Result := 2046823;
+    FISH_RAW_ANCHOVIE  : Result := 5986135;
+    FISH_RAW_SARDINE   : Result := 9940887;
+    FISH_RAW_HERRING   : Result := 10461094;
+    FISH_RAW_TROUT     : Result := 9803164;
+    FISH_RAW_PIKE      : Result := 6319968;
+    FISH_RAW_SALMON    : Result := 5924258;
+    FISH_RAW_TUNA      : Result := 11777211;
+    FISH_RAW_LOBSTER   : Result := 2244720;
+    FISH_RAW_SWORDFISH : Result := 11301795;
+    FISH_RAW_MONKFISH  : Result := 4017773;
+    FISH_RAW_SHARK     : Result := 8158594;
+
+    FISH_COOKED_SHRIMP    : Result := 1195905;
+    FISH_COOKED_CRAYFISH  : Result := 1265804;
+    FISH_COOKED_ANCHOVIE  : Result := 6766393;
+    FISH_COOKED_SARDINE   : Result := 7303552;
+    FISH_COOKED_HERRING   : Result := 7303552;
+    FISH_COOKED_TROUT     : Result := 6777207;
+    FISH_COOKED_PIKE      : Result := 5405277;
+    FISH_COOKED_SALMON    : Result := 1851076;
+    FISH_COOKED_TUNA      : Result := 8093326;
+    FISH_COOKED_LOBSTER   : Result := 1728190;
+    FISH_COOKED_SWORDFISH : Result := 7819120;
+    FISH_COOKED_MONKFISH  : Result := 4279125;
+    FISH_COOKED_SHARK     : Result := 3228503;
+
+    GEM_UNCUT_SAPPHIRE : Result := 7279119;
+    GEM_UNCUT_EMERALD  : Result := 1007117;
+    GEM_UNCUT_RUBY     : Result := 791130;
+    GEM_UNCUT_DIAMOND  : Result := 9276819;
+
+    MISC_BIRD_NEST : Result := 2634036;
+    MISC_FEATHER   : Result := 530952;
+
+    STAFF_AIR   : Result := 12235442;
+    STAFF_WATER : Result := 13115933;
+    STAFF_EARTH : Result := 4610428;
+    STAFF_FIRE  : Result := 1911496;
+
+    MSI_RUNE_AIR   : Result := 13882333;
+    MSI_RUNE_BODY  : Result := 789517;
+    MSI_RUNE_MIND  : Result := 472373;
+    MSI_RUNE_EARTH : Result := 801369;
+    MSI_RUNE_FIRE  : Result := 1384347;
+    MSI_RUNE_WATER : Result := 10164501;
+    MSI_RUNE_CHAOS : Result := 2005717;
+    MSI_RUNE_LAW   : Result := 13967902;
+    MSI_RUNE_COSMIC: Result := 2020309;
+    MSI_RUNE_DEATH : Result := 13882333;
+    MSI_RUNE_NATURE: Result := 1342481;
+    MSI_RUNE_BLOOD : Result := 0;
+    MSI_RUNE_SOUL  : Result := 0;
+    MSI_RUNE_ASTRAL: Result := 0;
+    MSI_RUNE_ESSENCE: Result := 4539720;
+    MSI_PURE_ESSENCE: Result := 6250600;
+
+    CLAY_SOFT   : Result := 802904;
+    VIAL_EMPTY  : Result := 5920342;
+    VIAL_WATER  : Result := 11040368;
+    JUG_EMPTY   : Result := 6710891;
+    JUG_WATER   : Result := 12085350;
+    BOWL_EMPTY  : Result := 1203069;
+    BOWL_WATER  : Result := 11712313;
+    BUCKET_EMPTY: Result := 1521995;
+    BUCKET_WATER: Result := 9008758;
+
+    TIARA_AIR   : Result := 14014175;
+    TIARA_EARTH : Result := 2048358;
+    TIARA_WATER : Result := 16222243;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175211;
+    TIARA_FIRE  : Result := 1450400;
+
+    DWARVEN_ARMY_AXE : Result := 3758694;
+
+    else
+      MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
+  end;
+end;
+
+(*
+MSI_LoadDTM
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function MSI_LoadDTM(which: Integer): Integer;
+
+This is the function that creates the DTM for the item 'which'.  This function
+is called in MSI_LoadAllItems only.  Uses both MSI_GetDTMPoints and
+MSI_GetItemColor to complete the DTM.
+
+.. note::
+
+    | Author: Ejjman1
+    | Last Updated: 21 Nov 2011 by Nava2
+
+Example:
+
+.. code-block:: pascal
+
+    MSI_Item[HATCHET_RUNE].DTM := MSI_LoadDTM(HATCHET_RUNE);
+*)
+function MSI_LoadDTM(which: Integer): Integer;
+var
+  pts: TPointArray;
+  clr, i: Integer;
+  dtm: TMDTM;
+begin
+  pts := MSI_GetDTMPoints(which);
+  clr := MSI_GetItemColor(which);
+
+  { initialize the TMDTM }
+  dtm := TMDTM.create();
+  setLength(dtm.Points, 5);
+
+  for i := 0 to 4 do { start for loop for all pts }
+  begin
+    with (dtm.Points[i]) do {dtm pts}
+    begin
+      x := pts[i].x;
+      y := pts[i].y;
+
+      { area size }
+      asz := 0;
+      { bad point }
+      bp := false;
+
+      { colour and tolerance }
+      if (i > 0) then
+      begin
+        c := SRL_OUTLINE_BLACK;
+        t := 0;
+      end else begin
+        c := clr;
+        t := DTM_TOLERANCE;
+      end;
+    
+    end; {end with dtm pts}
+
+  end; { end for loop all pts }
+
+  dtm.normalize();
+  Result := AddMDTM(dtm);
+end;
+
+(*
+MSI_LoadItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function MSI_LoadItem(whichItem: Integer): Boolean;
+
+Loads the item 'whichItem' into the MSI_Items array of TItem.  This procedure
+should only be called in MSI_LoadAllItems. Returns true if Item has a name.
+
+.. note::
+
+    | Author: The MSI Team
+    | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+    for i := 0 to High(MSI_Items) do
+      MSI_LoadItem(i);
+*)
+function MSI_LoadItem(whichItem: Integer): Boolean;
+begin
+  case whichItem of
+    { HATCHETS =================================== ]
+    [============================================= }
+    HATCHET_BRONZE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bronze Hatchet';
+        UpText := ['onze hat'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    HATCHET_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron Hatchet';
+        UpText := ['on hatch'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    HATCHET_STEEL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Steel Hatchet';
+        UpText := ['eel hatc'];
+        Stackable := False;
+        EquipLevel := 5;
+      end;
+
+    HATCHET_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril Hatchet';
+        UpText := ['thril ha'];
+        Stackable := False;
+        EquipLevel := 20;
+      end;
+
+    HATCHET_ADAMANT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamant Hatchet';
+        UpText := ['amant ha'];
+        Stackable := False;
+        EquipLevel := 30;
+      end;
+
+    HATCHET_RUNE :
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune Hatchet';
+        UpText := ['ne hatch'];
+        Stackable := False;
+        EquipLevel := 40;
+      end;
+
+    HATCHET_DRAGON :
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dragon Hatchet';
+        UpText := ['gon hat'];
+        Stackable := False;
+        EquipLevel := 60;
+      end;
+
+    { LOGS ======================================= ]
+    [============================================= }
+    LOGS_NORMAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Normal logs';
+        StatsName := 'Normal Logs Chopped';
+        UpText := ['Logs'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    LOGS_OAK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Oak logs';
+        StatsName := 'Oak Logs Chopped';
+        UpText := ['logs'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    LOGS_WILLOW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Willow logs';
+        StatsName := 'Willow Logs Chopped';
+        UpText := ['illow', 'illow logs', 'low'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    LOGS_MAPLE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Maple logs';
+        StatsName := 'Maple Logs Chopped';
+        UpText := ['ple logs'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    LOGS_YEW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Yew logs';
+        StatsName := 'Yew Logs Chopped';
+        UpText := ['ew l'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    LOGS_MAGIC:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Magic logs';
+        StatsName := 'Magic Logs Chopped';
+        UpText := ['gic lo'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { PICKAXES =================================== ]
+    [============================================= }
+    PICKAXE_BRONZE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bronze pickaxe';
+        UpText := ['onze pi'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    PICKAXE_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron pickaxe';
+        UpText := ['ron pi'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    PICKAXE_STEEL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Steel pickaxe';
+        UpText := ['eel pi'];
+        Stackable := False;
+        EquipLevel := 5;
+      end;
+
+    PICKAXE_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril pickaxe';
+        UpText := ['ril pi'];
+        Stackable := False;
+        EquipLevel := 20;
+      end;
+
+    PICKAXE_ADAMANT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamant pickaxe';
+        UpText := ['ant pi'];
+        Stackable := False;
+        EquipLevel := 30;
+      end;
+
+    PICKAXE_RUNE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune pickaxe';
+        UpText := ['une pi'];
+        Stackable := False;
+        EquipLevel := 40;
+      end;
+
+    PICKAXE_DRAGON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dragon pickaxe';
+        UpText := ['agon pi'];
+        Stackable := False;
+        EquipLevel := 60;
+      end;
+
+    { ORE ======================================== ]
+    [============================================= }
+    ORE_CLAY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Clay Ore';
+        StatsName := 'Clay (Mined)';
+        UpText := ['lay', 'Clay'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_COPPER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Copper ore';
+        StatsName := 'Copper Ore (Mined)';
+        UpText := ['opper'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_TIN:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Tin ore';
+        StatsName := 'Tin Ore (Mined)';
+        UpText := ['in or'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron ore';
+        StatsName := 'Iron Ore (Mined)';
+        UpText := ['ron o'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_SILVER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Silver ore';
+        StatsName := 'Silver Ore (Mined)';
+        UpText := ['ilver'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_COAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Coal ore';
+        StatsName := 'Coal Ore (Mined)';
+        UpText := ['oal'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_GOLD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Gold ore';
+        StatsName := 'Gold Ore (Mined)';
+        UpText := ['Gold','old'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril ore';
+        StatsName := 'Mithril Ore (Mined)';
+        UpText := ['ithril'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_ADAMANTITE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamantite ore';
+        StatsName := 'Adamant Ore (Mined)';
+        UpText := ['daman'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    ORE_RUNITE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Runite ore';
+        StatsName := 'Runite Ore (Mined)';
+        UpText := ['unite'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { FISH TOOLS ================================= ]
+    [============================================= }
+    FISH_SMALLNET:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Small Fishing Net';
+        UpText := ['ishing net'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_CAGE_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Crayfish Cage';
+        UpText := ['rayfish cage'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_ROD_BAIT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fishing Rod';
+        UpText := ['Fishing rod'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_BAIT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fishing Bait';
+        UpText := ['ishing bait'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    FISH_ROD_FLY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fly Fishing Rod';
+        UpText := ['ly fishing'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_HARPOON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Harpoon';
+        UpText := ['arpoon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_HARPOON_BARB:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Barb-tail harpoon';
+        UpText := ['arb-tail harpoon'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    FISH_POT_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Lobster Pot';
+        UpText := ['obster pot'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { FISH ======================================== ]
+    [============================================== }
+    FISH_RAW_SHRIMP:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw shrimps';
+        StatsName := 'Shrimp Caught';
+        UpText := ['aw shrim', 'w shr', 'rim'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw crayfish';
+        StatsName := 'Crayfish Caught';
+        UpText := ['aw crayfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_ANCHOVIE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw anchovies';
+        StatsName := 'Anchovies Caught';
+        UpText := ['aw anchovies'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_SARDINE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw sardines';
+        StatsName := 'Sardines Caught';
+        UpText := ['aw sardine', 'ine'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_HERRING:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw herring';
+        StatsName := 'Herring Caught';
+        UpText := ['aw herring'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_TROUT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw trout';
+        StatsName := 'Trout Caught';
+        UpText := ['aw trout'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_PIKE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw pike';
+        StatsName := 'Pike Caught';
+        UpText := ['aw pike'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_SALMON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw salmon';
+        StatsName := 'Salmon Caught';
+        UpText := ['aw salmon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_TUNA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw tuna';
+        StatsName := 'Tuna Caught';
+        UpText := ['aw tuna'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw lobster';
+        StatsName := 'Lobster Caught';
+        UpText := ['aw lobster', 'w lob', 'obst'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_SWORDFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw swordfish';
+        StatsName := 'Swordfish Caught';
+        UpText := ['aw swordfish', 'aw sword', 'aw swo'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Monkfish';
+        StatsName := 'Monkfish Caught';
+        UpText := ['aw monkfish', 'aw monk', 'aw mon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_RAW_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Shark';
+        StatsName := 'Shark Caught';
+        UpText := ['aw shark'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SHRIMP:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked shrimps';
+        StatsName := 'Shrimp Cooked';
+        UpText := ['hrimps'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked crayfish';
+        StatsName := 'Crayfish Cooked';
+        UpText := ['rayfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_ANCHOVIE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked anchovies';
+        StatsName := 'Anchovies Cooked';
+        UpText := ['nchovies'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SARDINE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked sardines';
+        StatsName := 'Sardines Cooked';
+        UpText := ['ardine'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_HERRING:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked herring';
+        StatsName := 'Herring Cooked';
+        UpText := ['erring'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_TROUT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked trout';
+        StatsName := 'Trout Cooked';
+        UpText := ['rout'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_PIKE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked pike';
+        StatsName := 'Pike Cooked';
+        UpText := ['ike'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SALMON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked salmon';
+        StatsName := 'Salmon Cooked';
+        UpText := ['almon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_TUNA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked tuna';
+        StatsName := 'Tuna Cooked';
+        UpText := ['una'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked lobster';
+        StatsName := 'Lobster Cooked';
+        UpText := ['obster'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SWORDFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked swordfish';
+        StatsName := 'Swordfish Cooked';
+        UpText := ['wordfish'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Monkfish';
+        StatsName := 'Monkfish Cooked';
+        UpText := ['Monkfish', 'Monk', 'Mon'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    FISH_COOKED_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Shark';
+        StatsName := 'Shark Cooked';
+        UpText := ['hark'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { GEMS ======================================== ]
+    [============================================== }
+    GEM_UNCUT_SAPPHIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut sapphire';
+        UpText := ['ut sapp'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    GEM_UNCUT_EMERALD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut emerald';
+        UpText := ['ut emer'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    GEM_UNCUT_RUBY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut ruby';
+        UpText := ['ut rub'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    GEM_UNCUT_DIAMOND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut diamond';
+        UpText := ['ut diamo'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { MISC ITEMS ================================= ]
+    [============================================= }
+    MISC_BIRD_NEST:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bird''s nest';
+        UpText := ['s nest'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    MISC_FEATHER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Feather';
+        UpText := ['eather'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    { STAFFS ===================================== ]
+    [============================================= }
+    STAFF_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Air';
+        UpText := ['of air'];
+        Stackable := False;
+        EquipLevel := 0;
+      end;
+
+    STAFF_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Water';
+        UpText := ['of water'];
+        Stackable := False;
+        EquipLevel := 0;
+      end;
+
+    STAFF_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Earth';
+        UpText := ['of earth'];
+        Stackable := False;
+        EquipLevel := 0;
+      end;
+
+    STAFF_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Fire';
+        UpText := ['of fire'];
+        Stackable := False;
+        EquipLevel := 0;
+      end;
+
+    { RUNES ====================================== ]
+    [ ============================================ }
+    MSI_RUNE_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air rune';
+        StatsName := 'Air Runes (Crafted)';
+        UpText := ['Air', 'ir', 'ir r'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water rune';
+        StatsName := 'Water Runes (Crafted)';
+        UpText := ['er ru'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth rune';
+        StatsName := 'Earth Runes (Crafted)';
+        UpText := ['th ru'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire rune';
+        StatsName := 'Fire Runes (Crafted)';
+        UpText := ['ire ru'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind rune';
+        StatsName := 'Mind Runes (Crafted)';
+        UpText := ['nd run'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body rune';
+        StatsName := 'Body Runes (Crafted)';
+        UpText := ['ody r'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_CHAOS:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Chaos rune';
+        StatsName := 'Chaos Runes (Crafted)';
+        UpText := ['haos'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_DEATH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Death rune';
+        StatsName := 'Death Runes (Crafted)';
+        UpText := ['Death', 'eath rune', 'eat'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_NATURE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Nature rune';
+        StatsName := 'Nature Runes (Crafted)';
+        UpText := ['ture r'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_COSMIC:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cosmic rune';
+        StatsName := 'Cosmic Runes (Crafted)';
+        UpText := ['osmic'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    MSI_RUNE_LAW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Law rune';
+        StatsName := 'Law Runes (Crafted)';
+        UpText := ['aw ru'];
+        Stackable := True;
+        EquipLevel := -1;
+      end;
+
+    CLAY_SOFT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Soft Clay';
+        StatsName := 'Clay (Softened)';
+        UpText := ['oft clay'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { Money Making =============================== ]
+    [============================================= }
+    VIAL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial';
+        StatsName := 'Vial (Empty)';
+        UpText := ['ial'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    VIAL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial of water';
+        StatsName := 'Vials Filled';
+        UpText := ['ial of water', 'water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    JUG_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug';
+        StatsName := 'Jug (Empty)';
+        UpText := ['ug'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    JUG_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug of water';
+        StatsName := 'Jugs Filled';
+        UpText := ['ug of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BOWL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl';
+        StatsName := 'Bowl (Empty)';
+        UpText := ['owl'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BOWL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl of water';
+        StatsName := 'Bowls Filled';
+        UpText := ['owl of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BUCKET_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket';
+        StatsName := 'Bucket (Empty)';
+        UpText := ['ucket'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    BUCKET_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket of water';
+        StatsName := 'Buckets Filled';
+        UpText := ['ucket of water'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    TIARA_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['Air', 'ir tia', 'ir t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['Earth', 'rth tia', 'th ti'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['Water', 'ater tia', 'ter te'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['Mind', 'ind tia', 'nd t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['Body', 'dy tia', 'dy t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['Fire', 're tia'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    MSI_RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['une essen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    MSI_PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        StatsName := 'Pure Essence (Mined)';
+        UpText := ['ure essen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    DWARVEN_ARMY_AXE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dwarven Army Axe';
+        UpText := ['arven army'];
+        Stackable := False;
+        EquipLevel := 10;
+      end;
+  end;
+
+  Result := (MSI_Items[whichItem].Name <> '');
+end;
+
+(*
+MSI_LoadAllItems
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllItems;
+
+Loads all of the items used throuhgout MSI into the MSI_Items global array.
+This procedure should only be called in MSI_Setup
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Setup.simba>`_.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 21 Nov 2011 by Nava2
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllItems;
+*)
+procedure MSI_LoadAllItems;
+var
+  i: Integer;
+begin
+  for i := High(MSI_Items) downto 0 do
+    if (MSI_LoadItem(i)) then
+    { Returns false if no item is loaded. }
+      with (MSI_Items[i]) do
+      begin
+        DTM := MSI_LoadDTM(i);
+	SetDTMName(DTM, Capitalize(Name));
+      end;
+end;
