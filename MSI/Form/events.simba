@@ -55,10 +55,16 @@ begin
   case sender of
     Lists[LIST_PLAYERS]:
       begin
-        i := getListSelected(Lists[LIST_PLAYERS]);
+        i := Lists[LIST_PLAYERS].ItemIndex;
         Labels[LABEL_SCRIPTS].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Scripts';
         Buttons[BUTTON_ADVANCED_PLAYER].Enabled := true;
         Buttons[BUTTON_SCRIPT_ADD].Enabled := true;
+      end;
+
+    Lists[LIST_PLAYER_SCRIPTS]:
+      begin
+        Buttons[BUTTON_SCRIPT_DELETE].Enabled := true;
+        Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := true;
       end;
 
     Buttons[BUTTON_ADVANCED_PLAYER]:
@@ -100,8 +106,24 @@ begin
     Buttons[BUTTON_PLAYER_CANCEL]:
       Forms[FORM_SETTINGS_PLAYER].Visible := false;
 
+    Buttons[BUTTON_PLAYER_DELETE]:
+      begin
+        deleteFromList(Lists[LIST_PLAYERS], Lists[LIST_PLAYERS].ItemIndex);
+
+        Buttons[BUTTON_SCRIPT_ADD].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+        Buttons[BUTTON_ADVANCED_PLAYER].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+      end;
+
     Buttons[BUTTON_SCRIPT_ADD]:
       Forms[FORM_SCRIPT_LIST].Visible := true;
+
+    Buttons[BUTTON_SCRIPT_DELETE]:
+      begin
+        deleteFromList(Lists[LIST_PLAYER_SCRIPTS], Lists[LIST_PLAYER_SCRIPTS].ItemIndex);
+
+        Buttons[BUTTON_SCRIPT_DELETE].Enabled := (Lists[LIST_PLAYER_SCRIPTS].Items.Count > 0);
+        Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := (Lists[LIST_PLAYER_SCRIPTS].Items.Count > 0);
+      end;
 
     Buttons[BUTTON_SCRIPT_SETTINGS]:
       Forms[FORM_SCRIPT_SETUP].Visible := true;

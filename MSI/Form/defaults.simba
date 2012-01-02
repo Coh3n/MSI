@@ -1,3 +1,13 @@
+function _TListBox(Owner: TComponent): TListBox;
+begin
+  Result := TListBox.Create(Owner);
+  with Result do
+  begin
+    OnDblClick := @_DoubleClick;
+    OnClick    := @_Click;
+  end;
+end;
+
 function _TEdit(Owner: TComponent): TEdit;
 begin
   Result := TEdit.Create(Owner);

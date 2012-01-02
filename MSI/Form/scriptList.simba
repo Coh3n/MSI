@@ -65,7 +65,7 @@ procedure clickListElement(Sender: TObject);
 var
   e: integer;
 begin
-  e := getListSelected(Lists[LIST_ALL_SCRIPTS]);
+  e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
 
   if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
     modifyElement(e + 1, true)
@@ -78,7 +78,7 @@ procedure dblClickListElement(Sender: TObject);
 var
   e: integer;
 begin
-  e := getListSelected(Lists[LIST_ALL_SCRIPTS]);
+  e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
 
   // if one of the expandable options (i.e. skill titles)
   if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) or
@@ -91,7 +91,6 @@ begin
     );
 
   Forms[FORM_SCRIPT_LIST].Visible := false;
-  Buttons[BUTTON_SCRIPT_DELETE].Enabled := true;
 end;
 
 procedure createScriptList();

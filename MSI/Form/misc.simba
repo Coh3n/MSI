@@ -33,18 +33,6 @@ begin
   end;
 end;
 
-function getListSelected(List: TListBox): integer;
-var
-  i: integer;
-begin
-  for i := 0 to high(List.Items.Count - 1) do
-    if (List.Selected[i]) then
-    begin
-      result := i;
-      break;
-    end;
-end;
-
 function removePreSpaces(s: string): string;
 var
   i: integer;
@@ -78,6 +66,19 @@ begin
     end;
 
   //writeln(toStr('inList: '+toStr(result)));
+end;
+
+// Deletes the list entery 'element' from 'list'
+procedure deleteFromList(list: TListBox; element: integer);
+var
+  tmp: integer;
+begin
+  if (element = 0) then
+    list.itemIndex := 1
+  else
+    list.itemIndex := list.itemIndex - 1;
+
+  list.items.delete(element);
 end;
 
 

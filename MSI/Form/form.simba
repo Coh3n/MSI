@@ -431,7 +431,7 @@ procedure initPlayerSetup();
 var
   i: integer;
 begin
-  Lists[LIST_PLAYERS] := TListBox.Create(Panels[PANEL_PLAYER]);
+  Lists[LIST_PLAYERS] := _TListBox(Panels[PANEL_PLAYER]);
   with Lists[LIST_PLAYERS] do
   begin
     Parent := Panels[PANEL_PLAYER];
@@ -443,9 +443,6 @@ begin
 
     for i := 1 to 10 do
       Items.Add(intToStr(i));
-
-    OnDblClick := @_DoubleClick;
-    OnClick    := @_Click;
   end;
 
   Buttons[BUTTON_ADVANCED_PLAYER] := _TButton(Forms[FORM_MAIN]);
@@ -566,7 +563,7 @@ begin
     Font.Size := Buttons[BUTTON_PLAYER_ADD].Font.Size;
   end;
 
-  Lists[LIST_PLAYER_SCRIPTS] := TListBox.Create(Forms[FORM_MAIN]);
+  Lists[LIST_PLAYER_SCRIPTS] := _TListBox(Forms[FORM_MAIN]);
   with Lists[LIST_PLAYER_SCRIPTS] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
@@ -575,6 +572,9 @@ begin
     Height := Buttons[BUTTON_PLAYER_DELETE].Top + Buttons[BUTTON_PLAYER_DELETE].Height - Top;
     Left   := Edits[EDIT_LOGIN].Left + Edits[EDIT_LOGIN].Width + (_SPACING * 2);
     Hint   := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
+
+    for i := 1 to 10 do
+      Items.Add(toStr(i));
   end;
 
   Buttons[BUTTON_SCRIPT_ADD] := _TButton(Forms[FORM_MAIN]);
