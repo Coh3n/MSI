@@ -49,6 +49,7 @@ begin
         ObjConst := LADDER_MG_DOWN;
         ObjMir   := LADDER_MG_UP;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        MirAction := moNothing;
         Camera   := ['n', true];
 
         // West, South, East, North
@@ -63,6 +64,7 @@ begin
         ObjConst := LADDER_MG_UP;
         ObjMir   := LADDER_MG_DOWN;
         ObjMirArea := intToBox(MSCX - 85, MSCY - 85, MSCX + 85, MSCY + 85);
+        MirAction := moMove;
         Camera   := ['n', true];
 
         // West, South, East, North
@@ -76,8 +78,9 @@ begin
         Name       := 'OBS_WALL_FW';
         ObjConst   := WALL_FW;
         ObjMir     := WALL_FW;
-        ObjMirArea := intToBox(MSCX, MSY1, MSX2, MSY2); // Right half of MS;
-        Camera     := ['w', false];
+        ObjMirArea := intToBox(MSCX - 50, MSCY - 50, MSCX + 50, MSY2 + 50); // Box around player
+        MirAction  := moNothing;
+        Camera     := ['w', true];
         EndTiles   := [Point(2940, 3355)];
       end;
 
@@ -89,6 +92,7 @@ begin
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY - 100, MSCX + 100, MSCY - 20);
+        MirAction  := moMove;
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3288)];
       end;
@@ -100,8 +104,153 @@ begin
         ObjConst   := DOOR_NORMAL;
         ObjMir     := DOOR_NORMAL;
         ObjMirArea := intToBox(MSCX - 100, MSCY, MSCX + 100, MSCY + 100);
+        MirAction  := moMove;
         Camera     := ['n', true];
         EndTiles   := [Point(2933, 3289)];
+      end;
+
+    OBS_RUINS_AIR:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_AIR';
+        ObjConst   := RUINS_AIR;
+        ObjMir     := PORTAL_AIR;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2841, 4830)];
+      end;
+
+    OBS_PORTAL_AIR:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_AIR';
+        ObjConst   := PORTAL_AIR;
+        ObjMir     := RUINS_AIR;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3128, 3407)];
+      end;
+
+    OBS_RUINS_EARTH:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_EARTH';
+        ObjConst   := RUINS_EARTH;
+        ObjMir     := PORTAL_EARTH;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['w', true];
+        EndTiles   := [Point(2657, 4830)];
+      end;
+
+    OBS_PORTAL_EARTH:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_EARTH';
+        ObjConst   := PORTAL_EARTH;
+        ObjMir     := RUINS_EARTH;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3302, 3477)];
+      end;
+
+    OBS_RUINS_FIRE:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_FIRE';
+        ObjConst   := RUINS_FIRE;
+        ObjMir     := PORTAL_FIRE;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2577, 4846)];
+      end;
+
+    OBS_PORTAL_FIRE:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_FIRE';
+        ObjConst   := PORTAL_FIRE;
+        ObjMir     := RUINS_FIRE;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3310, 3252)];
+      end;
+
+    OBS_RUINS_WATER:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_WATER';
+        ObjConst   := RUINS_WATER;
+        ObjMir     := PORTAL_WATER;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3493, 4832)];
+      end;
+
+    OBS_PORTAL_WATER:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_WATER';
+        ObjConst   := PORTAL_WATER;
+        ObjMir     := RUINS_WATER;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3182, 3162)];
+      end;
+
+    OBS_RUINS_MIND:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_MIND';
+        ObjConst   := RUINS_MIND;
+        ObjMir     := PORTAL_MIND;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2793, 4829)];
+      end;
+
+    OBS_PORTAL_MIND:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_MIND';
+        ObjConst   := PORTAL_MIND;
+        ObjMir     := RUINS_MIND;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(2980, 3511)];
+      end;
+
+    OBS_RUINS_BODY:
+      with result do
+      begin
+        Name       := 'OBS_RUINS_BODY';
+        ObjConst   := RUINS_BODY;
+        ObjMir     := -1; // will check for black on minimap
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [];
+      end;
+
+    OBS_PORTAL_BODY:
+      with result do
+      begin
+        Name       := 'OBS_PORTAL_BODY';
+        ObjConst   := PORTAL_BODY;
+        ObjMir     := RUINS_BODY;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+        EndTiles   := [Point(3050, 3442)];
       end;
 
   end;
@@ -186,64 +335,11 @@ begin
     SMART_DrawBoxEx(false, mirObj.searchArea, clBlue);
   {$ENDIF}
 
-  if (MSI_FindObject(mirObj, moMove)) then
+  if (MSI_FindObject(mirObj, obs.mirAction)) then
   begin
     MSI_SubDebug('Found mirror object: ' + mirObj.name);
     result := true;
   end;
-end;
-
-(*
-MSI_OnMirrorTile
-~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_OnMirrorTile(obs: TObstacle): boolean;
-
-Returns true if the player's current tile is the same as one of the obstacle's
-(obs) ending tiles.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 23 July 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  if (not MSI_OnMirrorTile(obs)) then
-    MSI_Debug('Player not on ending tiles');
-*)
-function MSI_OnMirrorTile(obs: TObstacle): boolean;
-{$IFDEF REFLECTION}
-var
-  i, h: integer;
-  mPos: TPoint;
-{$ENDIF}
-begin
-  if (not loggedIn) then
-    exit;
-
-  result := false;
-
-  {$IFDEF REFLECTION}
-  if (not MSI_HookBroken[HOOK_WALKING]) then
-  begin
-    mPos := r_getMyPos();
-    h := high(obs.endTiles);
-
-    // loop through end tiles comparing to player's current tile
-    for i := 0 to h do
-      if (mPos = obs.endTiles[i]) then
-      begin
-        MSI_SubDebug('Player is on end tile');
-        result := true;
-        break;
-      end;
-  end;
-  {$ENDIF}
 end;
 
 (*
@@ -289,18 +385,22 @@ begin
   t := (getSystemTime + 30000);
 
   repeat
-    mirFound := MSI_FindMirrorText(obs);
-    if (not mirFound) then
-      mirFound := MSI_FindMirrorObject(obs);
+    if (obs.objMir = -1) then
+    begin
+      MSI_SubDebug('Looking for black on the MM');
+      mirFound := (countColorTolerance(MM_BLACK, MMX1, MMY1, MMX2, MMY2, 10) > 20);
+    end else begin
+      mirFound := MSI_FindMirrorText(obs);
+      if (not mirFound) then
+        mirFound := MSI_FindMirrorObject(obs);
+    end;
 
     if (mirFound) then
     begin
-      {$IFDEF REFLECTION}
-      if (not MSI_OnMirrorTile(obs)) then
-        continue;
-      {$ENDIF}
+      MSI_SubDebug('Found mirror');
 
       result := true;
+      break;
     end;
 
     if (not result) then
@@ -341,24 +441,23 @@ Example:
 *)
 function MSI_SolveObstacle(obs: TObstacle): boolean;
 var
-  {$IFDEF REFLECTION}
-  i: integer;
-  {$ENDIF}
   t: integer;
   obsObj: TMSObject;
 begin
   if (not loggedIn) then
     exit;
 
-  MSI_AddHeader('MSI_SolveObstacle');
+  MSI_AddHeader('MSI_SolveObstacle: ' + obs.name);
   obsObj := MSI_GetObject(obs.objConst);
 
-  if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
-    clickNorth(obs.camera[1])
-  else begin
-    makeCompass(obs.camera[0]);
-    setAngle(obs.camera[1]);
-  end;
+  if (inRange(round(rs_GetCompassAngleDegrees), 5, 355)) then
+    if ((varType(obs.camera[0]) = varString) and (obs.camera[0] = 'n')) then
+      clickNorth(obs.camera[1])
+    else
+      if (obs.camera[1] <> true) then // camera will already be true because of walking & avoids a 2 second wait
+        setAngle(obs.camera[1]);
+
+  makeCompass(obs.camera[0]);
 
   while ((not result) and (t < 5)) do
   begin
@@ -366,21 +465,10 @@ begin
 
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
+      MSI_Debug('Clicked object');
       wait(randomRange(1500, 2000));
       result := MSI_WaitForMirror(obs);
     end else begin
-      // click the obstacle's tile if it's not found
-      {$IFDEF REFLECTION}
-      if (not MSI_HookBroken[HOOK_WALKING]) then
-        for i := 0 to high(obs.endTiles) do
-          if (r_walkToTile(obs.endTiles[i], 0, 0)) then
-          begin
-            MSI_Debug('Clicked obstacle''s tile');
-            wait(randomRange(500, 1000));
-            break;
-          end;
-      {$ENDIF}
-
       MSI_Debug('Setting obstacle to right click only');
       obsObj.rightClickOnly := true; // in case uptext is failing
       MSI_NotBoxes := [];

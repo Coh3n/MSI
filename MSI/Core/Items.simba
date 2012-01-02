@@ -92,20 +92,20 @@ begin
 
     ORE_COPPER..ORE_RUNITE:
       Result := [
-                  Point(1200, 424),
-                  Point(1195, 408),
-                  Point(1183, 430),
-                  Point(1209, 429),
-                  Point(1213, 418)
+                  Point(252, 318),
+                  Point(245, 313),
+                  Point(263, 316),
+                  Point(256, 325),
+                  Point(244, 328)
                 ];
 
     FISH_SMALLNET:
       Result := [
-                  Point(1142, 375),
-                  Point(1144, 384),
-                  Point(1133, 367),
-                  Point(1144, 365),
-                  Point(1149, 379)
+                  Point(1173, 396),
+                  Point(1165, 399),
+                  Point(1165, 389),
+                  Point(1184, 391),
+                  Point(1180, 405)
                 ];
 
     FISH_CAGE_CRAYFISH:
@@ -213,41 +213,38 @@ begin
     FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
     FISH_RAW_SALMON, FISH_COOKED_SALMON:
       Result := [
-                  Point(1191, 328),
-                  Point(1187, 334),
-                  Point(1187, 324),
-                  Point(1191, 321),
-                  Point(1200, 325)
+                  Point(1188, 408),
+                  Point(1195, 399),
+                  Point(1200, 402),
+                  Point(1192, 414),
+                  Point(1188, 415)
                 ];
 
     FISH_RAW_TUNA, FISH_COOKED_TUNA:
       Result := [
-                  Point(15, 18),
-                  Point(15, 6),
-                  Point(20, 8),
-                  Point(25, 6),
-                  Point(2, 26),
-                  Point(17, 26)
+                  Point(1217, 378),
+                  Point(1218, 373),
+                  Point(1235, 376),
+                  Point(1229, 382),
+                  Point(1221, 386)
                 ];
 
     FISH_RAW_LOBSTER, FISH_COOKED_LOBSTER:
       Result := [
-                  Point(1141, 437),
-                  Point(1137, 428),
-                  Point(1128, 438),
-                  Point(1143, 449),
-                  Point(1149, 444),
-                  Point(1151, 437)
+                  Point(619, 231),
+                  Point(615, 222),
+                  Point(614, 233),
+                  Point(619, 240),
+                  Point(628, 230)
                 ];
 
     FISH_RAW_SWORDFISH, FISH_COOKED_SWORDFISH:
       Result := [
-                  Point(18, 11),
-                  Point(10, 9),
-                  Point(1, 28),
-                  Point(24, 21),
-                  Point(22, 6),
-                  Point(10, 19)
+                  Point(1249, 383),
+                  Point(1247, 388),
+                  Point(1244, 382),
+                  Point(1263, 382),
+                  Point(1261, 391)
                 ];
 
     FISH_RAW_MONKFISH, FISH_COOKED_MONKFISH:
@@ -261,11 +258,11 @@ begin
 
     FISH_RAW_SHARK, FISH_COOKED_SHARK:
      Result := [
-                 Point(1108, 277),
-                 Point(1099, 284),
-                 Point(1102, 271),
-                 Point(1125, 272),
-                 Point(1121, 284)
+                 Point(1214, 403),
+                 Point(1211, 413),
+                 Point(1211, 394),
+                 Point(1223, 395),
+                 Point(1224, 417)
                ];
 
     GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
@@ -288,11 +285,11 @@ begin
 
     MISC_FEATHER:
       Result := [
-                  Point(580, 370),
-                  Point(564, 388),
-                  Point(594, 359),
-                  Point(576, 365),
-                  Point(586, 374)
+                  Point(1198, 422),
+                  Point(1196, 427),
+                  Point(1200, 412),
+                  Point(1208, 420),
+                  Point(1220, 409)
                 ];
 
     STAFF_AIR..STAFF_FIRE:
@@ -305,7 +302,7 @@ begin
                 ];
 
     MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_COSMIC, MSI_RUNE_NATURE,
-    MSI_RUNE_WATER, MSI_RUNE_CHAOS:
+    MSI_RUNE_WATER, MSI_RUNE_CHAOS, MSI_RUNE_ESSENCE, MSI_PURE_ESSENCE:
       Result := [
                   Point(595, 464),
                   Point(580, 462),
@@ -340,14 +337,16 @@ begin
                   Point(39, 26),
                   Point(28, 33)
                 ];
+
     VIAL_EMPTY, VIAL_WATER:
       Result := [
-                  Point(22, 164),
-                  Point(21, 145),
-                  Point(26, 160),
-                  Point(14, 164),
-                  Point(21, 174)
+                  Point(580, 234),
+                  Point(580, 243),
+                  Point(585, 232),
+                  Point(569, 239),
+                  Point(586, 240)
                 ];
+
     JUG_EMPTY, JUG_WATER:
       Result := [
                   Point(886, 273),
@@ -356,6 +355,7 @@ begin
                   Point(874, 286),
                   Point(883, 267)
                 ];
+
     BOWL_EMPTY, BOWL_WATER:
       Result := [
                   Point(970, 278),
@@ -364,6 +364,7 @@ begin
                   Point(969, 290),
                   Point(953, 280)
                 ];
+
     BUCKET_EMPTY, BUCKET_WATER:
       Result := [
                   Point(883, 314),
@@ -371,6 +372,24 @@ begin
                   Point(894, 316),
                   Point(885, 330),
                   Point(876, 320)
+                ];
+
+    TIARA_AIR, TIARA_EARTH, TIARA_WATER, TIARA_BODY, TIARA_MIND, TIARA_FIRE:
+      Result := [
+                  Point(1112, 413),
+                  Point(1099, 407),
+                  Point(1124, 404),
+                  Point(1122, 414),
+                  Point(1103, 414)
+                ];
+
+    DWARVEN_ARMY_AXE:
+      Result := [
+                  Point(29, 24),
+                  Point(20, 15),
+                  Point(29, 18),
+                  Point(15, 26),
+                  Point(39, 33)
                 ];
 
     else
@@ -428,7 +447,7 @@ begin
 
     ORE_CLAY      : Result := 5076363;
     ORE_COPPER    : Result := 3696563;
-    ORE_TIN       : Result := 6118754;
+    ORE_TIN       : Result := 6776684;
     ORE_IRON      : Result := 1712955;
     ORE_SILVER    : Result := 9538186;
     ORE_COAL      : Result := 1844261;
@@ -437,7 +456,7 @@ begin
     ORE_ADAMANTITE: Result := 3884091;
     ORE_RUNITE    : Result := 5525056;
 
-    FISH_SMALLNET     : Result := 131072;
+    FISH_SMALLNET     : Result := 2503746;
     FISH_CAGE_CRAYFISH: Result := 5461079;
     FISH_ROD_BAIT     : Result := 5197651;
     FISH_BAIT         : Result := 1605551;
@@ -451,14 +470,14 @@ begin
     FISH_RAW_ANCHOVIE  : Result := 5986135;
     FISH_RAW_SARDINE   : Result := 9940887;
     FISH_RAW_HERRING   : Result := 10461094;
-    FISH_RAW_TROUT     : Result := 11382453;
+    FISH_RAW_TROUT     : Result := 9803164;
     FISH_RAW_PIKE      : Result := 6319968;
     FISH_RAW_SALMON    : Result := 5924258;
-    FISH_RAW_TUNA      : Result := 9408662;
+    FISH_RAW_TUNA      : Result := 11777211;
     FISH_RAW_LOBSTER   : Result := 2244720;
-    FISH_RAW_SWORDFISH : Result := 12615862;
+    FISH_RAW_SWORDFISH : Result := 11301795;
     FISH_RAW_MONKFISH  : Result := 4017773;
-    FISH_RAW_SHARK     : Result := 5132114;
+    FISH_RAW_SHARK     : Result := 8158594;
 
     FISH_COOKED_SHRIMP    : Result := 1195905;
     FISH_COOKED_CRAYFISH  : Result := 1265804;
@@ -468,11 +487,11 @@ begin
     FISH_COOKED_TROUT     : Result := 6777207;
     FISH_COOKED_PIKE      : Result := 5405277;
     FISH_COOKED_SALMON    : Result := 1851076;
-    FISH_COOKED_TUNA      : Result := 5263965;
+    FISH_COOKED_TUNA      : Result := 8093326;
     FISH_COOKED_LOBSTER   : Result := 1728190;
-    FISH_COOKED_SWORDFISH : Result := 9330310;
+    FISH_COOKED_SWORDFISH : Result := 7819120;
     FISH_COOKED_MONKFISH  : Result := 4279125;
-    FISH_COOKED_SHARK     : Result := 5202296;
+    FISH_COOKED_SHARK     : Result := 3228503;
 
     GEM_UNCUT_SAPPHIRE : Result := 7279119;
     GEM_UNCUT_EMERALD  : Result := 1007117;
@@ -501,6 +520,8 @@ begin
     MSI_RUNE_BLOOD : Result := 0;
     MSI_RUNE_SOUL  : Result := 0;
     MSI_RUNE_ASTRAL: Result := 0;
+    MSI_RUNE_ESSENCE: Result := 4539720;
+    MSI_PURE_ESSENCE: Result := 6250600;
 
     CLAY_SOFT   : Result := 802904;
     VIAL_EMPTY  : Result := 5920342;
@@ -511,6 +532,15 @@ begin
     BOWL_WATER  : Result := 11712313;
     BUCKET_EMPTY: Result := 1521995;
     BUCKET_WATER: Result := 9008758;
+
+    TIARA_AIR   : Result := 14014175;
+    TIARA_EARTH : Result := 2048358;
+    TIARA_WATER : Result := 16222243;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175211;
+    TIARA_FIRE  : Result := 1450400;
+
+    DWARVEN_ARMY_AXE : Result := 3758694;
 
     else
       MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
@@ -1246,7 +1276,7 @@ begin
     FISH_COOKED_SHARK:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Cooked shark';
+        Name := 'Cooked Shark';
         StatsName := 'Shark Cooked';
         UpText := ['hark'];
         Stackable := False;
@@ -1307,7 +1337,7 @@ begin
       begin
         Name := 'Feather';
         UpText := ['eather'];
-        Stackable := False;
+        Stackable := True;
         EquipLevel := -1;
       end;
 
@@ -1355,6 +1385,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Air rune';
+        StatsName := 'Air Runes (Crafted)';
         UpText := ['Air', 'ir', 'ir r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1364,6 +1395,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Water rune';
+        StatsName := 'Water Runes (Crafted)';
         UpText := ['er ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1373,6 +1405,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Earth rune';
+        StatsName := 'Earth Runes (Crafted)';
         UpText := ['th ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1382,6 +1415,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Fire rune';
+        StatsName := 'Fire Runes (Crafted)';
         UpText := ['ire ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1391,6 +1425,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Mind rune';
+        StatsName := 'Mind Runes (Crafted)';
         UpText := ['nd run'];
         Stackable := True;
         EquipLevel := -1;
@@ -1400,6 +1435,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Body rune';
+        StatsName := 'Body Runes (Crafted)';
         UpText := ['ody r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1409,6 +1445,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Chaos rune';
+        StatsName := 'Chaos Runes (Crafted)';
         UpText := ['haos'];
         Stackable := True;
         EquipLevel := -1;
@@ -1418,6 +1455,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Death rune';
+        StatsName := 'Death Runes (Crafted)';
         UpText := ['Death', 'eath rune', 'eat'];
         Stackable := True;
         EquipLevel := -1;
@@ -1427,6 +1465,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Nature rune';
+        StatsName := 'Nature Runes (Crafted)';
         UpText := ['ture r'];
         Stackable := True;
         EquipLevel := -1;
@@ -1436,6 +1475,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Cosmic rune';
+        StatsName := 'Cosmic Runes (Crafted)';
         UpText := ['osmic'];
         Stackable := True;
         EquipLevel := -1;
@@ -1445,6 +1485,7 @@ begin
       with MSI_Items[whichItem] do
       begin
         Name := 'Law rune';
+        StatsName := 'Law Runes (Crafted)';
         UpText := ['aw ru'];
         Stackable := True;
         EquipLevel := -1;
@@ -1453,13 +1494,15 @@ begin
     CLAY_SOFT:
       with MSI_Items[whichItem] do
       begin
-        Name := 'Soft Clay';            // Name of the item
-        StatsName := 'Clay (Softened)'; // Stats name so stats are calculated
-        UpText := ['oft clay'];         // Uptext
-        Stackable := False;             // Is it stackable?
-        EquipLevel := -1;               // Set to -1 if it can't be equipped
+        Name := 'Soft Clay';
+        StatsName := 'Clay (Softened)';
+        UpText := ['oft clay'];
+        Stackable := False;
+        EquipLevel := -1;
       end;
 
+    { Money Making =============================== ]
+    [============================================= }
     VIAL_EMPTY:
       with MSI_Items[whichItem] do
       begin
@@ -1538,6 +1581,90 @@ begin
         UpText := ['ucket of water'];
         Stackable := False;
         EquipLevel := -1;
+      end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    TIARA_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['Air', 'ir tia', 'ir t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['Earth', 'rth tia', 'th ti'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['Water', 'ater tia', 'ter te'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['Mind', 'ind tia', 'nd t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['Body', 'dy tia', 'dy t'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    TIARA_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['Fire', 're tia'];
+        Stackable := False;
+        EquipLevel := 1;
+      end;
+
+    MSI_RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['une essen', 'ne e', 'Rune es', 'ne ess', 'ess'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    MSI_PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        StatsName := 'Pure Essence (Mined)';
+        UpText := ['ure essen'];
+        Stackable := False;
+        EquipLevel := -1;
+      end;
+
+    DWARVEN_ARMY_AXE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dwarven Army Axe';
+        UpText := ['arven army'];
+        Stackable := False;
+        EquipLevel := 10;
       end;
   end;
 
@@ -1694,10 +1821,27 @@ begin
           FISH_COOKED_LOBSTER   : e := 120.0;
           FISH_COOKED_SWORDFISH : e := 140.0;
           FISH_COOKED_SHARK     : e := 210.0;
-
           else
              MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
         end;
+
+      SKILL_RUNECRAFTING:
+        case Items[i] of
+          MSI_RUNE_AIR    : e := 5;
+          MSI_RUNE_BODY   : e := 7.5;
+          MSI_RUNE_MIND   : e := 5.5;
+          MSI_RUNE_EARTH  : e := 6.5;
+          MSI_RUNE_FIRE   : e := 7;
+          MSI_RUNE_WATER  : e := 6;
+          MSI_RUNE_CHAOS  : e := 8.5;
+          MSI_RUNE_LAW    : e := 9.5;
+          MSI_RUNE_COSMIC : e := 8;
+          MSI_RUNE_DEATH  : e := 10;
+          MSI_RUNE_NATURE : e := 9;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
+        end;
+
 
       else
         MSI_SubDebug('MSI_GetItemExperiences: Invalid script skill');
@@ -1898,7 +2042,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: searchArea := 'inv';
+    Bank, NoBank, Drop: searchArea := 'inv';
     DBox: searchArea := 'deposit box';
   end;
 
@@ -1909,7 +2053,7 @@ begin
     for j := 1 to 28 do
     begin
       case bankType of
-        Bank, NoBank: b := InvBox(j);
+        Bank, NoBank, Drop: b := InvBox(j);
         DBox: b := DepositItemBox(j);
       end;
 
@@ -1937,7 +2081,7 @@ begin
             DeleteValueInIntArray(Result, t);
       end;
 
-  MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in inventory slot(s) ' + ToStr(Result));
+  MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in '+searchArea+' slot(s) ' + ToStr(Result));
 end;
 
 (*
@@ -1975,7 +2119,7 @@ begin
 
   bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
   case bankType of
-    Bank, NoBank: b := InvBox(Slot);
+    Bank, NoBank, Drop: b := InvBox(Slot);
     DBox: b := DepositItemBox(Slot);
   end;
 
@@ -2242,6 +2386,8 @@ begin
     exit;
 
   gameTab(whichTab);
+  result := false;
+
   MSI_AddHeader('MSI_FindTool');
 
   if (whichTab = TAB_INV) then
@@ -2256,7 +2402,7 @@ begin
     end;
   end else begin
     s := 'Equipment';
-    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, 560, 285, 605, 320);
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
   end;
 
   MSI_Debug('Searching ' + s + ' tab');

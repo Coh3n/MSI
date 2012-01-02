@@ -16,8 +16,7 @@ The source for can be found
 Abbreviations
 ~~~~~~~~~~~~~
 
-These are all the abbreviations we use in MSI to distinguish between the
-different locations around Runescape.
+These are all the abbreviations we use in MSI constants and variables.
 
 .. note::
 
@@ -40,6 +39,9 @@ different locations around Runescape.
   | LSE: Lumbridge Swamp East
   | KJ: Karamja
   | CB: Catherby
+  | RC: Runecrafting
+  | FG: Fishing Guild
+
 *)
 
 {==============================================================================\
@@ -57,16 +59,16 @@ anything from randomness percentage to bank symbol accuracy.
 *)
 const
   ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
-  MIN_FLAG_DISTANCE    = 15;    // The amount of pixels from the flag to player
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
   DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
-  TRIES_NOT_BOXES      = 50;    // Times to look for objects before resetting NotBoxes
 
-  // PLB = Player Box (a tight box around the player)
+  // PLB = Player Box (a tight box around the player); used in animations
   PLBX1 = MSCX - 10;
   PLBY1 = MSCY - 25;
   PLBX2 = MSCX + 15;
   PLBY2 = MSCY + 15;
+
+  MM_BLACK = 263168; // Black color on the minimap; used for some obstacle's mirror
 
 (*
 Script Constants
@@ -126,21 +128,33 @@ const
   SCRIPT_BBV_FISHER   = 52;
   SCRIPT_KJ_NOTER     = 53;
   SCRIPT_CB_FISHER    = 54;
+  SCRIPT_FG_FISHER    = 55;
 
   // Cooking
   SCRIPT_AK_COOKER = 70;
 
   // Magic
-  SCRIPT_ALCHER = 80;
+  SCRIPT_ALCHER     = 80;
+  SCRIPT_TELEPORTER = 81;
 
   // Money Making
   SCRIPT_VE_SOFTENER = 100;
-  SCRIPT_EV_SOFTENER = 101;
-  SCRIPT_FW_SOFTENER = 102;
-  SCRIPT_VE_FILLER   = 103;
-  SCRIPT_FW_FILLER   = 104;
+  SCRIPT_GE_SOFTENER = 101;
+  SCRIPT_EV_SOFTENER = 102;
+  SCRIPT_FW_SOFTENER = 103;
+  SCRIPT_VE_FILLER   = 104;
+  SCRIPT_FW_FILLER   = 105;
+  SCRIPT_GE_FILLER   = 106;
 
-  SCRIPT_ARRAY_LENGTH = 104; // Change to the highest script constant
+  // Runecrafting
+  SCRIPT_RC_AIR   = 120;
+  SCRIPT_RC_WATER = 121;
+  SCRIPT_RC_EARTH = 122;
+  SCRIPT_RC_FIRE  = 123;
+  SCRIPT_RC_BODY  = 124;
+  SCRIPT_RC_MIND  = 125;
+
+  SCRIPT_ARRAY_LENGTH = 125; // Change to the highest script constant
 
 (*
 Extras Constants
@@ -187,7 +201,6 @@ the saved player's information, the debug/report files, and the settings file.
 *)
 const
   PATH_PLAYER       = IncludePath + 'MSI\Player.txt';        // Path for all the player information
-  PATH_REMOTE       = IncludePath + 'MSI\Remote.txt';        // Path for the player remote information
   PATH_REPORT       = IncludePath + 'MSI\Progress Reports\'; // Path for progress report
   PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';       // Path for debug
   PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';      // Path for script settings
@@ -232,6 +245,7 @@ const
     LOC_GE_BANK  = 20;
     LOC_GE_YEWS  = 21;
     LOC_GE_OAKS  = 22;
+    LOC_GE_FOUNTAIN = 23;
 
   // Draynor
   LOC_DB_BANK    = 30;
@@ -283,7 +297,8 @@ const
   // Guilds
   LOC_GUILD_MINE = 110;
   LOC_CG_MINE    = 111;
-
+  LOC_FG_BANK    = 112;
+  LOC_FG_FISH    = 113;
   // Al-Kharid
   LOC_AK_BANK   = 120;
   LOC_AK_RANGE  = 121;
@@ -297,7 +312,15 @@ const
   LOC_CB_BANK = 140;
   LOC_CB_FISH = 141;
 
-  LOC_ARRAY_LENGTH = 141; // Change to the highest location constant
+  // Alters
+  LOC_ALTAR_AIR   = 150;
+  LOC_ALTAR_EARTH = 151;
+  LOC_ALTAR_WATER = 152;
+  LOC_ALTAR_FIRE  = 153;
+  LOC_ALTAR_MIND  = 154;
+  LOC_ALTAR_BODY  = 155;
+
+  LOC_ARRAY_LENGTH = 155; // Change to the highest location constant
 
 (*
 Requirement Constants
@@ -406,7 +429,7 @@ const
   FISH_COOKED_LOBSTER   = 109;
   FISH_COOKED_SWORDFISH = 110;
   FISH_COOKED_MONKFISH  = 111;
-  FISH_COOKED_SHARK     = 111;
+  FISH_COOKED_SHARK     = 112;
 
   GEM_UNCUT_SAPPHIRE = 120;
   GEM_UNCUT_EMERALD  = 121;
@@ -436,6 +459,8 @@ const
   MSI_RUNE_BLOOD  = 171;
   MSI_RUNE_SOUL   = 172;
   MSI_RUNE_ASTRAL = 173;
+  MSI_RUNE_ESSENCE = 174;
+  MSI_PURE_ESSENCE = 175;
 
   CLAY_SOFT     = 180;
   VIAL_EMPTY    = 181;
@@ -447,7 +472,16 @@ const
   BUCKET_EMPTY  = 187;
   BUCKET_WATER  = 188;
 
-  ITEM_ARRAY_LENGTH = 188; // Change to the highest item constant
+  TIARA_AIR   = 210;
+  TIARA_BODY  = 211;
+  TIARA_MIND  = 212;
+  TIARA_EARTH = 213;
+  TIARA_FIRE  = 214;
+  TIARA_WATER = 215;
+
+  DWARVEN_ARMY_AXE = 216;
+
+  ITEM_ARRAY_LENGTH = 216; // Change to the highest item constant
 
 (*
 Object Constants
@@ -470,18 +504,18 @@ Example:
 *)
 const
   // Trees
-  TREE_DEAD       = 9;
-  TREE_NORMAL     = 10;
-  TREE_NORMAL_NEW = 11;
-  TREE_OAK        = 12;
-  TREE_OAK_NEW    = 13;
-  TREE_WILLOW     = 14;
-  TREE_WILLOW_NEW = 15;
-  TREE_MAPLE      = 16;
-  TREE_MAPLE_NEW  = 17;
-  TREE_YEW        = 18;
-  TREE_YEW_NEW    = 19;
-  TREE_MAGIC      = 20;
+  TREE_DEAD       = 8;
+  TREE_NORMAL     = 9;
+  TREE_NORMAL_NEW = 10;
+  TREE_OAK        = 11;
+  TREE_OAK_NEW    = 12;
+  TREE_WILLOW     = 13;
+  TREE_WILLOW_NEW = 14;
+  TREE_MAPLE      = 15;
+  TREE_MAPLE_NEW  = 16;
+  TREE_YEW        = 17;
+  TREE_YEW_NEW    = 18;
+  TREE_MAGIC      = 19;
 
   // Rocks
   ROCK_CLAY       = 20;
@@ -506,6 +540,7 @@ const
   MSI_BANK_AK = 37;
   MSI_BANK_CB = 38;
   MSI_BANK_FW = 39;
+  MSI_BANK_FG = 40;
 
   DBOX_PS = 45;
 
@@ -515,15 +550,16 @@ const
   FISHSPOT_LURE    = 52;
   FISHSPOT_CAGE    = 53;
   FISHSPOT_HARPOON = 54;
+  FISHSPOT_HARPOON_SHARK = 55;
 
   // Cooking spots
   COOKSPOT_AK_RANGE = 60;
 
   // Obstacles
-  LADDER_MG_DOWN = 70;
-  LADDER_MG_UP   = 71;
-  WALL_FW        = 72;
-  DOOR_NORMAL    = 73;
+  LADDER_MG_DOWN    = 70;
+  LADDER_MG_UP      = 71;
+  WALL_FW           = 72;
+  DOOR_NORMAL       = 73;
 
   // NPCs
   NPC_STILES        = 93;
@@ -534,13 +570,32 @@ const
 
   // Water Sources
   FOUNTAIN_VE = 110;
-  WELL_EV     = 111;
-  PUMP_FW     = 112;
+  FOUNTAIN_GE = 111;
+  WELL_EV     = 112;
+  PUMP_FW     = 113;
 
   // Furnaces
   FURNACE_AK = 120;
 
-  OBJECT_HIGH = 120; // Change to the highest object constant
+  // Mysterious Ruins
+  RUINS_AIR    = 130;
+  RUINS_EARTH  = 131;
+  RUINS_WATER  = 132;
+  RUINS_MIND   = 133;
+  RUINS_FIRE   = 134;
+  RUINS_BODY   = 135;
+
+  ALTAR_RUNECRAFTING = 137;
+
+  // Portals
+  PORTAL_AIR   = 150;
+  PORTAL_EARTH = 151;
+  PORTAL_WATER = 152;
+  PORTAL_MIND  = 153;
+  PORTAL_FIRE  = 154;
+  PORTAL_BODY  = 155;
+
+  OBJECT_HIGH = 155; // Change to the highest object constant
 
 (*
 Obstacle Constants
@@ -569,6 +624,21 @@ const
   OBS_WALL_FW        = 20;
   OBS_DOOR_CG_IN     = 30;
   OBS_DOOR_CG_OUT    = 31;
+
+  // Runcrafting
+  OBS_RUINS_AIR   = 50;
+  OBS_RUINS_EARTH = 51;
+  OBS_RUINS_WATER = 52;
+  OBS_RUINS_MIND  = 53;
+  OBS_RUINS_FIRE  = 54;
+  OBS_RUINS_BODY  = 55;
+
+  OBS_PORTAL_AIR   = 71;
+  OBS_PORTAL_EARTH = 72;
+  OBS_PORTAL_WATER = 73;
+  OBS_PORTAL_MIND  = 74;
+  OBS_PORTAL_FIRE  = 75;
+  OBS_PORTAL_BODY  = 76;
 
 (*
 Spells Constants
@@ -618,14 +688,16 @@ const
   SPELL_TELE_VARROCK   = 21;
   SPELL_TELE_LUMBRIDGE = 22;
   SPELL_TELE_FALADOR   = 23;
+  SPELL_TELE_HOUSE     = 24;
+  SPELL_TELE_CAMELOT   = 25;
 
-  SPELL_ALCH_LOW       = 24;
-  SPELL_ALCH_HIGH      = 25;
+  SPELL_ALCH_LOW       = 26;
+  SPELL_ALCH_HIGH      = 27;
 
-  SPELL_TELEGRAB       = 26;
-  SPELL_SUPERHEAT      = 27;
+  SPELL_TELEGRAB       = 28;
+  SPELL_SUPERHEAT      = 29;
 
-  SPELL_ARRAY_LENGTH   = 27;
+  SPELL_ARRAY_LENGTH   = 29;
 
 (*
 Animations Constants
@@ -644,10 +716,12 @@ Example:
   end;
 *)
 const
-  ANIM_IDLE      = 0;
-  ANIM_ALCH_LOW  = 10;
-  ANIM_ALCH_HIGH = 11;
-  ANIM_CHOPPING  = 12;
+  ANIM_IDLE         = 0;
+  ANIM_ALCH_LOW     = 10;
+  ANIM_ALCH_HIGH    = 11;
+  ANIM_CHOPPING     = 12;
+  ANIM_CHOPPING_NEW = 13;
+  ANIM_TELE         = 14;
 
 (*
 Material Constants
@@ -688,7 +762,11 @@ const
   MATERIAL_BOWL        = 23;
   MATERIAL_BUCKET      = 24;
 
-  MATERIAL_LENGTH      = 25; // used in the form
+  //Runecrafting
+  MATERIAL_ESSENCE_RUNE = 40;
+  MATERIAL_ESSENCE_PURE = 41;
+
+  MATERIAL_LENGTH = 41;
 
 (*
 Proggy Constants
@@ -718,31 +796,22 @@ const
   SETUP_HUMAN_BREAK   = 13;
   SETUP_SWITCH_WORLDS = 14;
   SETUP_PRINT_REPORT  = 15;
+  SETUP_QC_LEVELUP    = 16;
+  SETUP_RANDOM_NP     = 17;
+  SETUP_DEATH_WALK    = 18;
 
   // Integers
-  SETUP_DEBUG_LEVEL   = 20;
-  SETUP_ANTIBAN_WAIT  = 21;
-  SETUP_RANDOMS_WAIT  = 22;
+  SETUP_BREAK_TIME    = 20;
+  SETUP_DEBUG_LEVEL   = 21;
+  SETUP_ANTIBAN_WAIT  = 22;
+  SETUP_RANDOMS_WAIT  = 23;
+  SETUP_MAX_PLAYERS   = 24;
 
   // Strings
   SETUP_STATS_ID      = 30;
   SETUP_STATS_PASS    = 31;
-  SETUP_WALKING       = 32;
 
-  SETUP_ARRAY_LENGTH  = 32;
-
-(*
-Hook Constants
-~~~~~~~~~~~~~~
-
-Represents the indexes of MSI_HookBroken boolean array that is used to check
-for broken hooks after an RS update.
-*)
-const
-  HOOK_COUNT = 3;
-    HOOK_WALKING     = 0;
-    HOOK_LEVEL_SKILL = 1;
-    HOOK_RANDOMS     = 2;
+  SETUP_ARRAY_LENGTH  = 31;
 
 {==============================================================================\
 |                                  Types                                       |
@@ -859,9 +928,10 @@ type
     Name       : String;
     StartLoc   : Integer;
     EndLoc     : Integer;
-    Reflection : T2DPointArray;
-    Color      : T2DPointArray;
-    SPSAreas   : TStringArray;
+    MaxDist    : Integer; // the maximum distance from any point in the path to blind walk to the path
+    SPSPath    : T2DPointArray;
+    SPSSurfaces: TIntegerArray; // has to be the length of TPath.SPSPath
+    SPSAreas   : array of TStringArray; // 1st is length of TPath.SPSSurfaces, 2nd are the areas for each surface
     Obstacles  : array[0..2] of TIntegerArray;
   end;
 
@@ -900,6 +970,9 @@ type
 
     // Miscellaneous
     Objects : TIntegerArray;
+
+    // Runecrafting
+    Tiara : Integer;
 
     // Not setup by the user
     Items    : array of TIntegerArray;
@@ -1045,9 +1118,13 @@ and confirming player locations.
 type
   TSubLoc = record
     name: string;
-    tileBox, spsBox: TBox;
+    spsBox: TBox;
     compass: variant;
+    {$IFDEF SRL5}
+    camera: integer;
+    {$ELSE}
     camera: boolean;
+    {$ENDIF}
     objects: TIntegerArray;
   end;
   TSubLocArray = array of TSubLoc;
@@ -1056,7 +1133,8 @@ type
     name: string;
     constant: integer;
     atBank: boolean;
-    subLocs: TSubLocArray;
+    subLocs: TSubLocArray; // is dynamic (elements are shifted during runtime)
+    _subLocs: TSubLocArray; // used to store a static TSubLocArray to use in walking
     deathPath: TPath;
   end;
   TLocationArray = array of TLocation;
@@ -1076,6 +1154,7 @@ type
     ObjConst   : Integer;       // Object constant
     ObjMir     : Integer;       // Object's mirror constant
     ObjMirArea : TBox;          // Obstacle's mirror search area
+    MirAction  : TMouseOption;  // What to do if the object is found on the MS
     Camera     : TVariantArray; // Changes the camera angle and height
     EndTiles   : TPointArray;   // Possible tiles the player will end up on
   end;
@@ -1146,7 +1225,6 @@ var
 // Arrays that store all the necessary "go-to" information for MSI
 var
   MSI_Settings  : array[0..SETUP_ARRAY_LENGTH] of variant;
-  MSI_HookBroken: array[0..(HOOK_COUNT - 1)] of boolean;
   MSI_Players   : TPlayerInfoArray;
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;

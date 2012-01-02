@@ -146,7 +146,7 @@ begin
         Level       := 45;
       end;
 
-    MATERIAL_SWORDFISH:
+    MATERIAL_MONKFISH:
       with Result do
       begin
         Name        := 'Monkfish';
@@ -215,6 +215,30 @@ begin
         MemberOnly  := False;
         Level       := -1;
       end;
+
+    MATERIAL_ESSENCE_RUNE:
+      with Result do
+      begin
+        Name        := 'Rune essence';
+        Supplies    := [TIntegerArray([MSI_RUNE_ESSENCE, -1])];
+        Produces    := [MSI_RUNE_AIR, MSI_RUNE_BODY, MSI_RUNE_MIND,
+                        MSI_RUNE_EARTH, MSI_RUNE_FIRE,MSI_RUNE_WATER];
+        MemberOnly  := False;
+        Level       := 1;
+      end;
+
+    MATERIAL_ESSENCE_PURE:
+      with Result do
+      begin
+        Name        := 'Pure essence';
+        Supplies    := [TIntegerArray([MSI_PURE_ESSENCE, -1])];
+        Produces    := [MSI_RUNE_AIR, MSI_RUNE_BODY, MSI_RUNE_MIND,
+                        MSI_RUNE_EARTH, MSI_RUNE_FIRE, MSI_RUNE_WATER,
+                        MSI_RUNE_CHAOS, MSI_RUNE_LAW, MSI_RUNE_COSMIC,
+                        MSI_RUNE_DEATH, MSI_RUNE_NATURE];
+        MemberOnly  := True;
+        Level       := 1;
+      end;
   end;
 
   MSI_SubDebug('Loaded material: '+result.name);
@@ -233,7 +257,7 @@ Detects if the chat box option menu is open.
 .. note::
 
   | Author: NCDS
-  | Last Updated: 22 March 2011 by NCDS
+  | Last Updated: 25 November 2011 by Coh3n
 
 Example:
 
@@ -243,8 +267,10 @@ Example:
     MSI_Debug('Materials screen is open in chat box');
 *)
 function MSI_MaterialScreen: Boolean;
+var
+  x, y: integer;
 begin
-  Result := (GetColor(497, 367) = 5025494);
+  result := findColorTolerance(x, y, 2070783, 360, 350, 420, 370, 5);
 end;
 
 (*

@@ -1,5 +1,6 @@
 {$IFNDEF IS_INCLUDE}
 program MSI_PlayerForm;
+{$DEFINE SRL5}
 {$i msi/msi/core/setup.simba}
 {$ENDIF}
 

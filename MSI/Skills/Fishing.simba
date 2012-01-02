@@ -49,7 +49,7 @@ begin
     FISHSPOT_CAGE:
       Result := [FISH_POT_LOBSTER];
 
-    FISHSPOT_HARPOON:
+    FISHSPOT_HARPOON, FISHSPOT_HARPOON_SHARK:
       with MSI_Players[CurrentPlayer] do
       begin
         if (member) then
@@ -129,15 +129,13 @@ begin
         if (not found) then
           if (MSI_Items[tools[j]].EquipLevel > 0) then
             found := MSI_FindTool(tools[j], TAB_EQUIP, x, y);
-      end;
 
-      if (not found) then
-      begin
-        toWithdraw[i][t] := tools[j]; // Adds to the array if the tool isn't found
-        inc(t);
+        if (not found) then
+        begin
+          setLength(toWithdraw[i], length(toWithdraw[i]) + 1);
+          toWithdraw[i][high(toWithdraw[i])] := tools[j]; // Adds to the array if the tool isn't found
+        end;
       end;
-
-      setLength(toWithdraw[i], t);
     end;
 
     // In a separate loop so it only opens the bank once
@@ -152,6 +150,7 @@ begin
         if (canBank) then
           if (MSI_OpenBank(curScript.WhichBank, Pin)) then
             if (MSI_Withdraw(toWithdraw[i], [])) then
+            begin
               for j := 0 to High(toWithdraw[i]) do
               begin
                 t := GetSystemTime + 2000;
@@ -165,6 +164,7 @@ begin
                 if (j = High(toWithdraw[i])) then
                   objReady[i] := True;
               end;
+            end;
       end;
 
     for i := 0 to High(objReady) do
@@ -184,8 +184,7 @@ begin
 
     for i := 0 to High(Scripts[CurrentScript].FishSpots) do
     begin
-      t := Scripts[CurrentScript].FishSpots[i];
-      fishSpot := MSI_GetObject(intObjs[i]);
+      fishSpot := MSI_GetObject(Scripts[CurrentScript].FishSpots[i]);
       MSI_Debug('Fishing spot ' + IntToStr(i) + ': ' + fishSpot.name);
     end;
 

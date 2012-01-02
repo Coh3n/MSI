@@ -73,7 +73,7 @@ Example:
 *)
 function MSI_OpenBank(which: Integer; tPin: String): Boolean;
 var
-  t, x, y: Integer;
+  t, x, y, timeOut: Integer;
   bankType: TBank;
   relocated: boolean;
   bankObj: TMSObject;
@@ -91,7 +91,8 @@ begin
 
   if (not Result) then
   begin
-    t := (GetSystemTime + 60000);
+    timeOut := 60000;
+    t := (GetSystemTime + timeOut);
 
     while (not Result) and (GetSystemTime < t) and LoggedIn do
     begin
@@ -111,17 +112,24 @@ begin
         end;
 
       if (not Result) then
-        if ((t - GetSystemTime) > 30000) then
+        if ((t - GetSystemTime) < (timeOut - 5000)) then
         begin
           MSI_NotBoxes := [];
-          Wait(RandomRange(2000, 3000));
+          Wait(RandomRange(200, 500));
 
           if (relocated) then
           begin
-            SymbolAccuracy := 40.0;
+            MSI_Debug('Trying to find bank symbol');
+            SymbolAccuracy := 0.4;
+
             if (FindSymbol(x, y, 'bank')) then
+            begin
+              MSI_Debug('Found symbol');
               MSI_MultiMouse(x, y, 50, 4, false);
-            SymbolAccuracy := 70.0;
+              MSI_Flag(0);
+            end;
+
+            SymbolAccuracy := 0.8;
             Continue;
           end;
 
@@ -186,7 +194,7 @@ begin
         case npcObj.constant of
           NPC_STILES:
             MSI_Conversation(['exchan', 'exchan', 'exchan', 'obbies', 'kay'],
-                             [true, false, true, true, false]);
+                             [true, false, true, true, true]);
         end;
 
       if (not result) then
@@ -390,7 +398,7 @@ begin
       MMouse(x, y, 5, 5);
 
       if (WaitUptext('osit', 500)) then
-        if (GetAmount(x, y) > 1) then
+        if (GetAmountBox(b) > 1) then
         begin
           Mouse(x, y, 0, 0, False);
           WaitOption('osit-All', 500);
@@ -471,7 +479,12 @@ begin
       begin
         MMouse(p[ii].x, p[ii].y, 4, 4);
         if WaitUpTextMulti(MSI_Items[Items[i]].UpText, 150 + random(150)) then
+        begin
+          MSI_Debug('Uptext found');
           Break;
+        end;
+
+        MSI_Debug('Uptext: '+rs_GetUptext);
 
         if ii = High(p) then
           if (Amounts[i] = 1) then
@@ -492,7 +505,7 @@ begin
 
       if (OptionsExist(MSI_Items[Items[i]].UpText, false)) then
         if (Amounts[i] = -1) then
-          WaitOption('-All', 500)
+          WaitOption('-All '+copy(MSI_Items[Items[i]].Name, 1, 3), 500)
         else
           if (InIntArray([5, 10], Amounts[i])) then
             WaitOption('-'+IntToStr(Amounts[i]), 500)
@@ -519,6 +532,7 @@ begin
   for i := 0 to High(itemsWithdrew) do
     if (not itemsWithdrew[i]) then // Returns false if it fails to withdraw one item
     begin
+      MSI_Debug('Didn''t find item ('+MSI_Items[Items[i]].Name+') in inventory');
       MSI_CloseHeader('MSI_Withdraw: ' + BoolToStr(Result) + ' (' + MSI_Items[Items[i]].Name + ')');
       MouseBox(MIX1, MIY1, MIX2, MIY2, 3); // Mouse out of option menu
       Exit;
@@ -647,12 +661,6 @@ begin
   begin
     Script := MSI_Scripts[Scripts[CurrentScript].Name];
     obj := MSI_GetObject(script.whichBank);
-
-    if Script.Name = MSI_Scripts[SCRIPT_GE_YEWS].Name then
-    begin
-      MakeCompass(90);
-      SetAngle(False);
-    end;
 
     if (Location = Script.PathInfo.StartLoc) then
       if (not MSI_OpenBank(Script.WhichBank, Pin)) then
@@ -802,7 +810,7 @@ begin
             begin
               MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Ran out of supplies';
 
-              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst <> SKILL_NONE) then
+              if (pIndex <> -1) and (MSI_Scripts[Scripts[CurrentScript].Name].SkillConst = SKILL_COOKING) then
               begin
                 MSI_SubDebug('Removing from player''s array');
                 deleteValueInIntArray(Scripts[CurrentScript].Materials, pIndex);

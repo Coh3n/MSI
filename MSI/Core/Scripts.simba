@@ -23,7 +23,7 @@ only be called in MSI_LoadAllScripts.
 .. note::
 
   | Author: Coh3n
-  | Last Updated: 2 April 2011 by IPwnz
+  | Last Updated: 12 November 2011 by Coh3n
 
 Example:
 
@@ -32,6 +32,8 @@ Example:
   MSI_LoadScript(SCRIPT_VE_MINER);
 *)
 function MSI_LoadScript(whichScript: Integer): Boolean;
+var
+  i: integer;
 begin
   case whichScript of
     { WOODCUTTERS ================================ ]
@@ -76,13 +78,14 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_OAKS;
 
-          Reflection := [
-                          TPointArray([Point(3253, 3420), Point(3266, 3429),
-                                       Point(3279, 3424)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4851, 2969), Point(4873, 2937),
+                         Point(4951, 2935), Point(4961, 2978)])
+          ];
 
-          SPSAreas := ['12_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
         end;
       end;
 
@@ -108,13 +111,14 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_OAKS;
 
-          Reflection := [
-                          TPointArray([Point(3183, 3480), Point(3193, 3489),
-                                       Point(3194, 3475), Point(3193, 3461)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4550, 2723), Point(4597, 2682),
+                         Point(4623, 2738), Point(4606, 2804)])
+          ];
 
-          SPSAreas := ['11_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_6', '11_7'])
+          ];
         end;
       end;
 
@@ -139,13 +143,14 @@ begin
           StartLoc := LOC_GE_BANK;
           EndLoc   := LOC_GE_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(3180, 3475), Point(3186, 3488),
-                                       Point(3197, 3500), Point(3211, 3500)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4554, 2724), Point(4598, 2681),
+                         Point(4641, 2638), Point(4693, 2645)])
+          ];
 
-          SPSAreas   := ['11_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
         end;
       end;
 
@@ -170,13 +175,14 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_TREES;
 
-          Reflection := [
-                          TPointArray([Point(3091, 3244), Point(3084, 3248),
-                                       Point(3080, 3263), Point(3081, 3268)])
-                        ];
+          SPSPath  := [
+            TPointArray([Point(4208, 3685), Point(4154, 3657),
+                         Point(4153, 3590)])
+          ];
 
-          SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas    := [
+            TStringArray(['10_8', '10_9'])
+          ];
         end;
       end;
 
@@ -189,6 +195,7 @@ begin
         SkillConst    := SKILL_WOODCUTTING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_ChopInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupWoodcutting;
@@ -201,12 +208,13 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_OAKS;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3101, 3244)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4207, 3686), Point(4241, 3682)])
+          ];
 
-          SPSAreas   := ['10_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
         end;
       end;
 
@@ -232,12 +240,13 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_WILLOWS;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3087, 3234)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4206, 3686), Point(4181, 3729)])
+          ];
 
-          SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
         end;
       end;
 
@@ -263,17 +272,14 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3036, 3233),
-                                       Point(3027, 3227), Point(3022, 3217),
-                                       Point(3008, 3216), Point(2994, 3218),
-                                       Point(2983, 3219), Point(2971, 3222),
-                                       Point(2958, 3223), Point(2947, 3226),
-                                       Point(2937, 3228)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4025, 3714), Point(3862, 3697),
+                         Point(3587, 3728)])
+          ];
 
-          SPSAreas   := ['9_9', '8_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['9_9', '8_9', '10_9'])
+          ];
         end;
       end;
 
@@ -298,16 +304,14 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_WILLOWS;
 
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3034, 3234),
-                                       Point(3028, 3222), Point(3017, 3215),
-                                       Point(3006, 3207), Point(3005, 3195),
-                                       Point(3004, 3183), Point(3003, 3172),
-                                       Point(2999, 3165)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4024, 3717), Point(3947, 3719),
+                         Point(3866, 3814), Point(3835, 3996)])
+          ];
 
-          SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['9_9', '10_9'])
+          ];
         end;
       end;
 
@@ -333,13 +337,13 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_WILLOWS;
 
-          Reflection := [
-                          TPointArray([Point(3047, 3236), Point(3052, 3248),
-                                       Point(3060, 3253)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4030, 3714), Point(4081, 3644)])
+          ];
 
-          SPSAreas   := ['9_8', '9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_8', '10_9'])
+          ];
         end;
       end;
 
@@ -365,14 +369,14 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_PS_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(3046, 3235), Point(3042, 3245),
-                                       Point(3041, 3254), Point(3041, 3263),
-                                       Point(3044, 3269), Point(3053, 3270)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4028, 3714), Point(4077, 3647),
+                         Point(4046, 3578)])
+          ];
 
-          SPSAreas   := ['9_9', '9_8'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['9_9', '9_8', '10_8'])
+          ];
         end;
       end;
 
@@ -398,17 +402,14 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAGICS;
 
-          Reflection := [
-                          TPointArray([Point(2724, 3492), Point(2724, 3479),
-                                       Point(2721, 3471), Point(2719, 3459),
-                                       Point(2719, 3447), Point(2716, 3439),
-                                       Point(2716, 3427), Point(2715, 3418),
-                                       Point(2715, 3406), Point(2713, 3397),
-                                       Point(2704, 3392), Point(2701, 3399)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(2739, 2679), Point(2689, 3066),
+                         Point(2644, 3064)])
+          ];
 
-          SPSAreas   := ['6_6', '6_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
         end;
       end;
 
@@ -433,12 +434,13 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_MAPLES;
 
-          Reflection := [
-                          TPointArray([Point(2726, 3492), Point(2724, 3502)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(2737, 2681), Point(2744, 2636)])
+          ];
 
-          SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['6_6'])
+          ];
         end;
       end;
 
@@ -464,15 +466,14 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(2725, 3493), Point(2725, 3485),
-                                       Point(2725, 3477), Point(2725, 3468),
-                                       Point(2720, 3443), Point(2720, 3431),
-                                       Point(2719, 3463), Point(2714, 3464)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(2739, 2681), Point(2712, 2795),
+                         Point(2681, 2801)])
+          ];
 
-          SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
         end;
       end;
 
@@ -498,12 +499,13 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_OAKS;
 
-          Reflection := [
-                          TPointArray([Point(2724, 3493), Point(2719, 3480)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(2738, 2681), Point(2725, 2726)])
+          ];
 
-          SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['6_6'])
+          ];
         end;
       end;
 
@@ -529,14 +531,13 @@ begin
           StartLoc := LOC_SV_BANK;
           EndLoc   := LOC_SV_TREES;
 
-          Reflection := [
-                          TPointArray([Point(2724, 3492), Point(2724, 3479),
-                          Point(2725, 3464), Point(2722, 3453),
-                          Point(2724, 3461), Point(2721, 3447)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(2737, 2679), Point(2723, 2871)])
+          ];
 
-          SPSAreas   := ['6_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
         end;
       end;
 
@@ -562,13 +563,13 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3492), Point(3093, 3478),
-                                       Point(3087, 3472)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4212, 2682), Point(4183, 2758)])
+          ];
 
-          SPSAreas   := ['10_6'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_6'])
+          ];
         end;
       end;
 
@@ -594,14 +595,13 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_YEWS;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3106, 3242),
-                                       Point(3116, 3236), Point(3127, 3231),
-                                       Point(3136, 3227), Point(3151, 3229)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4208, 3687), Point(4454, 3740)])
+          ];
 
-          SPSAreas   := ['10_9', '11_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_9', '11_9'])
+          ];
         end;
       end;
 
@@ -646,15 +646,15 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3265, 3428),
-                                       Point(3279, 3429), Point(3288, 3419),
-                                       Point(3292, 3406), Point(3292, 3392),
-                                       Point(3293, 3377), Point(3287, 3368)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4852, 2969), Point(4873, 2937),
+                         Point(4961, 2938), Point(5002, 3029),
+                         Point(5003, 3095), Point(4986, 3181)])
+          ];
 
-          SPSAreas   := ['12_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
         end;
       end;
 
@@ -667,6 +667,7 @@ begin
         SkillConst    := SKILL_MINING;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
         AutoObjects   := @MSI_MineInvFull;
         BankObjects   := @MSI_BankStandard;
         PlayerSetup   := @MSI_SetupMining;
@@ -679,17 +680,14 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_LSW_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3091, 3242), Point(3101, 3234),
-                                       Point(3108, 3225), Point(3115, 3217),
-                                       Point(3124, 3211), Point(3132, 3205),
-                                       Point(3138, 3197), Point(3140, 3186),
-                                       Point(3141, 3175), Point(3144, 3165),
-                                       Point(3148, 3155), Point(3148, 3147)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4210, 3684), Point(4387, 3858),
+                         Point(4423, 4075)])
+          ];
 
-          SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_9', '11_10', '10_10'])
+          ];
         end;
       end;
 
@@ -714,17 +712,14 @@ begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_LSE_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3091, 3242), Point(3101, 3234),
-                                       Point(3108, 3225), Point(3115, 3217),
-                                       Point(3124, 3211), Point(3132, 3205),
-                                       Point(3138, 3197), Point(3140, 3186),
-                                       Point(3141, 3175), Point(3144, 3165),
-                                       Point(3148, 3155), Point(3148, 3147)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4914, 3996), Point(4845, 3969),
+                         Point(4750, 4068)])
+          ];
 
-          SPSAreas   := ['11_9', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['12_9', '11_10', '11_9'])
+          ];
         end;
       end;
 
@@ -749,17 +744,14 @@ begin
           StartLoc := LOC_VW_BANK;
           EndLoc   := LOC_VW_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3187, 3437), Point(3183, 3429),
-                                       Point(3174, 3427), Point(3171, 3418),
-                                       Point(3173, 3408), Point(3170, 3397),
-                                       Point(3173, 3387), Point(3174, 3377),
-                                       Point(3171, 3367), Point(3176, 3361),
-                                       Point(3178, 3367)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4580, 2903), Point(4516, 2952),
+                         Point(4555, 3175)])
+          ];
 
-          SPSAreas   := ['11_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_7'])
+          ];
         end;
       end;
 
@@ -784,14 +776,16 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_MINE;
 
-          Reflection := [
-                          TPointArray([Point(2945, 3368), Point(2938, 3355)]),
-                          //^^ inside Falador
-                          TPointArray([Point(2920, 3355), Point(2909, 3357)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(3619, 3177), Point(3591, 3233)]),
+            TPointArray([Point(3572, 3233), Point(3466, 3222)])
+          ];
 
-          SPSAreas   := ['8_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7']),
+            TStringArray(['8_7', '9_7'])
+          ];
+
           Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
           Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
         end;
@@ -818,16 +812,14 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3493), Point(3085, 3486),
-                                       Point(3081, 3478), Point(3082, 3467),
-                                       Point(3088, 3458), Point(3087, 3448),
-                                       Point(3085, 3437), Point(3086, 3427),
-                                       Point(3079, 3423)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4211, 2685), Point(4234, 2785),
+                         Point(4159, 2965)])
+          ];
 
-          SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_6', '10_7'])
+          ];
         end;
       end;
 
@@ -852,15 +844,14 @@ begin
           StartLoc := LOC_PS_DBOX;
           EndLoc   := LOC_RM_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3047, 3234), Point(3033, 3234),
-                                       Point(3022, 3233), Point(3011, 3230),
-                                       Point(3000, 3232), Point(2993, 3230),
-                                       Point(2986, 3236), Point(2980, 3236)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4027, 3716), Point(3900, 3688),
+                         Point(3762, 3711)])
+          ];
 
-          SPSAreas   := ['9_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['9_9', '9_8'])
+          ];
         end;
       end;
 
@@ -885,16 +876,14 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_CLAY;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3100, 3249),
-                                       Point(3104, 3262), Point(3105, 3275),
-                                       Point(3109, 3288), Point(3119, 3296),
-                                       Point(3127, 3305), Point(3135, 3312),
-                                       Point(3141, 3316)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4208, 3685), Point(4248, 3658),
+                         Point(4269, 3483), Point(4401, 3389)])
+          ];
 
-          SPSAreas   := ['10_8', '10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_8', '10_9', '11_8'])
+          ];
         end;
       end;
 
@@ -911,25 +900,23 @@ begin
         BankObjects := @MSI_BankStandard;
         PlayerSetup := @MSI_SetupMining;
 
-        Defaults.Rocks := [ROCK_SILVER, ROCK_IRON, ROCK_COAL, ROCK_MITHRIL, ROCK_GOLD,
-                           ROCK_COPPER, ROCK_TIN, ROCK_ADAMANTITE];
+        Defaults.Rocks := [
+          ROCK_SILVER, ROCK_IRON, ROCK_COAL, ROCK_MITHRIL, ROCK_GOLD,
+          ROCK_COPPER, ROCK_TIN, ROCK_ADAMANTITE
+        ];
 
         with PathInfo do
         begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_AK_MINE;
 
-          Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3278, 3175),
-                                       Point(3283, 3187), Point(3287, 3199),
-                                       Point(3291, 3212), Point(3298, 3223),
-                                       Point(3298, 3237), Point(3298, 3251),
-                                       Point(3298, 3264), Point(3299, 3278),
-                                       Point(3300, 3293), Point(3300, 3301)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4910, 3996), Point(5033, 3504)])
+          ];
 
-          SPSAreas   := ['12_8', '12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['12_8', '12_9'])
+          ];
         end;
       end;
 
@@ -954,20 +941,18 @@ begin
           StartLoc := LOC_FE_BANK;
           EndLoc := LOC_GUILD_MINE;
 
-          Reflection := [
-                          // Bank -> Ladder Down
-                          TPointArray([Point(3012, 3355), Point(3023, 3352),
-                                       Point(3030, 3340), Point(3021, 3339)]),
+          SPSPath := [
+            // Bank -> Ladder Down
+            TPointArray([Point(3890, 3233), Point(3937, 3256),
+                         Point(3921, 3304)]),
 
-                          // Ladder Up -> In Mine
-                          TPointArray([Point(3021, 9739), Point(3033, 9738),
-                                       Point(3042, 9737)])
-                        ];
-          // SPS doesn't currently support dungeons
-          {
-            SPSAreas := [''];
-            Color := [];
-          }
+            // Ladder Up -> In Mine
+            TPointArray([Point(279, 507), Point(356, 499)])
+          ];
+
+          SPSSurfaces := [RUNESCAPE_SURFACE, DWARVEN_MINE];
+          SPSAreas    := [TStringArray(['9_7', '9_8']), TStringArray(['0_1'])];
+
           Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
           Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
         end;
@@ -992,24 +977,23 @@ begin
         begin
           Name := 'LOC_FE_BANK to LOC_CG_MINE';
           StartLoc := LOC_FE_BANK;
-          EndLoc := LOC_CG_MINE;
+          EndLoc   := LOC_CG_MINE;
 
-          Reflection := [
-                          // Bank -> Front Door
-                          TPointArray([Point(3012, 3353), Point(3007, 3347),
-                                       Point(3007, 3335), Point(3006, 3324),
-                                       Point(3001, 3313), Point(2994, 3303),
-                                       Point(2987, 3295), Point(2976, 3292),
-                                       Point(2968, 3293), Point(2957, 3294),
-                                       Point(2945, 3296), Point(2933, 3294),
-                                       Point(2933, 3288)]),
+          SPSPath := [
+            // bank to outside guild
+            TPointArray([Point(3890, 3235), Point(3864, 3284),
+                         Point(3863, 3379), Point(3739, 3527),
+                         Point(3646, 3487), Point(3570, 3501)]),
 
-                          // Inside Door -> Mine
-                          TPointArray([Point(2934, 3286), Point(2939, 3283)])
-                        ];
+            // guild door to mine
+            TPointArray([Point(3570, 3509), Point(3599, 3536)])
+          ];
 
-          SPSAreas := ['8_8', '9_7', '9_8'];
-          Color := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['8_8', '9_7', '9_8']),
+            TStringArray(['8_8'])
+          ];
+
           Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
           Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
         end;
@@ -1055,13 +1039,13 @@ begin
           StartLoc := LOC_DB_BANK;
           EndLoc   := LOC_DB_FISH;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3244), Point(3087, 3234),
-                                       Point(3087, 3228)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4206, 3686), Point(4181, 3740)])
+          ];
 
-          SPSAreas   := ['10_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
         end;
       end;
 
@@ -1086,17 +1070,14 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_BBV_FISH;
 
-          Reflection := [
-                          TPointArray([Point(3102, 3496), Point(3094, 3491),
-                                       Point(3099, 3484), Point(3099, 3475),
-                                       Point(3098, 3466), Point(3096, 3455),
-                                       Point(3092, 3445), Point(3098, 3438),
-                                       Point(3108, 3434)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4209, 2685), Point(4233, 2784),
+                         Point(4204, 2887), Point(4268, 2920)])
+          ];
 
-
-          SPSAreas   := ['10_6', '10_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_6', '10_7'])
+          ];
         end;
       end;
 
@@ -1114,7 +1095,8 @@ begin
         PlayerSetup   := @MSI_SetupFishing;
 
         Defaults.FishSpots := [
-          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
          ];
 
         with PathInfo do
@@ -1123,13 +1105,13 @@ begin
           StartLoc := LOC_CB_BANK;
           EndLoc   := LOC_CB_FISH;
 
-          Reflection := [
-                          TPointArray([Point(2808, 3442), Point(2814, 3438),
-                           Point(2827, 3439), Point(2835, 3434)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(3073, 2889), Point(3190, 2918)])
+          ];
 
-          SPSAreas   := ['7_7'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['7_7', '8_7'])
+          ];
         end;
       end;
 
@@ -1156,15 +1138,47 @@ begin
           StartLoc := LOC_KJ_STILES;
           EndLoc   := LOC_KJ_FISH;
 
-          Reflection := [
-                          TPointArray([Point(2851, 3141), Point(2862, 3145),
-                                       Point(2874, 3149), Point(2884, 3156),
-                                       Point(2896, 3162), Point(2906, 3169),
-                                       Point(2919, 3171), Point(2924, 3175)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(3534, 3951), Point(3246, 4096)])
+          ];
 
-          SPSAreas := ['8_9'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['8_9', '8_10', '7_10'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FG_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Guild Fisher';
+        Constant      := SCRIPT_FG_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FG;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FG_BANK to LOC_FG_FISH';
+          StartLoc := LOC_FG_BANK;
+          EndLoc   := LOC_FG_FISH;
+
+          SPSPath := [
+            TPointArray([Point(2178, 2964), Point(2247, 2970)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_7'])
+          ];
         end;
       end;
 
@@ -1188,11 +1202,13 @@ begin
         begin
           CookingSpot := [COOKSPOT_AK_RANGE];
 
-          Materials := [ MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
-                         MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
-                         MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
-                         MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
-                         MATERIAL_SHARK ];
+          Materials := [
+            MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+            MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+            MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+            MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+            MATERIAL_SHARK
+          ];
         end;
 
         with PathInfo do
@@ -1201,13 +1217,13 @@ begin
           StartLoc := LOC_AK_BANK;
           EndLoc   := LOC_AK_RANGE;
 
-          Reflection := [
-                          TPointArray([Point(3270, 3165), Point(3271, 3170),
-                                       Point(3273, 3179)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4913, 3996), Point(4930, 3939)])
+          ];
 
-          SPSAreas   := ['12_9'];
-          Color      := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['12_9'])
+          ];
         end;
       end;
 
@@ -1227,6 +1243,25 @@ begin
         with Defaults do
         begin
           Spells := [SPELL_ALCH_HIGH, SPELL_ALCH_LOW];
+          StaffType := LeastCasts;
+        end;
+      end;
+
+    SCRIPT_TELEPORTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Teleporter';
+        Constant      := SCRIPT_TELEPORTER;
+        SkillName     := 'Magic';
+        SkillConst    := SKILL_MAGIC;
+        BankType      := NoBank;
+        AutoObjects   := @MSI_DoMagic;
+        PlayerSetup   := @MSI_SetupMagic;
+
+        with Defaults do
+        begin
+          Spells := [SPELL_TELE_HOME, SPELL_TELE_VARROCK, SPELL_TELE_LUMBRIDGE,
+                    SPELL_TELE_FALADOR, SPELL_TELE_HOUSE, SPELL_TELE_CAMELOT];
           StaffType := LeastCasts;
         end;
       end;
@@ -1259,13 +1294,49 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
-          Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3254, 3429),
-                                       Point(3247, 3429), Point(3241, 3434)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
+          ];
 
-          SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Clay Softener';
+        Constant      := SCRIPT_GE_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_GE];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_FOUNTAIN';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
         end;
       end;
 
@@ -1295,12 +1366,13 @@ begin
           StartLoc := LOC_EV_BANK;
           EndLoc   := LOC_EV_WELL;
 
-          Reflection := [
-                          TPointArray([Point(3093, 3493), Point(3085, 3500)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4210, 2682), Point(4179, 2650)])
+          ];
 
-          SPSAreas := ['10_6'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['10_6'])
+          ];
         end;
       end;
 
@@ -1330,12 +1402,13 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 
-          Reflection := [
-                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
+          ];
 
-          SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7'])
+          ];
         end;
       end;
 
@@ -1366,13 +1439,50 @@ begin
           StartLoc := LOC_VE_BANK;
           EndLoc   := LOC_VE_FOUNTAIN;
 
-          Reflection := [
-                          TPointArray([Point(3254, 3421), Point(3254, 3429),
-                                       Point(3247, 3429), Point(3241, 3434)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
+          ];
 
-          SPSAreas := ['11_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Container Filler';
+        Constant      := SCRIPT_GE_Filler;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_GE];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_FOUNTAIN';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
         end;
       end;
 
@@ -1403,15 +1513,282 @@ begin
           StartLoc := LOC_FW_BANK;
           EndLoc   := LOC_FW_PUMP;
 
-          Reflection := [
-                          TPointArray([Point(2945, 3367), Point(2949, 3382)])
-                        ];
+          SPSPath := [
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
+          ];
 
-          SPSAreas := ['8_7'];
-          Color    := MSI_Convert2DTilePath(Reflection);
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7'])
+          ];
         end;
       end;
+
+    SCRIPT_RC_AIR:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Air Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_VW;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_AIR;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_VW_BANK to LOC_ALTAR_AIR';
+          startLoc := LOC_VW_BANK;
+          endLoc   := LOC_ALTAR_AIR;
+
+          spsPath := [
+            TPointArray([Point(4579, 2906), Point(4353, 3020)]),
+            TPointArray([])
+          ];
+
+          spsAreas   := [
+            TStringArray(['11_7', '10_7']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
+        end;
+      end;
+
+    SCRIPT_RC_EARTH:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Earth Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_VE;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_EARTH;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_VW_BANK to LOC_ALTAR_EARTH';
+          startLoc := LOC_VE_BANK;
+          endLoc   := LOC_ALTAR_EARTH;
+
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4912, 2937),
+                         Point(4972, 2929), Point(5054, 2758)]),
+
+            TPointArray([Point(350, 435), Point(356, 398)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['12_6', '12_7']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
+        end;
+      end;
+
+    SCRIPT_RC_FIRE:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Fire Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_AK;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_FIRE;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_AK_BANK to LOC_ALTAR_FIRE';
+          startLoc := LOC_AK_BANK;
+          endLoc   := LOC_ALTAR_FIRE;
+
+          SPSPath := [
+            TPointArray([Point(4913, 3995), Point(5100, 3643)]),
+
+            TPointArray([Point(327, 197), Point(360, 229)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['12_9']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
+        end;
+      end;
+
+    SCRIPT_RC_WATER:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Water Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_DB;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_WATER;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_DB_BANK to LOC_ALTAR_WATER';
+          startLoc := LOC_DB_BANK;
+          endLoc   := LOC_ALTAR_WATER;
+
+          SPSPath := [
+            TPointArray([Point(4208, 3685), Point(4571, 3997)]),
+
+            TPointArray([Point(395, 85), Point(351, 74)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['10_9', '11_9']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
+        end;
+      end;
+
+    SCRIPT_RC_MIND:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Mind Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_FW;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_MIND;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_FW_BANK to LOC_ALTAR_MIND';
+          startLoc := LOC_FW_BANK;
+          endLoc   := LOC_ALTAR_MIND;
+
+          SPSPath := [
+            TPointArray([Point(3620, 3180), Point(3695, 3109),
+                         Point(3791, 2963), Point(3733, 2810),
+                         Point(3758, 2604)]),
+
+            TPointArray([Point(196, 129), Point(162, 69)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['9_7', '9_6']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
+        end;
+      end;
+
+    SCRIPT_RC_BODY:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Body Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_EV;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_BODY;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_EV_BANK to LOC_ALTAR_BODY';
+          startLoc := LOC_EV_BANK;
+          endLoc   := LOC_ALTAR_BODY;
+
+          SPSPath := [
+            TPointArray([Point(4210, 2683), Point(4127, 2653),
+                         Point(4052, 2867)]),
+
+            TPointArray([Point(137, 263), Point(144, 244)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['10_6', '10_7', '9_6', '9_7']), TStringArray(['0_0'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNECRAFTING_ALTARS];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
+        end;
+      end;
+
+
+  end; // big case
+
+  // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set
+  {$IFDEF SPS}
+  with MSI_Scripts[whichScript] do
+  begin
+    // sets rs surface as default SPS surface
+    if (length(pathInfo.spsSurfaces) <= 0) then
+    begin
+      setLength(pathInfo.spsSurfaces, length(pathInfo.spsPath));
+
+      for i := 0 to high(pathInfo.spsSurfaces) do
+        pathInfo.spsSurfaces[i] := RUNESCAPE_SURFACE;
     end;
+  end;
+  {$ENDIF}
 
   Result := (MSI_Scripts[whichScript].Name <> '');
 end;
@@ -1444,31 +1821,4 @@ var
 begin
   for i := 0 to High(MSI_Scripts) do
     MSI_LoadScript(i);
-end;
-
-(*
-MSI_GetPlayerScript
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-  function MSI_GetPlayerScript(): TScript;
-
-Returns a TScript record of the current player's current script.
-
-.. note::
-
-  | Author: Coh3n
-  | Last Updated: 10 Sept 2011 by Coh3n
-
-Example:
-
-.. code-block:: pascal
-
-  scr := MSI_GetCurrentScript();
-*)
-function MSI_GetPlayerScript(): TScript;
-begin
-  with MSI_Players[CurrentPlayer] do
-    result := MSI_Scripts[Scripts[CurrentScript].Name];
 end;
