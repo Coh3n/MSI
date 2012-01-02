@@ -20,15 +20,6 @@ begin
       ScriptElements[skillConst][high(ScriptElements[skillConst])] := constant;
     end;
   end;
-{
-  for i := 0 to high(ScriptElements) do
-  begin
-    if (length(ScriptElements[i]) <= 0) then
-      continue;
-
-    Writeln('ScriptElements['+skillToStr(i)+']: '+toStr(ScriptElements[i]));
-  end;
-}
 end;
 
 procedure modifyElement(element: integer; expand: boolean);
@@ -90,15 +81,17 @@ begin
   e := getListSelected(Lists[LIST_ALL_SCRIPTS]);
 
   // if one of the expandable options (i.e. skill titles)
-  if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) or
-     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then exit;
+  if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) or
+     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) then exit;
 
   // add the splected script to the player's script list
-  Lists[LIST_PLAYER_SCRIPTS].Items.Add(
-    removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e])
-  );
+  if (not inList(Lists[LIST_PLAYER_SCRIPTS], removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e]))) then
+    Lists[LIST_PLAYER_SCRIPTS].Items.Add(
+      removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e])
+    );
 
-  Forms[FORM_SCRIPT_LIST].Visible := False;
+  Forms[FORM_SCRIPT_LIST].Visible := false;
+  Buttons[BUTTON_SCRIPT_DELETE].Enabled := true;
 end;
 
 procedure createScriptList();
