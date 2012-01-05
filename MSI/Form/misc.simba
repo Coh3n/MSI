@@ -70,8 +70,6 @@ end;
 
 // Deletes the list entery 'element' from 'list'
 procedure deleteFromList(list: TListBox; element: integer);
-var
-  tmp: integer;
 begin
   if (element = 0) then
     list.itemIndex := 1

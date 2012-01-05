@@ -94,7 +94,7 @@ The source for can be found
 //MSI Skill Loops, AI and Mainloop
 {$i MSI/MSI/Core/MainLoop.simba}
 
-{$IFDEF IS_INCLUDE}
+{$IFNDEF FORM_TESTING}
   {$include_once MSI/MSI/Form/form.simba}
 {$ENDIF}
 

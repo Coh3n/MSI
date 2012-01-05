@@ -1,7 +1,8 @@
-{$IFNDEF IS_INCLUDE}
-program MSI_PlayerForm;
-{$DEFINE SRL5}
-{$i msi/msi/core/setup.simba}
+//{$DEFINE FORM_TESTING}
+
+{$IFDEF FORM_TESTING}
+  {$DEFINE SRL5}
+  {$i msi/msi/core/setup.simba}
 {$ENDIF}
 
 const
@@ -120,6 +121,8 @@ var
 
   OpenDialog : TOpenDialog;
   SaveDialog : TSaveDialog;
+
+  ScriptReady: Boolean;
 
 {$i msi/msi/form/misc.simba}
 {$i msi/msi/form/events.simba}
@@ -744,7 +747,7 @@ begin
   Forms[FORM_MAIN].free();
 end;
 
-{$IFNDEF IS_INCLUDE}
+{$IFDEF FORM_TESTING}
 begin
   ClearDebug();
   MSI_Setup();
