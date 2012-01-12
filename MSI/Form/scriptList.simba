@@ -1,13 +1,13 @@
 var
-  ScriptElements: array of TIntegerArray;
-  ElementIndexes: TIntegerArray;
+  SL_Elements: array of TIntegerArray;
+  SL_ElementIndexes: TIntegerArray;
 
-procedure setScriptListElements();
+procedure SL_SetElements();
 var
   i: integer;
 begin
-  setLength(ScriptElements, SKILL_COUNT);
-  setLength(ElementIndexes, SKILL_COUNT);
+  setLength(SL_Elements, SKILL_COUNT);
+  setLength(SL_ElementIndexes, SKILL_COUNT);
 
   for i := 0 to high(MSI_Scripts) do
   begin
@@ -16,35 +16,35 @@ begin
 
     with MSI_Scripts[i] do
     begin
-      setLength(ScriptElements[skillConst], length(ScriptElements[skillConst]) + 1);
-      ScriptElements[skillConst][high(ScriptElements[skillConst])] := constant;
+      setLength(SL_Elements[skillConst], length(SL_Elements[skillConst]) + 1);
+      SL_Elements[skillConst][high(SL_Elements[skillConst])] := constant;
     end;
   end;
 end;
 
-procedure modifyElement(element: integer; expand: boolean);
+procedure SL_ModifyElement(element: integer; expand: boolean);
 var
   c, i, j: integer;
 begin
-  for i := 0 to high(ScriptElements) do
+  for i := 0 to high(SL_Elements) do
   begin
-    if (length(ScriptElements[i]) <= 0) then
+    if (length(SL_Elements[i]) <= 0) then
       continue;
 
-    if (element = ElementIndexes[i]) then
+    if (element = SL_ElementIndexes[i]) then
       with Lists[LIST_ALL_SCRIPTS] do
       begin
         if (expand) then
-          Items.Strings[ElementIndexes[i] - 1] := '-   ' + skillToStr(i)
+          Items.Strings[SL_ElementIndexes[i] - 1] := '-   ' + skillToStr(i)
         else
-          Items.Strings[ElementIndexes[i] - 1] := '+  ' + skillToStr(i);
+          Items.Strings[SL_ElementIndexes[i] - 1] := '+  ' + skillToStr(i);
 
         c := 0;
 
-        for j := high(ScriptElements[i]) downto 0 do
+        for j := high(SL_Elements[i]) downto 0 do
         begin
           if (expand) then
-            Items.Insert(element, '         ' + capitalize(MSI_Scripts[ScriptElements[i][j]].Name))
+            Items.Insert(element, '         ' + capitalize(MSI_Scripts[SL_Elements[i][j]].Name))
           else
             Items.Delete(element);
 
@@ -55,34 +55,44 @@ begin
       end;
 
     if (expand) then
-      incEx(ElementIndexes[i], c)
+      incEx(SL_ElementIndexes[i], c)
     else
-      decEx(ElementIndexes[i], c);
+      decEx(SL_ElementIndexes[i], c);
   end;
 end;
 
-procedure clickListElement(Sender: TObject);
+procedure SL_Click(Sender: TObject);
 var
   e: integer;
 begin
   e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
+  if (e = -1) then
+    exit;
 
   if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
-    modifyElement(e + 1, true)
+    SL_ModifyElement(e + 1, true)
   else
     if (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
-      modifyElement(e + 1, false);
+      SL_ModifyElement(e + 1, false);
+
+  Buttons[BUTTON_SCRIPT_LIST_ADD].Enabled := true;
 end;
 
-procedure dblClickListElement(Sender: TObject);
+procedure SL_DoubleClick(Sender: TObject);
 var
   e: integer;
 begin
   e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
+  if (e = -1) then
+    exit;
 
   // if one of the expandable options (i.e. skill titles)
   if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) or
-     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) then exit;
+     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) then
+  begin
+    showMessage('Invalid selection');
+    exit;
+  end;
 
   // add the splected script to the player's script list
   if (not inList(Lists[LIST_PLAYER_SCRIPTS], removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e]))) then
@@ -91,68 +101,4 @@ begin
     );
 
   Forms[FORM_SCRIPT_LIST].Visible := false;
-end;
-
-procedure createScriptList();
-var
-  i: integer;
-begin
-  Forms[FORM_SCRIPT_LIST] := TForm.Create(Forms[FORM_MAIN]);
-  with Forms[FORM_SCRIPT_LIST] do
-  begin
-    Width   := 300;
-    Height  := 400;
-    Caption := 'MSI''s Supported Scripts';
-  end;
-
-  Lists[LIST_ALL_SCRIPTS] := TListBox.Create(Forms[FORM_SCRIPT_LIST]);
-  with Lists[LIST_ALL_SCRIPTS] do
-  begin
-    Parent := Forms[FORM_SCRIPT_LIST];
-    Top    := 0;
-    Left   := 0;
-    Width  := Forms[FORM_SCRIPT_LIST].Width;
-    Height := Forms[FORM_SCRIPT_LIST].Height - 40;
-    Color  := COLOR_BACKGROUND;
-    Hint   := 'Select which script you want to Add';
-
-    Font.Color := COLOR_FONT;
-    OnClick := @clickListElement;
-    OnDblClick := @dblClickListElement;
-  end;
-
-  setScriptListElements();
-  for i := 0 to high(ScriptElements) do
-  begin
-    ElementIndexes[i] := -1;
-
-    if (length(ScriptElements[i]) <= 0) then
-      continue;
-
-    Lists[LIST_ALL_SCRIPTS].Items.Add('+  ' + skillToStr(i));
-    ElementIndexes[i] := Lists[LIST_ALL_SCRIPTS].Items.Count;
-  end;
-
-  Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
-  with Buttons[BUTTON_SCRIPT_LIST_ADD] do
-  begin
-    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width   := 60;
-    Top     := (Lists[LIST_ALL_SCRIPTS].Height + 7);
-    Left    := Forms[FORM_SCRIPT_LIST].Width / 2 - (Width + (_SPACING / 2));
-    Hint    := 'Adds the selected script to the player''s script list';
-    Caption := 'Add';
-    OnClick := @dblClickListElement;
-  end;
-
-  Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
-  with Buttons[BUTTON_SCRIPT_LIST_CANCEL] do
-  begin
-    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
-    Width   := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
-    Top     := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
-    Left    := Forms[FORM_SCRIPT_LIST].Width / 2 + (_SPACING / 2);
-    Hint    := 'Close script list without saving';
-    Caption := 'Cancel';
-  end;
 end;

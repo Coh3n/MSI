@@ -1,0 +1,66 @@
+procedure MM_Click(sender: TObject);
+begin
+  case sender of
+    MainMenuItems[MENU_FILE][ITEM_NEW]:
+      begin
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_LOAD]:
+      begin
+        if (OpenDialog.Execute) then
+        begin
+          // Code to load all player information here
+          Edits[EDIT_USERNAME].Text := ReadINI('0', 'Test', OpenDialog.FileName);
+        end;
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_SAVE]:
+      begin
+        if (SaveDialog.Execute) then
+        begin
+          // Code to save all player information here
+          writeINI('0', 'Test', Edits[EDIT_USERNAME].Text, SaveDialog.FileName);
+        end;
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_CLOSE]:
+      Forms[FORM_MAIN].modalResult := mrOk;
+
+    MainMenuItems[MENU_START][ITEM_RUN]:
+      begin
+        MSI_Ready := true;
+        Forms[FORM_MAIN].modalResult := mrOk;
+      end;
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_BUG]:
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=444');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_SUGGESTION]:
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=445');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_REPORTS]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56134');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_CONTRIBUTE]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56179');
+
+    MainMenuItems[MENU_START][ITEM_MAIN]:
+      begin
+        Panels[PANEL_PLAYER].Visible   := false;
+        Panels[PANEL_SETTINGS].Visible := false;
+        Panels[PANEL_MAIN].Visible     := true;
+      end;
+
+    MainMenuItems[MENU_HELP][ITEM_FORUM]:
+      openWebPage('http://villavu.com/forum/index.php');
+
+    MainMenuItems[MENU_HELP][ITEM_HELP]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=57723');
+
+    MainMenuItems[MENU_HELP][ITEM_DOC]:
+      openWebPage('http://docs.wizzup.org/msi/index.html#');
+
+    MainMenuItems[MENU_HELP][ITEM_ABOUT]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56614');
+  end;
+end;

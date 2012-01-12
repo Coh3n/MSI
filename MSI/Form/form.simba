@@ -1,4 +1,4 @@
-//{$DEFINE FORM_TESTING}
+{$DEFINE FORM_TESTING}
 
 {$IFDEF FORM_TESTING}
   {$DEFINE SRL5}
@@ -59,7 +59,7 @@ const
     CHECKLIST_REWARDS = 1;
 
   EDIT_COUNT = 8;
-    EDIT_LOGIN       = 1;
+    EDIT_USERNAME       = 1;
     EDIT_PASSWORD    = 2;
     EDIT_PIN         = 3;
     EDIT_TIME_BREAK  = 4;
@@ -128,6 +128,7 @@ var
 {$i msi/msi/form/events.simba}
 {$i msi/msi/form/defaults.simba}
 {$i msi/msi/form/scriptList.simba}
+{$i msi/msi/form/mainmenu.simba}
 
 {
 type
@@ -160,75 +161,9 @@ begin
 end;
 }
 
-procedure mainMenuClicks(sender: TObject);
-begin
-  case sender of
-    MainMenuItems[MENU_FILE][ITEM_NEW]:
-      begin
-      end;
-
-    MainMenuItems[MENU_FILE][ITEM_LOAD]:
-      begin
-        if (OpenDialog.Execute) then
-        begin
-          // Code to load all player information here
-          Edits[EDIT_LOGIN].Text := ReadINI('0', 'Test', OpenDialog.FileName);
-        end;
-      end;
-
-    MainMenuItems[MENU_FILE][ITEM_SAVE]:
-      begin
-        if (SaveDialog.Execute) then
-        begin
-          // Code to save all player information here
-          writeINI('0', 'Test', Edits[EDIT_LOGIN].Text, SaveDialog.FileName);
-        end;
-      end;
-
-    MainMenuItems[MENU_FILE][ITEM_CLOSE]:
-      Forms[FORM_MAIN].modalResult := mrOk;
-
-    MainMenuItems[MENU_START][ITEM_RUN]:
-      begin
-        MSI_Ready := true;
-        Forms[FORM_MAIN].modalResult := mrOk;
-      end;
-
-    MainMenuItems[MENU_FEEDBACK][ITEM_BUG]:
-      openWebPage('http://villavu.com/forum/forumdisplay.php?f=444');
-
-    MainMenuItems[MENU_FEEDBACK][ITEM_SUGGESTION]:
-      openWebPage('http://villavu.com/forum/forumdisplay.php?f=445');
-
-    MainMenuItems[MENU_FEEDBACK][ITEM_REPORTS]:
-      openWebPage('http://villavu.com/forum/showthread.php?t=56134');
-
-    MainMenuItems[MENU_FEEDBACK][ITEM_CONTRIBUTE]:
-      openWebPage('http://villavu.com/forum/showthread.php?t=56179');
-
-    MainMenuItems[MENU_START][ITEM_MAIN]:
-      begin
-        Panels[PANEL_PLAYER].Visible   := false;
-        Panels[PANEL_SETTINGS].Visible := false;
-        Panels[PANEL_MAIN].Visible     := true;
-      end;
-
-    MainMenuItems[MENU_HELP][ITEM_FORUM]:
-      openWebPage('http://villavu.com/forum/index.php');
-
-    MainMenuItems[MENU_HELP][ITEM_HELP]:
-      openWebPage('http://villavu.com/forum/showthread.php?t=57723');
-
-    MainMenuItems[MENU_HELP][ITEM_DOC]:
-      openWebPage('http://docs.wizzup.org/msi/index.html#');
-
-    MainMenuItems[MENU_HELP][ITEM_ABOUT]:
-      openWebPage('http://villavu.com/forum/showthread.php?t=56614');
-  end;
-end;
-
 // Credit to Dan Cardin (http://villavu.com/forum/showthread.php?t=39078)
-procedure mainMenuCreate();
+// Initiates the main menu at the top of the form ~ include mainmenu.simba
+procedure initMainMenu();
 var
   i, j: integer;
   mainMenuNames: array[1..MENU_COUNT] of TStringArray;
@@ -255,7 +190,7 @@ begin
       else
         MainMenu.Items.Items[i - 1].Add(MainMenuItems[i][j]);
 
-      MainMenuItems[i][j].OnClick := @mainMenuClicks;
+      MainMenuItems[i][j].OnClick := @MM_Click;
     end;
   end;
 end;
@@ -274,7 +209,77 @@ begin
   end;
 end;
 
-procedure initScriptSetup();
+procedure initGlobalSettings();
+begin
+end;
+
+// Initiates the script list form ~ include: scriptList.simba
+procedure initScriptsList();
+var
+  i: integer;
+begin
+  Forms[FORM_SCRIPT_LIST] := TForm.Create(Forms[FORM_MAIN]);
+  with Forms[FORM_SCRIPT_LIST] do
+  begin
+    Width   := 300;
+    Height  := 400;
+    Caption := 'MSI''s Supported Scripts';
+  end;
+
+  Lists[LIST_ALL_SCRIPTS] := TListBox.Create(Forms[FORM_SCRIPT_LIST]);
+  with Lists[LIST_ALL_SCRIPTS] do
+  begin
+    Parent := Forms[FORM_SCRIPT_LIST];
+    Top    := 0;
+    Left   := 0;
+    Width  := Forms[FORM_SCRIPT_LIST].Width;
+    Height := Forms[FORM_SCRIPT_LIST].Height - 40;
+    Color  := COLOR_BACKGROUND;
+    Hint   := 'Select which script you want to Add';
+
+    Font.Color := COLOR_FONT;
+    OnClick := @SL_Click;
+    OnDblClick := @SL_DoubleClick;
+  end;
+
+  SL_SetElements();
+  for i := 0 to high(SL_Elements) do
+  begin
+    SL_ElementIndexes[i] := -1;
+
+    if (length(SL_Elements[i]) <= 0) then
+      continue;
+
+    Lists[LIST_ALL_SCRIPTS].Items.Add('+  ' + skillToStr(i));
+    SL_ElementIndexes[i] := Lists[LIST_ALL_SCRIPTS].Items.Count;
+  end;
+
+  Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
+  with Buttons[BUTTON_SCRIPT_LIST_ADD] do
+  begin
+    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width   := 60;
+    Top     := (Lists[LIST_ALL_SCRIPTS].Height + 7);
+    Left    := Forms[FORM_SCRIPT_LIST].Width / 2 - (Width + (_SPACING / 2));
+    Hint    := 'Adds the selected script to the player''s script list';
+    Caption := 'Add';
+    OnClick := @SL_DoubleClick;
+    Enabled := false;
+  end;
+
+  Buttons[BUTTON_SCRIPT_LIST_CANCEL] := _TButton(Forms[FORM_SCRIPT_LIST]);
+  with Buttons[BUTTON_SCRIPT_LIST_CANCEL] do
+  begin
+    Parent  := Lists[LIST_ALL_SCRIPTS].Parent;
+    Width   := Buttons[BUTTON_SCRIPT_LIST_ADD].Width;
+    Top     := Buttons[BUTTON_SCRIPT_LIST_ADD].Top;
+    Left    := Forms[FORM_SCRIPT_LIST].Width / 2 + (_SPACING / 2);
+    Hint    := 'Close script list without saving';
+    Caption := 'Cancel';
+  end;
+end;
+
+procedure initScriptsSettings();
 begin
   Forms[FORM_SCRIPT_SETUP] := TForm.Create(Forms[FORM_MAIN]);
   with Forms[FORM_SCRIPT_SETUP] do
@@ -333,40 +338,40 @@ begin
     Top    := ComboBoxes[COMBOBOX_LAMPSKILL].Top + ComboBoxes[COMBOBOX_LAMPSKILL].Height + _SPACING;
     Left   := ComboBoxes[COMBOBOX_LAMPSKILL].Left;
     Width  := ComboBoxes[COMBOBOX_LAMPSKILL].Width;
-    Name   := 'Total_Time';
+    Name   := 'TotalTime';
     Hint   := 'The total time for this player to run in minutes (leave to run forever)'
-  end;
-
-  Edits[EDIT_TIME_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
-  with Edits[EDIT_TIME_BREAK] do
-  begin
-    Parent := Edits[EDIT_TIME_TOTAL].Parent;
-    Top    := Edits[EDIT_TIME_TOTAL].Top + Edits[EDIT_TIME_TOTAL].Height + _SPACING;
-    Left   := Edits[EDIT_TIME_TOTAL].Left;
-    Width  := Edits[EDIT_TIME_TOTAL].Width;
-    Name   := 'Break_After';
-    Hint   := 'Break after how long? (minutes).  Leave if not taking breaks.'
   end;
 
   Edits[EDIT_LOADS_TOTAL] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_LOADS_TOTAL] do
   begin
-    Parent := Edits[EDIT_TIME_BREAK].Parent;
-    Top    := Edits[EDIT_TIME_BREAK].Top + Edits[EDIT_TIME_BREAK].Height + _SPACING;
-    Left   := Edits[EDIT_TIME_BREAK].Left;
+    Parent := Edits[EDIT_TIME_TOTAL].Parent;
+    Top    := Edits[EDIT_TIME_TOTAL].Top + Edits[EDIT_TIME_TOTAL].Height + _SPACING;
+    Left   := Edits[EDIT_TIME_TOTAL].Left;
     Width  := Edits[EDIT_TIME_TOTAL].Width;
-    Name   := 'Total_Loads';
+    Name   := 'TotalLoads';
     Hint   := 'The total loads for this player to run (leave to run forever)'
+  end;
+
+  Edits[EDIT_TIME_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
+  with Edits[EDIT_TIME_BREAK] do
+  begin
+    Parent := Edits[EDIT_LOADS_TOTAL].Parent;
+    Top    := Edits[EDIT_LOADS_TOTAL].Top + Edits[EDIT_LOADS_TOTAL].Height + _SPACING;
+    Left   := Edits[EDIT_LOADS_TOTAL].Left;
+    Width  := Edits[EDIT_LOADS_TOTAL].Width;
+    Name   := 'BreakAfter';
+    Hint   := 'Break after how long? (minutes).  Leave if not taking breaks.'
   end;
 
   Edits[EDIT_LOADS_BREAK] := _TEdit(Forms[FORM_SETTINGS_PLAYER]);
   with Edits[EDIT_LOADS_BREAK] do
   begin
-    Parent := Edits[EDIT_LOADS_TOTAL].Parent;
-    Top    := Edits[EDIT_LOADS_TOTAL].Top + Edits[EDIT_LOADS_TOTAL].Height + _SPACING;
-    Left   := Edits[EDIT_LOADS_TOTAL].Left;
-    Width  := Edits[EDIT_TIME_TOTAL].Width;
-    Name   := 'Break_Loads';
+    Parent := Edits[EDIT_TIME_BREAK].Parent;
+    Top    := Edits[EDIT_TIME_BREAK].Top + Edits[EDIT_TIME_BREAK].Height + _SPACING;
+    Left   := Edits[EDIT_TIME_BREAK].Left;
+    Width  := Edits[EDIT_TIME_BREAK].Width;
+    Name   := 'BreakLoads';
     Hint   := 'Loads to do before breaking (single player) or switching ' +
               'players (multiplayer).  Leave if you don''t want to break.'
   end;
@@ -378,7 +383,7 @@ begin
     Top    := Edits[EDIT_LOADS_BREAK].Top + Edits[EDIT_LOADS_BREAK].Height + _SPACING;
     Left   := Edits[EDIT_LOADS_BREAK].Left;
     Width  := Edits[EDIT_TIME_TOTAL].Width;
-    Name   := 'Break_For';
+    Name   := 'BreakFor';
     Hint   := 'How long to break for (single player)'
   end;
 
@@ -431,8 +436,6 @@ begin
 end;
 
 procedure initPlayerSetup();
-var
-  i: integer;
 begin
   Lists[LIST_PLAYERS] := _TListBox(Panels[PANEL_PLAYER]);
   with Lists[LIST_PLAYERS] do
@@ -443,9 +446,6 @@ begin
     Left   := _SPACING;
     Hint   := 'A list of all your players.  Double click to open advanded settings.';
     Height := Panels[PANEL_PLAYER].Height - Lists[LIST_PLAYERS].Top - 50;
-
-    for i := 1 to 10 do
-      Items.Add(intToStr(i));
   end;
 
   Buttons[BUTTON_ADVANCED_PLAYER] := _TButton(Forms[FORM_MAIN]);
@@ -470,8 +470,8 @@ begin
     Left    := Lists[LIST_PLAYERS].Left;
   end;
 
-  Edits[EDIT_LOGIN] := _TEdit(Forms[FORM_MAIN]);
-  with Edits[EDIT_LOGIN] do
+  Edits[EDIT_USERNAME] := _TEdit(Forms[FORM_MAIN]);
+  with Edits[EDIT_USERNAME] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
     Top    := Lists[LIST_PLAYERS].Top;
@@ -484,8 +484,8 @@ begin
   with Edits[EDIT_PASSWORD] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Top    := Edits[EDIT_LOGIN].Top + Height + _SPACING;
-    Left   := Edits[EDIT_LOGIN].Left;
+    Top    := Edits[EDIT_USERNAME].Top + Height + _SPACING;
+    Left   := Edits[EDIT_USERNAME].Left;
     Name   := 'Password';
     Hint   := 'Your Runescape password';
     Tag    := $01;
@@ -496,19 +496,18 @@ begin
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
     Top    := Edits[EDIT_PASSWORD].Top + Height + _SPACING;
-    Left   := Edits[EDIT_LOGIN].Left;
+    Left   := Edits[EDIT_USERNAME].Left;
     Name   := 'Pin';
     Hint   := 'Your Runescape bank pin (leave blank if you don''t have one)';
     Tag    := $01;
-
-    maxLength := 4;
+    MaxLength := 4;
   end;
 
   CheckBoxes[CHECKBOX_ACTIVE] := _TCheckBox(Forms[FORM_MAIN]);
   with CheckBoxes[CHECKBOX_ACTIVE] do
   begin
     Parent := Lists[LIST_PLAYERS].Parent;
-    Left   := Edits[EDIT_LOGIN].Left + 1;
+    Left   := Edits[EDIT_USERNAME].Left + 1;
     Top    := Edits[EDIT_PIN].Top + Edits[EDIT_PIN].Height + _SPACING;
     Hint   := 'Do you want to use this player?';
   end;
@@ -544,12 +543,11 @@ begin
   with Buttons[BUTTON_PLAYER_ADD] do
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
-    Width   := Edits[EDIT_LOGIN].Width / 2 - (_SPACING / 2);
+    Width   := Edits[EDIT_USERNAME].Width / 2 - (_SPACING / 2);
     Top     := CheckBoxes[CHECKBOX_MEMBER].Top + CheckBoxes[CHECKBOX_MEMBER].Height + _SPACING;
-    Left    := Edits[EDIT_LOGIN].Left;
+    Left    := Edits[EDIT_USERNAME].Left;
     Hint    := 'Adds the player with the current settings to the Player List';
     Caption := '+';
-
     Font.Size := 10;
   end;
 
@@ -562,7 +560,6 @@ begin
     Left    := Buttons[BUTTON_PLAYER_ADD].Left + Buttons[BUTTON_PLAYER_ADD].Width + _SPACING;
     Hint    := 'Removes the selected player from the Player List';
     Caption := '-';
-
     Font.Size := Buttons[BUTTON_PLAYER_ADD].Font.Size;
   end;
 
@@ -573,11 +570,8 @@ begin
     Top    := Lists[LIST_PLAYERS].Top;
     Width  := Lists[LIST_PLAYERS].Width;
     Height := Buttons[BUTTON_PLAYER_DELETE].Top + Buttons[BUTTON_PLAYER_DELETE].Height - Top;
-    Left   := Edits[EDIT_LOGIN].Left + Edits[EDIT_LOGIN].Width + (_SPACING * 2);
+    Left   := Edits[EDIT_USERNAME].Left + Edits[EDIT_USERNAME].Width + (_SPACING * 2);
     Hint   := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
-
-    for i := 1 to 10 do
-      Items.Add(toStr(i));
   end;
 
   Buttons[BUTTON_SCRIPT_ADD] := _TButton(Forms[FORM_MAIN]);
@@ -641,8 +635,8 @@ begin
     OnPaint := @_Paint;
   end;
 
-  mainMenuCreate();
-  createScriptList();
+  initMainMenu();
+  initScriptsList();
 
   OpenDialog := TOpenDialog.Create(Forms[FORM_MAIN]);
   OpenDialog.Title := ' Choose a player file to open';
@@ -659,7 +653,7 @@ begin
     Top     := 10;
     Left    := 10;
     Hint    := 'Takes you to the script settings page';
-    Caption := '<< Script Settings     ';
+    Caption := '<< Global Settings     ';
   end;
 
   Labels[LABEL_TITLE] := TLabel.Create(Forms[FORM_MAIN]);
@@ -667,7 +661,7 @@ begin
   begin
     Parent      := Forms[FORM_MAIN];
     Top         := 8;
-    Left        := 225;
+    Left        := 220;
     Font.Height := 25;
     Font.Style  := [fsItalic];
   end;
@@ -707,7 +701,8 @@ begin
   end;
 
   initIntro();
-  initScriptSetup();
+  initGlobalSettings();
+  initScriptsSettings();
   initPlayerSetup();
 
   // Set the common attributes for all Forms/components
