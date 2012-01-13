@@ -23,6 +23,14 @@ begin
         end;
       end;
 
+    MainMenuItems[MENU_FILE][ITEM_SAVE_AS]:
+      begin
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_DEFAULT]:
+      begin
+      end;
+
     MainMenuItems[MENU_FILE][ITEM_CLOSE]:
       Forms[FORM_MAIN].modalResult := mrOk;
 

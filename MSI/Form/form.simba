@@ -24,10 +24,12 @@ const
 
   MENU_COUNT = 4;
     MENU_FILE = 1;
-      ITEM_NEW   = 1;
-      ITEM_LOAD  = 2;
-      ITEM_SAVE  = 3;
-      ITEM_CLOSE = 4;
+      ITEM_NEW     = 1;
+      ITEM_LOAD    = 2;
+      ITEM_SAVE    = 3;
+      ITEM_SAVE_AS = 4;
+      ITEM_DEFAULT = 5;
+      ITEM_CLOSE   = 4;
 
     MENU_START = 2;
       ITEM_MAIN = 1;
@@ -169,7 +171,7 @@ var
   mainMenuNames: array[1..MENU_COUNT] of TStringArray;
 begin
   // The first one ('File') is the heading, the rest are sub-options
-  mainMenuNames[MENU_FILE]     := ['File', 'Clear', 'Load', 'Save', 'Close'];
+  mainMenuNames[MENU_FILE]     := ['File', 'New', 'Open', 'Save', 'Save as...', 'Save as Default', 'Close'];
   mainMenuNames[MENU_START]    := ['Start', 'Show Logo', 'Run'];
   mainMenuNames[MENU_FEEDBACK] := ['Feedback', 'Report a bug', 'Suggest a feature', 'Progress Reports', 'Want to contribute?'];
   mainMenuNames[MENU_HELP]     := ['Help', 'SRL-Forums', 'MSI Help', 'Documentation', 'What is MSI?'];
