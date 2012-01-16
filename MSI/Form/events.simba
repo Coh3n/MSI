@@ -62,12 +62,16 @@ begin
     Lists[LIST_PLAYERS]:
       begin
         i := Lists[LIST_PLAYERS].ItemIndex;
+
         if (i <> -1) then
         begin
           Labels[LABEL_SCRIPTS].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Scripts';
 
           Buttons[BUTTON_ADVANCED_PLAYER].Enabled := true;
           Buttons[BUTTON_SCRIPT_ADD].Enabled := true;
+        end else begin
+          Lists[LIST_PLAYER_SCRIPTS].Clear();
+          Labels[LABEL_SCRIPTS].Caption := 'Player''s Scripts';
         end;
       end;
 
@@ -126,6 +130,8 @@ begin
         Buttons[BUTTON_SCRIPT_ADD].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
         Buttons[BUTTON_PLAYER_DELETE].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
         Buttons[BUTTON_ADVANCED_PLAYER].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+
+        _Click(Lists[LIST_PLAYERS]);
       end;
 
     Buttons[BUTTON_PLAYER_ADD]:

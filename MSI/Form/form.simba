@@ -9,8 +9,6 @@ const
   _SPACING    = 10; // spacing between components
   _MENUHEIGHT = 20; // the main menu is X pixels in Height
 
-  //COLOR_BACKGROUND       = 1909544;
-  //COLOR_FONT             = 2070783;
   COLOR_BACKGROUND       = clDefault;
   COLOR_FONT             = clBlack;
 
@@ -73,9 +71,10 @@ const
   COMBOBOX_COUNT = 1;
     COMBOBOX_LAMPSKILL = 1;
 
-  CHECKBOX_COUNT = 2;
-    CHECKBOX_ACTIVE = 1;
-    CHECKBOX_MEMBER = 2;
+  CHECKBOX_COUNT = 3;
+    CHECKBOX_ACTIVE    = 1;
+    CHECKBOX_MEMBER    = 2;
+    CHECKBOX_APPLY_ALL = 3;
 
   BUTTON_COUNT = 13;
     BUTTON_CONTINUE           = 1;
@@ -92,7 +91,7 @@ const
     BUTTON_SCRIPT_LIST_CANCEL = 12;
     BUTTON_ADVANCED_PLAYER    = 13;
 
-  LABEL_COUNT = 7;
+  LABEL_COUNT = 8;
     LABEL_PLAYERS   = 1;
     LABEL_SCRIPTS   = 2;
     LABEL_ACTIVE    = 3;
@@ -100,6 +99,7 @@ const
     LABEL_LAMPSKILL = 5;
     LABEL_REWARDS   = 6;
     LABEL_TITLE     = 7;
+    LABEL_APPLY_ALL = 8;
 
 // Other variables
 var
@@ -528,7 +528,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Caption := 'Active';
-    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + (Height / 5);
+    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + (Height / 6);
     Left    := CheckBoxes[CHECKBOX_ACTIVE].Left + CheckBoxes[CHECKBOX_ACTIVE].Width + _SPACING;
   end;
 
@@ -537,7 +537,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Caption := 'Member';
-    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + (Height / 5);
+    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + (Height / 6);
     Left    := Labels[LABEL_ACTIVE].Left;
   end;
 
@@ -619,6 +619,24 @@ begin
     Caption := 'Player''s Scripts';
     Top     := Lists[LIST_PLAYER_SCRIPTS].Top - Labels[LABEL_SCRIPTS].Height;
     Left    := Lists[LIST_PLAYER_SCRIPTS].Left;
+  end;
+
+  CheckBoxes[CHECKBOX_APPLY_ALL] := _TCheckBox(Forms[FORM_MAIN]);
+  with CheckBoxes[CHECKBOX_APPLY_ALL] do
+  begin
+    Parent := Lists[LIST_PLAYERS].Parent;
+    Left   := Buttons[BUTTON_SCRIPT_SETTINGS].Left + 1;
+    Top    := Buttons[BUTTON_SCRIPT_SETTINGS].Top + Buttons[BUTTON_SCRIPT_SETTINGS].Height + _SPACING;;
+    Hint   := 'Apply the current settings to all players';
+  end;
+
+  Labels[LABEL_APPLY_ALL] := TLabel.Create(Forms[FORM_MAIN]);
+  with Labels[LABEL_APPLY_ALL] do
+  begin
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Caption := 'Apply to All';
+    Top     := CheckBoxes[CHECKBOX_APPLY_ALL].Top + (Height / 6);
+    Left    := CheckBoxes[CHECKBOX_APPLY_ALL].Left + CheckBoxes[CHECKBOX_APPLY_ALL].Width + _SPACING;
   end;
 
   initPlayerAdvanced();

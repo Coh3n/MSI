@@ -5,25 +5,23 @@ MSI Form TODO
   - SMART Settings
     - Signed
     - Debug
-  - Preferred World
+    - Preferred World
   - Stats
     - ID 
     - Password
   - Lower CPU
     - Don't print long report (remove SETUP_PRINT_REPORT)
     - Lower DebugLevel
-  - Save Debug Log
-  - Save Progress Report  
-  - Human-like Breaking
-  - Switch Worlds
+  - Logs
+    - Save Debug Log
+    - Save Progress Report
+  - Other  
+    - Human-like Breaking
+    - Switch Worlds
   - Advanced
     - Debug Level (doesn't effect what is saved)
     - Antiban Wait
     - Randoms Check Wait 
     - RestAt, RestUntil
 
-- Possibly remove Settings panel (not sure yet)
-
 - Intro. page/logo
-
-- email_display.simba
