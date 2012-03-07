@@ -143,10 +143,11 @@ var
 
   ScriptReady: Boolean;
 
-{$i msi/msi/form/misc.simba}
-{$i msi/msi/form/events.simba}
-{$i msi/msi/form/defaults.simba}
-{$i msi/msi/form/scriptList.simba}
+{$i misc.simba}
+{$i events.simba}
+{$i defaults.simba}
+{$i scriptList.simba}
+{$i internalmethods.simba}
 
 {
 type
@@ -403,20 +404,20 @@ begin
     Hint   := 'Select which script you want to Add';
 
     Font.Color := COLOR_FONT;
-    OnClick := @SL_Click;
-    OnDblClick := @SL_DoubleClick;
+    OnClick := @SL_ExpandTree;
+    OnDblClick := @SL_AddScript;
   end;
 
-  SL_SetElements();
-  for i := 0 to high(SL_Elements) do
+  SL_SetTrees();
+  for i := 0 to high(SL_Trees) do
   begin
-    SL_ElementIndexes[i] := -1;
+    SL_TreeIndexes[i] := -1;
 
-    if (length(SL_Elements[i]) <= 0) then
+    if (length(SL_Trees[i]) <= 0) then
       continue;
 
     Lists[LIST_ALL_SCRIPTS].Items.Add('+  ' + skillToStr(i));
-    SL_ElementIndexes[i] := Lists[LIST_ALL_SCRIPTS].Items.Count;
+    SL_TreeIndexes[i] := Lists[LIST_ALL_SCRIPTS].Items.Count;
   end;
 
   Buttons[BUTTON_SCRIPT_LIST_ADD] := _TButton(Forms[FORM_SCRIPT_LIST]);
@@ -428,7 +429,7 @@ begin
     Left    := Forms[FORM_SCRIPT_LIST].Width / 2 - (Width + (_SPACING / 2));
     Hint    := 'Adds the selected script to the player''s script list';
     Caption := 'Add';
-    OnClick := @SL_DoubleClick;
+    OnClick := @SL_AddScript;
     Enabled := false;
   end;
 
@@ -709,6 +710,7 @@ begin
     Left    := Buttons[BUTTON_PLAYER_ADD].Left + Buttons[BUTTON_PLAYER_ADD].Width + _SPACING;
     Hint    := 'Removes the selected player from the Player List';
     Caption := '-';
+    Enabled := false;
     Font.Size := Buttons[BUTTON_PLAYER_ADD].Font.Size;
   end;
 

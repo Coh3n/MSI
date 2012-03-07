@@ -1,3 +1,9 @@
+
+(**
+ * Default methods used to create components.  Avoids a lot of repeated code
+ * and makes is very easy to change the size of all components if needed.
+ *)
+
 function _TListBox(Owner: TComponent): TListBox;
 begin
   Result := TListBox.Create(Owner);

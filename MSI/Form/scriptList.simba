@@ -1,13 +1,18 @@
-var
-  SL_Elements: array of TIntegerArray;
-  SL_ElementIndexes: TIntegerArray;
 
-procedure SL_SetElements();
+var
+  SL_Trees: array of TIntegerArray;
+  SL_TreeIndexes: TIntegerArray;
+
+(**
+ * Loops through all MSI scripts, sorting them into skill categories. Sets
+ * SL_Trees array.
+ *)
+procedure SL_SetTrees();
 var
   i: integer;
 begin
-  setLength(SL_Elements, SKILL_COUNT);
-  setLength(SL_ElementIndexes, SKILL_COUNT);
+  setLength(SL_Trees, SKILL_COUNT);
+  setLength(SL_TreeIndexes, SKILL_COUNT);
 
   for i := 0 to high(MSI_Scripts) do
   begin
@@ -16,37 +21,40 @@ begin
 
     with MSI_Scripts[i] do
     begin
-      setLength(SL_Elements[skillConst], length(SL_Elements[skillConst]) + 1);
-      SL_Elements[skillConst][high(SL_Elements[skillConst])] := constant;
+      setLength(SL_Trees[skillConst], length(SL_Trees[skillConst]) + 1);
+      SL_Trees[skillConst][high(SL_Trees[skillConst])] := constant;
     end;
   end;
 end;
 
-procedure SL_ModifyElement(element: integer; expand: boolean);
+(**
+ * Will either expand or contract the 'tree' in the script list.
+ *)
+procedure SL_ModifyTree(tree: integer; expand: boolean);
 var
   c, i, j: integer;
 begin
-  for i := 0 to high(SL_Elements) do
+  for i := 0 to high(SL_Trees) do
   begin
-    if (length(SL_Elements[i]) <= 0) then
+    if (length(SL_Trees[i]) <= 0) then
       continue;
 
-    if (element = SL_ElementIndexes[i]) then
+    if (tree = SL_TreeIndexes[i]) then
       with Lists[LIST_ALL_SCRIPTS] do
       begin
         if (expand) then
-          Items.Strings[SL_ElementIndexes[i] - 1] := '-   ' + skillToStr(i)
+          Items.Strings[SL_TreeIndexes[i] - 1] := '-   ' + skillToStr(i)
         else
-          Items.Strings[SL_ElementIndexes[i] - 1] := '+  ' + skillToStr(i);
+          Items.Strings[SL_TreeIndexes[i] - 1] := '+  ' + skillToStr(i);
 
         c := 0;
 
-        for j := high(SL_Elements[i]) downto 0 do
+        for j := high(SL_Trees[i]) downto 0 do
         begin
           if (expand) then
-            Items.Insert(element, '         ' + capitalize(MSI_Scripts[SL_Elements[i][j]].Name))
+            Items.Insert(tree, '         ' + capitalize(MSI_Scripts[SL_Trees[i][j]].Name))
           else
-            Items.Delete(element);
+            Items.Delete(tree);
 
           inc(c);
         end;
@@ -55,13 +63,16 @@ begin
       end;
 
     if (expand) then
-      incEx(SL_ElementIndexes[i], c)
+      incEx(SL_TreeIndexes[i], c)
     else
-      decEx(SL_ElementIndexes[i], c);
+      decEx(SL_TreeIndexes[i], c);
   end;
 end;
 
-procedure SL_Click(Sender: TObject);
+(**
+ * Expands or contracts the clicked tree in the script list.
+ *)
+procedure SL_ExpandTree(Sender: TObject);
 var
   e: integer;
 begin
@@ -70,15 +81,18 @@ begin
     exit;
 
   if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
-    SL_ModifyElement(e + 1, true)
+    SL_ModifyTree(e + 1, true)
   else
     if (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
-      SL_ModifyElement(e + 1, false);
+      SL_ModifyTree(e + 1, false);
 
   Buttons[BUTTON_SCRIPT_LIST_ADD].Enabled := true;
 end;
 
-procedure SL_DoubleClick(Sender: TObject);
+(**
+ * Adds the selected script to the player's script list.
+ *)
+procedure SL_AddScript(Sender: TObject);
 var
   e: integer;
 begin

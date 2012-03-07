@@ -1,3 +1,7 @@
+
+(**
+ * Converts the 'skill' constant to a string.
+ *)
 function skillToStr(skill: integer): string;
 begin
   case skill of
@@ -33,6 +37,10 @@ begin
   end;
 end;
 
+(**
+ * Removed the spaces at the start of 's'. Used for adding scripts to a player's
+ * script list.
+ *)
 function removePreSpaces(s: string): string;
 var
   i: integer;
@@ -46,14 +54,16 @@ begin
 end;
 
 (**
- * Prevents people from typing in a ComboBox
+ * Prevents people from typing in a ComboBox.
  *)
 procedure preventTyping(sender: TObject; var key: char);
 begin
   key := chr(VK_CANCEL);
 end;
 
-// Returns true 'str' is in the list box 'list'
+(**
+ * Returns true if 'str' is in the list box 'list'.
+ *)
 function inList(list: TListBox; str: string): boolean;
 var
   i: integer;
@@ -68,7 +78,9 @@ begin
   //writeln(toStr('inList: '+toStr(result)));
 end;
 
-// Deletes the list entery 'element' from 'list'
+(**
+ * Deletes the list entery 'element' from 'list'.
+ *)
 procedure deleteFromList(list: TListBox; element: integer);
 begin
   if (element = 0) then
@@ -77,6 +89,38 @@ begin
     list.itemIndex := list.itemIndex - 1;
 
   list.items.delete(element);
+end;
+
+
+(**
+ * Resets player advanced components (advanced settings form) so they're blank
+ * for the next player.
+ *)
+procedure resetPlayerAdvanced();
+begin
+end;
+
+(**
+ * Resets player components (username/password/etc.) so they're ready for
+ * another player to be added.
+ *)
+procedure resetPlayerSettings();
+begin
+  Edits[EDIT_USERNAME].Text := '';
+  Edits[EDIT_PASSWORD].Text := '';
+  Edits[EDIT_PIN].Text      := '';
+  Edits[EDIT_USERNAME].OnExit(Edits[EDIT_USERNAME]);
+  Edits[EDIT_PASSWORD].OnExit(Edits[EDIT_PASSWORD]);
+  Edits[EDIT_PIN].OnExit(Edits[EDIT_PIN]);
+
+  Lists[LIST_PLAYER_SCRIPTS].Clear;
+  Buttons[BUTTON_SCRIPT_DELETE].Enabled := false;
+  Buttons[BUTTON_SCRIPT_ADD].Enabled := false;
+  Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := false;
+
+  CheckBoxes[CHECKBOX_ACTIVE].Checked := false;
+  CheckBoxes[CHECKBOX_MEMBER].Checked := false;
+  CheckBoxes[CHECKBOX_APPLY_ALL].Checked := false;
 end;
 
 

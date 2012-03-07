@@ -1,3 +1,9 @@
+
+(**
+ * _Enter and _Exit are used for TEdits. When clicked, TEdit will clear (if
+ * nothing has been entered yet); will show password if TEdit is a password
+ * field. Text is distinguished using italics and the color grey.
+ *)
 procedure _Enter(Sender: TObject);
 begin
   if (Sender is TEdit) then
@@ -13,6 +19,9 @@ begin
           passwordChar := #0;
 end;
 
+(**
+ * See description for _Enter.
+ *)
 procedure _Exit(Sender: TObject);
 begin
   if (Sender is TEdit) then
@@ -31,6 +40,9 @@ begin
           passwordChar := '*';
 end;
 
+(**
+ * Used to paint the line under the titles and panel buttons.
+ *)
 procedure _Paint(sender: TObject);
 begin
   with TForm(sender) do
@@ -41,6 +53,9 @@ begin
     end;
 end;
 
+(**
+ * Handles double clicks for all components.
+ *)
 procedure _DoubleClick(sender: TObject);
 begin
   case sender of
@@ -54,6 +69,10 @@ begin
   end;
 end;
 
+(**
+ * Handles left clicks for most components. Some components have specific
+ * methods, which are found in the other form include files.
+ *)
 procedure _Click(sender: TObject);
 var
   i: integer;
@@ -209,19 +228,9 @@ begin
         if (Edits[EDIT_USERNAME].Text <> Edits[EDIT_USERNAME].Name) then
         begin
           Lists[LIST_PLAYERS].Items.Add(Edits[EDIT_USERNAME].Text);
-
-          // so it goes back to the "empty" edits; read for next player addition
-          Edits[EDIT_USERNAME].Text := '';
-          Edits[EDIT_PASSWORD].Text := '';
-          Edits[EDIT_PIN].Text      := '';
-          _Exit(Edits[EDIT_USERNAME]);
-          _Exit(Edits[EDIT_PASSWORD]);
-          _Exit(Edits[EDIT_PIN]);
-
-          CheckBoxes[CHECKBOX_ACTIVE].Checked := false;
-          CheckBoxes[CHECKBOX_MEMBER].Checked := false;
+          resetPlayerSettings();
         end else
-          showMessage('You need to enter player information before it can be added');
+          showMessage('You need to enter player information before one can be added.');
 
         Buttons[BUTTON_PLAYER_DELETE].Enabled := true;
       end;
