@@ -5,6 +5,7 @@ begin
   begin
     OnDblClick := @_DoubleClick;
     OnClick    := @_Click;
+    ShowHint   := true;
   end;
 end;
 

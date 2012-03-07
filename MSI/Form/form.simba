@@ -1,16 +1,16 @@
 {$DEFINE FORM_TESTING}
 
 {$IFDEF FORM_TESTING}
-  {$DEFINE SRL5}
   {$i msi/msi/core/setup.simba}
 {$ENDIF}
 
 const
   _SPACING    = 10; // spacing between components
   _MENUHEIGHT = 20; // the main menu is X pixels in Height
+  _EDIT_LABEL = 4;  // pixels to move so label is in the middle of the TEdit
 
-  COLOR_BACKGROUND       = clDefault;
-  COLOR_FONT             = clBlack;
+  COLOR_BACKGROUND = clDefault;
+  COLOR_FONT       = clBlack;
 
 // component constants
 const
@@ -58,8 +58,8 @@ const
   CHECKLIST_COUNT = 1;
     CHECKLIST_REWARDS = 1;
 
-  EDIT_COUNT = 8;
-    EDIT_USERNAME       = 1;
+  EDIT_COUNT = 11;
+    EDIT_USERNAME    = 1;
     EDIT_PASSWORD    = 2;
     EDIT_PIN         = 3;
     EDIT_TIME_BREAK  = 4;
@@ -67,14 +67,19 @@ const
     EDIT_LOADS_BREAK = 6;
     EDIT_LOADS_TOTAL = 7;
     EDIT_BREAK_FOR   = 8;
+    EDIT_SMART_WORLD = 9;
+    EDIT_STATS_ID    = 10;
+    EDIT_STATS_PASS  = 11;
 
   COMBOBOX_COUNT = 1;
     COMBOBOX_LAMPSKILL = 1;
 
-  CHECKBOX_COUNT = 3;
-    CHECKBOX_ACTIVE    = 1;
-    CHECKBOX_MEMBER    = 2;
-    CHECKBOX_APPLY_ALL = 3;
+  CHECKBOX_COUNT = 5;
+    CHECKBOX_ACTIVE       = 1;
+    CHECKBOX_MEMBER       = 2;
+    CHECKBOX_APPLY_ALL    = 3;
+    CHECKBOX_SMART_SIGNED = 4;
+    CHECKBOX_SMART_DEBUG  = 5;
 
   BUTTON_COUNT = 13;
     BUTTON_CONTINUE           = 1;
@@ -92,14 +97,22 @@ const
     BUTTON_ADVANCED_PLAYER    = 13;
 
   LABEL_COUNT = 8;
-    LABEL_PLAYERS   = 1;
-    LABEL_SCRIPTS   = 2;
-    LABEL_ACTIVE    = 3;
-    LABEL_MEMBER    = 4;
-    LABEL_LAMPSKILL = 5;
-    LABEL_REWARDS   = 6;
-    LABEL_TITLE     = 7;
-    LABEL_APPLY_ALL = 8;
+    LABEL_PLAYERS     = 1;
+    LABEL_SCRIPTS     = 2;
+    LABEL_LAMPSKILL   = 3;
+    LABEL_REWARDS     = 4;
+    LABEL_TITLE       = 5;
+    LABEL_SMART_WORLD = 6;
+    LABEL_STATS_ID    = 7;
+    LABEL_STATS_PASS  = 8;
+
+  TAB_SETTING_COUNT = 6;
+    TAB_SETTING_SMART    = 1;
+    TAB_SETTING_STATS    = 2;
+    TAB_SETTING_CPU      = 3;
+    TAB_SETTING_LOGS     = 4;
+    TAB_SETTING_ANTIBAN  = 5;
+    TAB_SETTING_ADVANCED = 6;
 
 // Other variables
 var
@@ -120,6 +133,9 @@ var
   Buttons    : array[1..BUTTON_COUNT] of TButton;
   CheckBoxes : array[1..CHECKBOX_COUNT] of TCheckBox;
   CheckLists : array[1..CHECKLIST_COUNT] of TCheckListBox;
+
+  SettingsPageControl: TPageControl;
+  SettingsTabs: array[1..TAB_SETTING_COUNT] of TTabSheet;
 
   OpenDialog : TOpenDialog;
   SaveDialog : TSaveDialog;
@@ -211,8 +227,142 @@ begin
   end;
 end;
 
-procedure initGlobalSettings();
+procedure initSettingsSMART();
 begin
+  SettingsTabs[TAB_SETTING_SMART].Caption := 'S.M.A.R.T.';
+
+  CheckBoxes[CHECKBOX_SMART_SIGNED] := _TCheckBox(SettingsTabs[TAB_SETTING_SMART]);
+  with CheckBoxes[CHECKBOX_SMART_SIGNED] do
+  begin
+    Parent  := SettingsTabs[TAB_SETTING_SMART];
+    Caption := '  Use signed client (recommended)';
+    Checked := true;
+    Top     := _SPACING;
+    Left    := _SPACING;
+    Hint    := 'Do you want to use a signed (faster, more detectable) client?';
+  end;
+
+  CheckBoxes[CHECKBOX_SMART_DEBUG] := _TCheckBox(SettingsTabs[TAB_SETTING_SMART]);
+  with CheckBoxes[CHECKBOX_SMART_DEBUG] do
+  begin
+    Parent  := CheckBoxes[CHECKBOX_SMART_SIGNED].Parent;
+    Caption := '  Paint on the screen';
+    Checked := false;
+    Top     := CheckBoxes[CHECKBOX_SMART_SIGNED].Top + Height + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_SMART_SIGNED].Left;
+    Hint    := 'Do you want debugging to show on the RS screen?';
+  end;
+
+  Edits[EDIT_SMART_WORLD] := _TEdit(SettingsTabs[TAB_SETTING_SMART]);
+  with Edits[EDIT_SMART_WORLD] do
+  begin
+    Parent     := CheckBoxes[CHECKBOX_SMART_SIGNED].Parent;
+    Caption    := 'Preferred world';
+    Text       := '0';
+    MaxLength  := 3;
+    Width      := 50;
+    Top        := CheckBoxes[CHECKBOX_SMART_DEBUG].Top + Height + _SPACING;
+    Left       := CheckBoxes[CHECKBOX_SMART_SIGNED].Left;
+    Hint       := 'What world do you prefer to login to? Leave at 0 to use default.';
+    Font.Color := clBlack;
+    Font.Style  := [];
+  end;
+
+  Labels[LABEL_SMART_WORLD] := TLabel.Create(SettingsTabs[TAB_SETTING_SMART]);
+  with Labels[LABEL_SMART_WORLD] do
+  begin
+    Parent := Edits[EDIT_SMART_WORLD].Parent;
+    Caption := 'Preferred world';
+    Left := Edits[EDIT_SMART_WORLD].Left + Edits[EDIT_SMART_WORLD].Width + _SPACING;
+    Top := Edits[EDIT_SMART_WORLD].Top + _EDIT_LABEL;
+  end;
+end;
+
+procedure initSettingsStats();
+begin
+  // initialize all the Stats tab components
+  SettingsTabs[TAB_SETTING_STATS].Caption := 'Stats Info.';
+
+  Edits[EDIT_STATS_ID] := _TEdit(SettingsTabs[TAB_SETTING_STATS]);
+  with Edits[EDIT_STATS_ID] do
+  begin
+    Parent := SettingsTabs[TAB_SETTING_STATS];
+    Top    := _SPACING;
+    Left   := _SPACING;
+    Text   := 'ID';
+  end;
+
+  Edits[EDIT_STATS_PASS] := _TEdit(SettingsTabs[TAB_SETTING_STATS]);
+  with Edits[EDIT_STATS_PASS] do
+  begin
+    Parent := Edits[EDIT_STATS_ID].Parent;
+    Top    := Edits[EDIT_STATS_ID].Top + Height + _SPACING;
+    Left   := Edits[EDIT_STATS_ID].Left;
+    Text   := 'Password';
+  end;
+
+  Labels[LABEL_STATS_ID] := TLabel.Create(SettingsTabs[TAB_SETTING_STATS]);
+  with Labels[LABEL_STATS_ID] do
+  begin
+    Parent  := Edits[EDIT_STATS_ID].Parent;
+    Caption := 'SRL Stats ID';
+    Left    := Edits[EDIT_STATS_ID].Left + Edits[EDIT_STATS_ID].Width + _SPACING;
+    Top     := Edits[EDIT_STATS_ID].Top + _EDIT_LABEL;
+  end;
+
+  Labels[LABEL_STATS_PASS] := TLabel.Create(SettingsTabs[TAB_SETTING_STATS]);
+  with Labels[LABEL_STATS_PASS] do
+  begin
+    Parent  := Edits[EDIT_STATS_PASS].Parent;
+    Caption := 'SRL Stats Password';
+    Left    := Edits[EDIT_STATS_PASS].Left + Edits[EDIT_STATS_PASS].Width + _SPACING;
+    Top     := Edits[EDIT_STATS_PASS].Top + _EDIT_LABEL;
+  end;
+end;
+
+procedure initSettingsCPU();
+begin
+  SettingsTabs[TAB_SETTING_CPU].Caption := 'Lower CPU';
+end;
+
+procedure initSettingsLogs();
+begin
+  SettingsTabs[TAB_SETTING_LOGS].Caption := 'Logs';
+end;
+
+procedure initSettingsAntiban();
+begin
+  SettingsTabs[TAB_SETTING_ANTIBAN].Caption := 'Antiban';
+end;
+
+procedure initSettingsAdvanced();
+begin
+  SettingsTabs[TAB_SETTING_ADVANCED].Caption := 'Advanced';
+end;
+
+procedure initGlobalSettings();
+var
+  i: integer;
+begin
+  SettingsPageControl := TPageControl.Create(Panels[PANEL_SETTINGS]);
+  with SettingsPageControl do
+  begin
+    Parent := Panels[PANEL_SETTINGS];
+    Align := alClient;
+  end;
+
+  for i := low(SettingsTabs) to high(SettingsTabs) do
+  begin
+    SettingsTabs[i] := TTabSheet.Create(Panels[PANEL_SETTINGS]);
+    SettingsTabs[i].PageControl := SettingsPageControl;
+  end;
+
+  initSettingsSMART();
+  initSettingsStats();
+  initSettingsCPU();
+  initSettingsLogs();
+  initSettingsAntiban();
+  initSettingsAdvanced();
 end;
 
 // Initiates the script list form ~ include: scriptList.simba
@@ -512,6 +662,7 @@ begin
     Left   := Edits[EDIT_USERNAME].Left + 1;
     Top    := Edits[EDIT_PIN].Top + Edits[EDIT_PIN].Height + _SPACING;
     Hint   := 'Do you want to use this player?';
+    Caption := '  Active';
   end;
 
   CheckBoxes[CHECKBOX_MEMBER] := _TCheckBox(Forms[FORM_MAIN]);
@@ -521,24 +672,7 @@ begin
     Left   := CheckBoxes[CHECKBOX_ACTIVE].Left;
     Top    := CheckBoxes[CHECKBOX_ACTIVE].Top + CheckBoxes[CHECKBOX_ACTIVE].Height + _SPACING;
     Hint   := 'Is this player a Runescape member?';
-  end;
-
-  Labels[LABEL_ACTIVE] := TLabel.Create(Forms[FORM_MAIN]);
-  with Labels[LABEL_ACTIVE] do
-  begin
-    Parent  := Lists[LIST_PLAYERS].Parent;
-    Caption := 'Active';
-    Top     := CheckBoxes[CHECKBOX_ACTIVE].Top  + (Height / 6);
-    Left    := CheckBoxes[CHECKBOX_ACTIVE].Left + CheckBoxes[CHECKBOX_ACTIVE].Width + _SPACING;
-  end;
-
-  Labels[LABEL_MEMBER] := TLabel.Create(Forms[FORM_MAIN]);
-  with Labels[LABEL_MEMBER] do
-  begin
-    Parent  := Lists[LIST_PLAYERS].Parent;
-    Caption := 'Member';
-    Top     := CheckBoxes[CHECKBOX_MEMBER].Top  + (Height / 6);
-    Left    := Labels[LABEL_ACTIVE].Left;
+    Caption := '  Member';
   end;
 
   Buttons[BUTTON_PLAYER_ADD] := _TButton(Forms[FORM_MAIN]);
@@ -628,15 +762,7 @@ begin
     Left   := Buttons[BUTTON_SCRIPT_SETTINGS].Left + 1;
     Top    := Buttons[BUTTON_SCRIPT_SETTINGS].Top + Buttons[BUTTON_SCRIPT_SETTINGS].Height + _SPACING;;
     Hint   := 'Apply the current settings to all players';
-  end;
-
-  Labels[LABEL_APPLY_ALL] := TLabel.Create(Forms[FORM_MAIN]);
-  with Labels[LABEL_APPLY_ALL] do
-  begin
-    Parent  := Lists[LIST_PLAYERS].Parent;
-    Caption := 'Apply to All';
-    Top     := CheckBoxes[CHECKBOX_APPLY_ALL].Top + (Height / 6);
-    Left    := CheckBoxes[CHECKBOX_APPLY_ALL].Left + CheckBoxes[CHECKBOX_APPLY_ALL].Width + _SPACING;
+    Caption := '  Apply to all';
   end;
 
   initPlayerAdvanced();
@@ -730,14 +856,9 @@ begin
     with Forms[i] do
     begin
       BorderStyle := bsSingle;
+      BorderIcons := [biSystemMenu];
       Position    := poScreenCenter;
       Color       := COLOR_BACKGROUND;
-    end;
-
-  for i := low(Lists) to high(Lists) do
-    with Lists[i] do
-    begin
-      ShowHint := true;
     end;
 
   for i := low(Labels) to high(Labels) do

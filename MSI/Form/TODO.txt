@@ -15,13 +15,12 @@ MSI Form TODO
   - Logs
     - Save Debug Log
     - Save Progress Report
-  - Other  
+  - Antiban
     - Human-like Breaking
     - Switch Worlds
+    - RestAt, RestUntil
   - Advanced
-    - Debug Level (doesn't effect what is saved)
     - Antiban Wait
     - Randoms Check Wait 
-    - RestAt, RestUntil
 
 - Intro. page/logo
