@@ -99,7 +99,7 @@ begin
       MSI_FindRandoms(False);
 
       if ((not bankScreen) and (not depositScreen)) then
-        if (MSI_FindObject(bankObj, moRight)) then
+        if (MSI_FindObject(bankObj, moLeft)) then
         begin
           if bankType = Bank then
             Result := MSI_HandlePin(tPin);
@@ -292,6 +292,15 @@ begin
         Continue;
       end;
 
+      // don't want to deposit items in the exceptions array
+      if (inIntArray(MSI_Players[CurrentPlayer].Scripts[CurrentScript].Exceptions, slots[0])) then
+        if (length(slots) > 1) then
+          slots[0] := slots[1]
+        else begin
+          MSI_Debug('Can''t deposit slot '+toStr(slots[0])+', in exceptions');
+          continue;
+        end;
+
       if (Length(slots) = 1) then
         s := ['osit']
       else
@@ -408,6 +417,51 @@ begin
       Wait(RandomRange(200, 500));
     end;
   end;
+end;
+
+(*
+MSI_DepositCoalBag
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DepositCoalBag();
+
+Used to deposit the coal that is stored in the Coal bag.
+
+.. note::
+
+  | Author: Kyle Undefined
+
+Example:
+
+.. code-block:: pascal
+
+  if (CoalBag) then
+    MSI_DepositCoalBag();
+*)
+procedure MSI_DepositCoalBag;
+var
+  x, y : Integer;
+  coalSlots : TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_DepositCoalBag');
+
+  if (MSI_FindTool(COAL_BAG, tab_Inv, x, y)) then
+  begin
+    MouseItem(CoordsToItem(x, y), mouse_Right);
+    WaitOption('mpty', 500);
+    Wait(RandomRange(500, 750));
+    coalSlots := MSI_FindItemSlots(ORE_COAL);
+    MouseItem(Random(Length(coalSlots)), mouse_Right);
+    WaitOption('-All', 500);
+    Wait(RandomRange(500, 750));
+  end;
+
+  MSI_CloseHeader('MSI_DepositCoalBag: Finished');
 end;
 
 (*
@@ -693,6 +747,10 @@ begin
 
     iCount := invCount;
     result := (iCount <= (Length(Scripts[CurrentScript].Exceptions) + 5));
+	
+	if (result) then // If all the items are deposited
+      if (Scripts[CurrentScript].CoalBag) then // If the user is using the Coal bag
+        MSI_DepositCoalBag(); // Deposits the coal that is in the bag
 
     if (not result) then
     begin

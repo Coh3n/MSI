@@ -50,8 +50,8 @@ begin
         Level              := 1;
         Colors             := [2304302];
         Tol                := 5;
-        Hue                := 0.38;
-        Sat                := 0.63;
+        Hue                := [0.38];
+        Sat                := [0.63];
         FindAllColors      := False;
         W                  := 50;
         H                  := 70;
@@ -74,8 +74,8 @@ begin
         Level              := 1;
         Colors             := [2117186];
         Tol                := 6;
-        Hue                := 0.09;
-        Sat                := 1.26;
+        Hue                := [0.09];
+        Sat                := [1.26];
         FindAllColors      := False;
         W                  := 35;
         H                  := 35;
@@ -92,14 +92,14 @@ begin
     TREE_NORMAL_NEW:
       with result do
       begin
-        Name               := 'TREE_NORMAL';
+        Name               := 'TREE_NORMAL_NEW';
         Uptexts            := ['ree'];
         Options            := ['own Tree'];
         Level              := 1;
         Colors             := [3361629];
         Tol                := 6;
-        Hue                := 0.11;
-        Sat                := 0.27;
+        Hue                := [0.11];
+        Sat                := [0.27];
         FindAllColors      := False;
         W                  := 30;
         H                  := 60;
@@ -122,8 +122,8 @@ begin
         Level              := 15;
         Colors             := [6330764, 6398099, 6133129, 6527886, 6464148];
         Tol                := 10;
-        Hue                := 0.07;
-        Sat                := 0.64;
+        Hue                := [0.07];
+        Sat                := [0.64];
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
@@ -144,14 +144,14 @@ begin
         Uptexts            := ['Oak'];
         Options            := ['own Oak'];
         Level              := 15;
-        Colors             := [3166314];
-        Tol                := 6;
-        Hue                := 0.07;
-        Sat                := 0.20;
+        Colors             := [1516577];
+        Tol                := 5;
+        Hue                := [0.74];
+        Sat                := [0.92];
         FindAllColors      := False;
-        W                  := 60;
-        H                  := 90;
-        Accuracy           := 120;
+        W                  := 125;
+        H                  := 75;
+        Accuracy           := 300;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -170,8 +170,8 @@ begin
         Level              := 30;
         Colors             := [4481105];
         Tol                := 14;
-        Hue                := 0.18;
-        Sat                := 0.28;
+        Hue                := [0.18];
+        Sat                := [0.28];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -192,16 +192,16 @@ begin
         Uptexts            := ['wn Wil'];
         Options            := ['Chop down Willow'];
         Level              := 30;
-        Colors             := [2766391];
-        Tol                := 2;
-        Hue                := 0.37;
-        Sat                := 0.27;
+        Colors             := [1516577];
+        Tol                := 5;
+        Hue                := [0.74];
+        Sat                := [0.92];
         FindAllColors      := False;
-        W                  := 40;
-        H                  := 60;
-        Accuracy           := 50;
+        W                  := 50;
+        H                  := 50;
+        Accuracy           := 100;
         SearchArea         := MSBox;
-        ExcludeSelf        := True;
+        ExcludeSelf        := False;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := False;
@@ -218,8 +218,8 @@ begin
         Level              := 45;
         Colors             := [1187644];
         Tol                := 4;
-        Hue                := 0.10;
-        Sat                := 0.54;
+        Hue                := [0.10];
+        Sat                := [0.54];
         FindAllColors      := False;
         W                  := 25;
         H                  := 25;
@@ -242,8 +242,8 @@ begin
         Level              := 45;
         Colors             := [2502472];
         Tol                := 7;
-        Hue                := 0.30;
-        Sat                := 1.44;
+        Hue                := [0.30];
+        Sat                := [1.44];
         FindAllColors      := False;
         W                  := 35;
         H                  := 50;
@@ -266,8 +266,8 @@ begin
         Level              := 60;
         Colors             := [2314052];
         Tol                := 9;
-        Hue                := 0.06;
-        Sat                := 0.59;
+        Hue                := [0.06];
+        Sat                := [0.59];
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
@@ -288,14 +288,14 @@ begin
         Uptexts            := ['own Yew'];
         Options            := ['Chop down Yew'];
         Level              := 60;
-        Colors             := [4147538];
-        Tol                := 8;
-        Hue                := 0.08;
-        Sat                := 0.09;
+        Colors             := [1516063];
+        Tol                := 5;
+        Hue                := [0.45];
+        Sat                := [1.26];
         FindAllColors      := False;
-        W                  := 80;
-        H                  := 100;
-        Accuracy           := 100;
+        W                  := 125;
+        H                  := 75;
+        Accuracy           := 50;
         SearchArea         := MSBox;
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -314,8 +314,8 @@ begin
         Level              := 75;
         Colors             := [11069677];
         Tol                := 18;
-        Hue                := 0.03;
-        Sat                := 2.12;
+        Hue                := [0.03];
+        Sat                := [2.12];
         FindAllColors      := False;
         W                  := 60;
         H                  := 70;
@@ -331,7 +331,7 @@ begin
 
     { BANKS ====================================== ]
     [============================================= }
-    MSI_BANK_VE, MSI_BANK_EV:
+    MSI_BANK_VE:
       with result do
       begin
         Name               := 'BANK_VE/EV';
@@ -339,8 +339,8 @@ begin
         Options            := ['Bank Bank', 'ank B', 'ank Banker'];
         Colors             := [4730680];
         Tol                := 10;
-        Hue                := 0.09;
-        Sat                := 0.93;
+        Hue                := [0.09];
+        Sat                := [0.93];
         FindAllColors      := False;
         W                  := 25;
         H                  := 40;
@@ -356,19 +356,40 @@ begin
       with result do
       begin
         Name               := 'BANK_DRAYNOR';
-        Uptexts            := ['Banker', 'anker', 'ank'];
-        Options            := ['Bank Banker', 'ank B'];
-        Colors             := [5659227];
-        Tol                := 5;
-        Hue                := 3.34;
-        Sat                := 0.63;
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4610140];
+        Tol                := 10;
+        Hue                := [0.12];
+        Sat                := [0.10];
         FindAllColors      := False;
-        W                  := 10;
-        H                  := 10;
-        Accuracy           := 5;
-        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 100, MSY2);
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSX1, MSY1, MSCX + 50, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
+    MSI_BANK_EV:
+      with result do
+      begin
+        Name               := 'BANK_EDGEVILLE';
+        Uptexts            := ['Bank Counter', 'ank Cou'];
+        Options            := ['Bank', 'ank'];
+        Colors             := [4412247];
+        Tol                := 6;
+        Hue                := [0.10];
+        Sat                := [0.06];
+        FindAllColors      := False;
+        W                  := 50;
+        H                  := 100;
+        Accuracy           := 100;
+        SearchArea         := IntToBox(MSCX - 50, MSY1, MSX2, MSY2);
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -381,8 +402,8 @@ begin
         Options            := ['ank Banker'];
         Colors             := [10404547];
         Tol                := 15;
-        Hue                := 0.03;
-        Sat                := 0.94;
+        Hue                := [0.03];
+        Sat                := [0.94];
         FindAllColors      := True;
         W                  := 20;
         H                  := 20;
@@ -398,18 +419,18 @@ begin
       begin
         Name               := 'BANK_FALADOR_EAST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [7044234];
         Tol                := 5;
-        Hue                := 0.24;
-        Sat                := 0.47;
+        Hue                := [0.24];
+        Sat                := [0.47];
         FindAllColors      := False;
         W                  := 35;
         H                  := 40;
         Accuracy           := 20;
         SearchArea         := MSBox
-        ExcludeSelf        := True;
-        RightClickOnly     := True;
+        ExcludeSelf        := False;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -419,18 +440,18 @@ begin
       begin
         Name               := 'BANK_VARROCK_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [5794933];
         Tol                := 8;
-        Hue                := 0.13;
-        Sat                := 0.69;
+        Hue                := [0.13];
+        Sat                := [0.69];
         FindAllColors      := False;
         W                  := 15;
         H                  := 30;
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -440,18 +461,18 @@ begin
       begin
         Name               := 'BANK_FALADOR_WEST';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [3627376];
         Tol                := 6;
-        Hue                := 0.17;
-        Sat                := 0.94;
+        Hue                := [0.17];
+        Sat                := [0.94];
         FindAllColors      := False;
         W                  := 15;
         H                  := 30;
         Accuracy           := 20;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -464,8 +485,8 @@ begin
         Options            := ['it Bank'];
         Colors             := [4279124];
         Tol                := 10;
-        Hue                := 0.08;
-        Sat                := 0.11;
+        Hue                := [0.08];
+        Sat                := [0.11];
         FindAllColors      := False;
         W                  := 20;
         H                  := 30;
@@ -482,17 +503,18 @@ begin
       begin
         Name               := 'BANK_SEERS_VILLAGE';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [10464171];
-        Tol                := 2;
-        Hue                := 0.76;
-        Sat                := 0.40;
+        Tol                := 10;
+        Hue                := [0.76];
+        Sat                := [0.40];
         FindAllColors      := False;
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -502,18 +524,18 @@ begin
       begin
         Name               := 'BANK_AL-KHARID';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6125447];
         Tol                := 12;
-        Hue                := 0.04;
-        Sat                := 0.52;
+        Hue                := [0.04];
+        Sat                := [0.52];
         FindAllColors      := False;
         W                  := 15;
         H                  := 20;
         Accuracy           := 15;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX, MSY2);
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -523,18 +545,18 @@ begin
       begin
         Name               := 'BANK_CATHERBY';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6714503];
         Tol                := 11;
-        Hue                := 0.34;
-        Sat                := 0.92;
+        Hue                := [0.34];
+        Sat                := [0.92];
         FindAllColors      := False;
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -544,18 +566,39 @@ begin
       begin
         Name               := 'BANK_FISHING_GUILD';
         Uptexts            := ['ooth'];
-        Options            := ['uick'];
+        Options            := ['ank'];
         Colors             := [6910071];
         Tol                := 3;
-        Hue                := 0.40;
-        Sat                := 0.49;
+        Hue                := [0.40];
+        Sat                := [0.49];
         FindAllColors      := False;
         W                  := 30;
         H                  := 20;
         Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := True;
-        RightClickOnly     := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := True;
+      end;
+
+    MSI_BANK_Y:
+      with result do
+      begin
+        Name               := 'BANK_YANILLE';
+        Uptexts            := ['ooth'];
+        Options            := ['ank'];
+        Colors             := [7311523];
+        Tol                := 6;
+        Hue                := [0.07];
+        Sat                := [0.98];
+        FindAllColors      := False;
+        W                  := 30;
+        H                  := 20;
+        Accuracy           := 3;
+        SearchArea         := MSBox
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
         WaitToMove         := True;
         MultiClick         := True;
       end;
@@ -566,13 +609,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_CLAY';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Clay rocks', 'ine Cla', 'ay roc'];
+        Options            := ['ine Clay', 'Mine Clay', 'ay roc'];
         Level              := 1;
-        Colors             := [7584739];
-        Tol                := 15;
-        Hue                := 0.02;
-        Sat                := 2.73;
+        Colors             := [7386588];
+        Tol                := 11;
+        Hue                := [0.01];
+        Sat                := [2.42];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -590,20 +633,20 @@ begin
       with result do
       begin
         Name               := 'ROCK_COPPER';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Copper ore rocks', 'ine Cop', 'er ore r'];
+        Options            := ['ine Cop', 'per ore', 'er ore r'];
         Level              := 1;
         Colors             := [2650323];
         Tol                := 16;
-        Hue                := 0.06;
-        Sat                := 1.86;
+        Hue                := [0.06];
+        Sat                := [1.86];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
         Accuracy           := 10;
         SearchArea         := MSBox;
         MaxTime            := 7000;
-        ExcludeSelf        := False;
+        ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := True;
@@ -614,20 +657,20 @@ begin
       with result do
       begin
         Name               := 'ROCK_TIN';
-        Uptexts            := ['Mine Rocks', 'ine Ro'];
-        Options            := ['ine Rocks', 'ne Roc', 'ine'];
+        Uptexts            := ['Mine Tin ore rocks', 'ine Ti', 'in ore'];
+        Options            := ['ine Tin', 'in ore', 'in ore r'];
         Level              := 1;
         Colors             := [6842477];
         Tol                := 15;
-        Hue                := 0.24;
-        Sat                := 0.03;
+        Hue                := [0.24];
+        Sat                := [0.03];
         FindAllColors      := False;
         W                  := 25;
         H                  := 25;
         Accuracy           := 20;
         SearchArea         := MSBox;
         MaxTime            := 7000;
-        ExcludeSelf        := False;
+        ExcludeSelf        := True;
         WaitToMove         := True;
         MultiClick         := True;
         Track              := True;
@@ -638,13 +681,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_IRON';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Iron ore rocks', 'ine Iron or', 'ron ore ro'];
+        Options            := ['ine Iron', 'Iron ore', 'ron ore ro'];
         Level              := 15;
-        Colors             := [3293028];
-        Tol                := 6;
-        Hue                := 0.06;
-        Sat                := 1.22;
+        Colors             := [2306130];
+        Tol                := 10;
+        Hue                := [0.04];
+        Sat                := [0.14];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -662,13 +705,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_SILVER';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Silver ore rocks', 'ine Silver', 'lver ore ro'];
+        Options            := ['ine Silver', 'Silver ore', 'lver ore ro'];
         Level              := 20;
-        Colors             := [14408944];
-        Tol                := 10;
-        Hue                := 0.11;
-        Sat                := 4.02;
+        Colors             := [12764389];
+        Tol                := 14;
+        Hue                := [0.09];
+        Sat                := [2.52];
         FindAllColors      := False;
         W                  := 25;
         H                  := 25;
@@ -687,13 +730,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_COAL';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Coal rocks', 'ine Coal', 'oal roc'];
+        Options            := ['ine Coal', 'oal ro'];
         Level              := 30;
         Colors             := [2171426, 2434598, 2763820];
         Tol                := 5;
-        Hue                := 0.00;
-        Sat                := 0.63;
+        Hue                := [0.00];
+        Sat                := [0.63];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -712,13 +755,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_GOLD';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Gold ore rocks', 'ine Gold', 'old ore'];
+        Options            := ['ine Gold', 'Gold ore', 'old ore'];
         Level              := 40;
-        Colors             := [4702956, 5231101];
-        Tol                := 8;
-        Hue                := 0.02;
-        Sat                := 3.30;
+        Colors             := [4571627];
+        Tol                := 6;
+        Hue                := [0.02];
+        Sat                := [2.92];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -736,13 +779,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_MITHRIL';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Mithril ore rocks', 'ine Mith', 'ril ore r'];
+        Options            := ['ine Mith', 'ril ore ro', 'ine Mithril'];
         Level              := 55;
-        Colors             := [13787246];
-        Tol                := 23;
-        Hue                := 0.12;
-        Sat                := 1.73;
+        Colors             := [12992078];
+        Tol                := 32;
+        Hue                := [0.09];
+        Sat                := [1.29];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -761,13 +804,13 @@ begin
       with result do
       begin
         Name               := 'ROCK_ADAMANTITE';
-        Uptexts            := ['ocks'];
-        Options            := ['ine'];
+        Uptexts            := ['Mine Adamantite ore rocks', 'ine Adam', 'tite ore ro'];
+        Options            := ['ine Adam', 'ntite ore ro', 'ine Adamantite'];
         Level              := 70;
-        Colors             := [8769656];
-        Tol                := 29;
-        Hue                := 0.09;
-        Sat                := 1.43;
+        Colors             := [12117679];
+        Tol                := 13;
+        Hue                := [0.21];
+        Sat                := [2.91];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -783,15 +826,15 @@ begin
 
     { FISHING SPOTS ============================== ]
     [============================================= }
-    FISHSPOT_NET..FISHSPOT_HARPOON_SHARK:
+    FISHSPOT_NET..FISHSPOT_NET_MONKFISH:
       begin
         //same color info for all spots
         with result do
         begin
           Colors             := [11905699];
           Tol                := 9;
-          Hue                := 0.21;
-          Sat                := 0.69;
+          Hue                := [0.21];
+          Sat                := [0.69];
           FindAllColors      := False;
           W                  := 30;
           H                  := 30;
@@ -870,6 +913,17 @@ begin
               RightClickOnly     := True;
               AssociatedItems    := [FISH_RAW_SHARK];
             end;
+
+          FISHSPOT_NET_MONKFISH:
+            with result do
+            begin
+              Name               := 'FISHSPOT_MONKFISH';
+              Uptexts            := ['Harpoon','arpo','poon'];
+              Options            := ['Net','et'];
+              Level              := 62;
+              RightClickOnly     := True;
+              AssociatedItems    := [FISH_RAW_MONKFISH];
+            end;
         end;
       end;
 
@@ -878,18 +932,40 @@ begin
     COOKSPOT_AK_RANGE:
       with result do
       begin
-        Name               := 'RANGE_AL-KHARID';
+        Name               := 'COOKSPOT_AK_RANGE';
         Uptexts            := ['Range'];
         Options            := ['Range'];
-        Colors             := [1779641];
+        Colors             := [1384346];
         Tol                := 7;
-        Hue                := 0.07;
-        Sat                := 0.83;
+        Hue                := [0.07];
+        Sat                := [0.83];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
         Accuracy           := 5;
         SearchArea         := IntToBox(MSX1, MSY1, MSCX + 80, MSY2);
+        ExcludeSelf        := True;
+        RightClickOnly     := False;
+        WaitToMove         := True;
+        MultiClick         := False;
+        Track              := False;
+      end;
+
+    COOKSPOT_CB_RANGE:
+      with result do
+      begin
+        Name               := 'COOKSPOT_CB_RANGE';
+        Uptexts            := ['Range'];
+        Options            := ['Range'];
+        Colors             := [2567551, 7171442, 3815997];//Red/Light gray from pot, dark gray from range
+        Tol                := 7;
+        Hue                := [0.03, 0.00, 0.00];
+        Sat                := [0.13, 0.05, 0.32];
+        FindAllColors      := False;
+        W                  := 38;
+        H                  := 34;
+        Accuracy           := 10;
+        SearchArea         := IntToBox(MSCX-50, MSCY-200, MSCX + 180, MSCY+20);
         ExcludeSelf        := True;
         RightClickOnly     := False;
         WaitToMove         := True;
@@ -907,8 +983,8 @@ begin
         Options            := ['own Ladder'];
         Colors             := [2709359];
         Tol                := 8;
-        Hue                := 0.05;
-        Sat                := 0.96;
+        Hue                := [0.05];
+        Sat                := [0.96];
         FindAllColors      := False;
         W                  := 18;
         H                  := 30;
@@ -929,8 +1005,8 @@ begin
         Options            := ['up Ladder'];
         Colors             := [4410190];
         Tol                := 5;
-        Hue                := 0.26;
-        Sat                := 0.14;
+        Hue                := [0.26];
+        Sat                := [0.14];
         FindAllColors      := False;
         W                  := 35;
         H                  := 30;
@@ -951,8 +1027,8 @@ begin
         Options            := ['rumbling wall'];
         Colors             := [9092811];
         Tol                := 24;
-        Hue                := 0.04;
-        Sat                := 1.35;
+        Hue                := [0.04];
+        Sat                := [1.35];
         FindAllColors      := False;
         W                  := 30;
         H                  := 15;
@@ -972,8 +1048,8 @@ begin
         Options            := ['Open', 'pen'];
         Colors             := [2514555];
         Tol                := 8;
-        Hue                := 0.02;
-        Sat                := 0.27;
+        Hue                := [0.02];
+        Sat                := [0.27];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -995,8 +1071,8 @@ begin
         Options            := ['ake'];
         Colors             := [4016204];
         Tol                := 3;
-        Hue                := 0.38;
-        Sat                := 1.16;
+        Hue                := [0.38];
+        Sat                := [1.16];
         FindAllColors      := False;
         W                  := 25;
         H                  := 18;
@@ -1018,12 +1094,34 @@ begin
         Options            := ['chan'];
         Colors             := [3684667];
         Tol                := 8;
-        Hue                := 0.93;
-        Sat                := 0.09;
+        Hue                := [0.93];
+        Sat                := [0.09];
         FindAllColors      := False;
         W                  := 15;
         H                  := 20;
         Accuracy           := 5;
+        SearchArea         := MSBox
+        ExcludeSelf        := False;
+        WaitToMove         := True;
+        RightClickOnly     := True;
+        MultiClick         := True;
+        AssociatedItems    := [];
+      end;
+
+    NPC_ARNOLD:
+      with result do
+      begin
+        Name               := 'NPC_ARNOLD';
+        Uptexts            := ['Arnold','nold','yds'];
+        Options            := ['Bank','ank'];
+        Colors             := [3046550];
+        Tol                := 13;
+        Hue                := [0.12];
+        Sat                := [0.12];
+        FindAllColors      := False;
+        W                  := 20;
+        H                  := 20;
+        Accuracy           := 7;
         SearchArea         := MSBox
         ExcludeSelf        := False;
         WaitToMove         := True;
@@ -1042,8 +1140,8 @@ begin
          Options            := ['se'];
          Colors             := [15509125];
          Tol                := 10;
-         Hue                := 0.22;
-         Sat                := 0.27;
+         Hue                := [0.22];
+         Sat                := [0.27];
          FindAllColors      := False;
          W                  := 20;
          H                  := 20;
@@ -1062,8 +1160,8 @@ begin
          Options            := ['se'];
          Colors             := [10915707];
          Tol                := 2;
-         Hue                := 0.56;
-         Sat                := 1.73;
+         Hue                := [0.56];
+         Sat                := [1.73];
          FindAllColors      := False;
          W                  := 50;
          H                  := 50;
@@ -1082,8 +1180,8 @@ begin
         Options            := ['se'];
         Colors             := [7372419];
         Tol                := 5;
-        Hue                := 0.13;
-        Sat                := 0.15;
+        Hue                := [0.13];
+        Sat                := [0.15];
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
@@ -1102,8 +1200,8 @@ begin
         Options            := ['se'];
         Colors             := [4870997];
         Tol                := 6;
-        Hue                := 0.14;
-        Sat                := 0.13;
+        Hue                := [0.14];
+        Sat                := [0.13];
         FindAllColors      := False;
         W                  := 30;
         H                  := 30;
@@ -1124,8 +1222,8 @@ begin
         Options            := ['melt'];
         Colors             := [2240921];
         Tol                := 16;
-        Hue                := 0.06;
-        Sat                := 0.73;
+        Hue                := [0.06];
+        Sat                := [0.73];
         FindAllColors      := False;
         W                  := 64;
         H                  := 13;
@@ -1158,8 +1256,8 @@ begin
               Name   := 'RUINS_AIR';
               Colors := [14986869];
               Tol    := 10;
-              Hue    := 0.02;
-              Sat    := 2.93;
+              Hue    := [0.02];
+              Sat    := [2.93];
             end;
 
           RUINS_EARTH:
@@ -1167,8 +1265,8 @@ begin
               Name   := 'RUINS_EARTH';
               Colors := [7514297];
               Tol    := 15;
-              Hue    := 0.08;
-              Sat    := 1.03;
+              Hue    := [0.08];
+              Sat    := [1.03];
             end;
 
           RUINS_FIRE:
@@ -1176,8 +1274,8 @@ begin
               Name   := 'RUINS_FIRE';
               Colors := [3170264];
               Tol    := 13;
-              Hue    := 0.14;
-              Sat    := 2.28;
+              Hue    := [0.14];
+              Sat    := [2.28];
             end;
 
           RUINS_WATER:
@@ -1185,8 +1283,8 @@ begin
               Name   := 'RUINS_WATER';
               Colors := [11308558];
               Tol    := 20;
-              Hue    := 0.08;
-              Sat    := 0.51;
+              Hue    := [0.08];
+              Sat    := [0.51];
             end;
 
           RUINS_MIND:
@@ -1194,8 +1292,8 @@ begin
               Name   := 'RUINS_MIND';
               Colors := [9740776];
               Tol    := 15;
-              Hue    := 0.13;
-              Sat    := 2.34;
+              Hue    := [0.13];
+              Sat    := [2.34];
             end;
 
           RUINS_BODY:
@@ -1203,8 +1301,8 @@ begin
               Name   := 'RUINS_BODY';
               Colors := [11591578];
               Tol    := 15;
-              Hue    := 0.67;
-              Sat    := 2.92;
+              Hue    := [0.67];
+              Sat    := [2.92];
             end;
         end;
       end;
@@ -1229,8 +1327,8 @@ begin
               Name   := 'PORTAL_AIR';
               Colors := [7320757];
               Tol    := 12;
-              Hue    := 0.05;
-              Sat    := 0.60;
+              Hue    := [0.05];
+              Sat    := [0.60];
             end;
 
           PORTAL_EARTH:
@@ -1238,8 +1336,8 @@ begin
               Name   := 'PORTAL_EARTH';
               Colors := [2908289];
               Tol    := 6;
-              Hue    := 0.06;
-              Sat    := 0.95;
+              Hue    := [0.06];
+              Sat    := [0.95];
             end;
 
           PORTAL_FIRE:
@@ -1247,8 +1345,8 @@ begin
               Name   := 'PORTAL_FIRE';
               Colors := [2046112];
               Tol    := 8;
-              Hue    := 0.18;
-              Sat    := 0.80;
+              Hue    := [0.18];
+              Sat    := [0.80];
             end;
 
           PORTAL_WATER:
@@ -1256,8 +1354,8 @@ begin
               Name   := 'PORTAL_WATER';
               Colors := [7975351];
               Tol    := 20;
-              Hue    := 0.03;
-              Sat    := 0.82;
+              Hue    := [0.03];
+              Sat    := [0.82];
             end;
 
           PORTAL_MIND:
@@ -1265,8 +1363,8 @@ begin
               Name   := 'PORTAL_MIND';
               Colors := [9154223];
               Tol    := 12;
-              Hue    := 0.06;
-              Sat    := 1.04;
+              Hue    := [0.06];
+              Sat    := [1.04];
             end;
 
           PORTAL_BODY:
@@ -1274,8 +1372,8 @@ begin
               Name   := 'PORTAL_BODY';
               Colors := [8552376];
               Tol    := 10;
-              Hue    := 0.05;
-              Sat    := 1.44;
+              Hue    := [0.05];
+              Sat    := [1.44];
             end;
         end;
       end;
@@ -1288,8 +1386,8 @@ begin
         Options            := ['raft', '-rune', 'une'];
         Colors             := [6183517];
         Tol                := 5;
-        Hue                := 1.26;
-        Sat                := 0.33;
+        Hue                := [1.26];
+        Sat                := [0.33];
         FindAllColors      := False;
         W                  := 50;
         H                  := 50;
@@ -1393,7 +1491,7 @@ are found in the object's ('Obj') SearchBox atribute.
 .. note::
 
   | Author: marpis
-  | Last Updated: 05 December 2011 by Coh3n
+  | Last Updated: 26 Febuary 2012 By NCDS
 
 Example:
 
@@ -1416,15 +1514,20 @@ begin
   markTime(t);
   cts := GetToleranceSpeed;
   setColorToleranceSpeed(2);
-  setToleranceSpeed2Modifiers(obj.hue, obj.sat);
 
   // search for all the object's colors
   setLength(ATPA, length(obj.colors));
   for i := 0 to high(ATPA) do
   begin
-    findColorsSpiralTolerance(MSCX, MSCY, ATPA[i], obj.colors[i],
-                              obj.searchArea.x1, obj.searchArea.y1,
-                              obj.searchArea.x2, obj.searchArea.y2, obj.tol);
+    try //incase a hue/sat mod is not given for all colors
+      setToleranceSpeed2Modifiers(obj.hue[i], obj.sat[i]);
+    except
+      setToleranceSpeed2Modifiers(obj.hue[0], obj.sat[0]);
+    end;
+    findColorsSpiralTolerance(
+      MSCX, MSCY, ATPA[i], obj.colors[i], obj.searchArea.x1,
+      obj.searchArea.y1, obj.searchArea.x2, obj.searchArea.y2, obj.tol
+    );
   end;
 
   setColorToleranceSpeed(cts);
@@ -1462,7 +1565,6 @@ begin
   TPA := [];
   setLength(ATPA, c);
   sortATPAFrom(ATPA, point(MSCX, MSCY));
-  TPA := mergeATPA(ATPA);
 
   // draw points on SMART if setting enabled
   {$IFDEF SMART}
@@ -1471,18 +1573,20 @@ begin
   {$ENDIF}
 
   // get the middle point of each TPA in the ATPA + create a box for each point
-  setLength(tpaBoxes, length(TPA));
-  for i := 0 to high(TPA) do
-    tpaBoxes[i] := MSI_MakeBox(TPA[i], obj.w, obj.h);
+  setLength(tpaBoxes, length(ATPA));
+  for i := 0 to high(ATPA) do
+    tpaBoxes[i] := getTPABounds(ATPA[i]);
 
-  setLength(points, length(TPA));
-  h := high(TPA);
+  setLength(points, length(ATPA));
+  setLength(TPA, length(ATPA));
+  h := high(ATPA);
   c := 0;
 
   // loop through all the points to see which are valid/invalid
   for i := 0 to h do
   begin
     badPoint := false;
+    TPA[i] := middleTPA(ATPA[i]);
 
     // checks to see if the point is in the object's search area
     if (not badPoint) then
@@ -1583,7 +1687,7 @@ begin
 
   // preparing vars for loop
   setColorToleranceSpeed(2);
-  setToleranceSpeed2Modifiers(obj.hue, obj.sat);
+  setToleranceSpeed2Modifiers(obj.hue[0], obj.sat[0]);
   previous := point(obj.x, obj.y);
   t := (getSystemTime + 10000);
   result := true;
@@ -1709,7 +1813,7 @@ begin
       begin
         if (reportInfo.skillLevels[currentScript] < objs[i].level) then
         begin
-          if (i = high(objs)) then
+          if (i = high(objs)) and (length(objs) = 1) then
             reportInfo.falseReason := script.skillName + ' requirement not met (' +
               toStr(reportInfo.skillLevels[currentScript]) +
               '/' + toStr(objs[i].level) + ')';

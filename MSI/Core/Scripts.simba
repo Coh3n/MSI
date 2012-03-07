@@ -129,6 +129,7 @@ begin
         Constant      := SCRIPT_GE_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_GE;
         AutoObjects   := @MSI_ChopInvFull;
@@ -257,6 +258,7 @@ begin
         Constant      := SCRIPT_RM_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
         AdjustCamera  := True;
@@ -354,6 +356,7 @@ begin
         Constant      := SCRIPT_PS_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := DBox;
         WhichBank     := DBOX_PS;
         AdjustCamera  := True;
@@ -451,6 +454,7 @@ begin
         Constant      := SCRIPT_SV_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_SV;
         AdjustCamera  := true;
@@ -548,6 +552,7 @@ begin
         Constant      := SCRIPT_EV_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_EV;
         AdjustCamera  := True;
@@ -580,6 +585,7 @@ begin
         Constant      := SCRIPT_DB_YEWS;
         SkillName     := 'Woodcutting';
         SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
         BankType      := Bank;
         WhichBank     := MSI_BANK_DB;
         AdjustCamera  := True;
@@ -999,6 +1005,40 @@ begin
         end;
       end;
 
+    SCRIPT_Y_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Yanille Miner';
+        Constant    := SCRIPT_Y_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_Y;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [
+          ROCK_IRON,ROCK_MITHRIL,ROCK_COPPER,ROCK_TIN,
+          ROCK_CLAY
+        ];
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_Y_BANK;
+          EndLoc   := LOC_Y_MINE;
+
+          SPSPath := [
+            TPointArray([Point(2285, 4300),Point(2330, 4155),
+              Point(2340, 4120)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_10','6_10'])
+          ];
+        end;
+      end;
+
     { FISHERS ==================================== ]
     [============================================= }
     SCRIPT_POWER_FISHER:
@@ -1071,8 +1111,9 @@ begin
           EndLoc   := LOC_BBV_FISH;
 
           SPSPath := [
-            TPointArray([Point(4209, 2685), Point(4233, 2784),
-                         Point(4204, 2887), Point(4268, 2920)])
+            TPointArray([Point(4209, 2678), Point(4236, 2709),
+                         Point(4235, 2782), Point(4185, 2792),
+                         Point(4210, 2895), Point(4271, 2917)])
           ];
 
           SPSAreas   := [
@@ -1173,7 +1214,7 @@ begin
           EndLoc   := LOC_FG_FISH;
 
           SPSPath := [
-            TPointArray([Point(2178, 2964), Point(2247, 2970)])
+            TPointArray([Point(2185, 2964), Point(2247, 2970)])
           ];
 
           SPSAreas   := [
@@ -1181,6 +1222,41 @@ begin
           ];
         end;
       end;
+
+    SCRIPT_FC_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Colony Fisher';
+        Constant      := SCRIPT_FC_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := NPC_ARNOLD;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET_MONKFISH
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FC_BANK to LOC_FC_FISH';
+          StartLoc := LOC_FC_BANK;
+          EndLoc   := LOC_FC_FISH;
+
+          SPSPath := [
+            TPointArray([Point(1160,1880),Point(1215,1835)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['2_4','3_4'])
+          ];
+        end;
+      end;
+
+
 
     { COOKERS ==================================== ]
     [============================================= }
@@ -1223,6 +1299,49 @@ begin
 
           SPSAreas   := [
             TStringArray(['12_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_CB_COOKER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Catherby Cooker';
+        Constant      := SCRIPT_CB_COOKER;
+        SkillName     := 'Cooking';
+        SkillConst    := SKILL_COOKING;
+        BankType      := Bank;
+        GetMaterials  := True;
+        WhichBank     := MSI_BANK_CB;
+        AutoObjects   := @MSI_CookFullInv;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupCooking;
+
+        with Defaults do
+        begin
+          CookingSpot := [COOKSPOT_CB_RANGE];
+
+          Materials := [
+            MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+            MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+            MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+            MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+            MATERIAL_SHARK
+          ];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_CB_BANK to LOC_CB_RANGE';
+          StartLoc := LOC_CB_BANK;
+          EndLoc   := LOC_CB_RANGE;
+
+          SPSPath := [
+            TPointArray([Point(3076, 2892), Point(3099, 2882)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['7_7'])
           ];
         end;
       end;
@@ -1779,6 +1898,9 @@ begin
   {$IFDEF SPS}
   with MSI_Scripts[whichScript] do
   begin
+    if (maxTime <= 0) then
+      maxTime := 60; // default time for one load is an hour
+
     // sets rs surface as default SPS surface
     if (length(pathInfo.spsSurfaces) <= 0) then
     begin

@@ -443,6 +443,11 @@ procedure MSI_LevelUp();
 begin
   if (LevelUp) then
   begin
+    if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel > 0) then
+      if (MSI_Players[CurrentPlayer].ReportInfo.SkillLevels[CurrentScript] >=
+          MSI_Players[CurrentPlayer].Scripts[CurrentScript].MaxLevel) then
+        TakeScreen('MaxLevel');
+
     MSI_SubDebug('MSI_LevelUp: Player has leveled up!');
     stats_IncVariable('Total Levels Gained', 1);
     MSI_QCLevelUp();
@@ -488,8 +493,6 @@ begin
   if (LeaveDangerZone) then
     MSI_SubDebug('Left danger zone');
 
-  gameTab(TAB_INV);
-
   if (not Force) then
     if (NextRandCheck > GetSystemTime) then
       Exit;
@@ -519,8 +522,8 @@ in between randoms scans (changable by user in the script setup).
 
 .. note::
 
-  | Author: Coh3n, FindNormalRandoms, & NCDS
-  | Last Updated: 04 June 2011 by Coh3n
+  | Author: Coh3n, & NCDS
+  | Last Updated: 16 Feb 2011 by Coh3n
 
 Example:
 
@@ -532,14 +535,9 @@ Example:
         Exit;
 *)
 function MSI_NoMouseFindRandoms(force: boolean): boolean;
-{$IFNDEF REFLECTION}
-var
-  cont: boolean;
-  i: integer;
-{$ENDIF}
 begin
-  if (not LoggedIn) then
-    Exit;
+  if (not loggedIn()) then
+    exit;
 
   MSI_LevelUp();
 
@@ -547,45 +545,9 @@ begin
     if (nextRandCheck > getSystemTime) then
       exit;
 
-  MSI_SubDebug('Scanning for randoms...');
-  {$IFDEF REFLECTION}
-    Result := R_SolveNonTalkingRandoms;
-  {$ELSE}
-    begin {Taken from SRL's FindNormalRandoms (mouse movements removed)}
-      if (SRL_OnFindRandomCall <> nil) then
-      begin;
-        Result := SRL_OnFindRandomCall(cont);
-        if not Cont then
-          exit;
-      end;
-      for I := 1 to 6 do
-      begin
-        case I of
-          1: Result := SolveTeleportRandoms;
-          2: Respond;
-          3: Result := FindDead;
-          4: Result :=  RC;
-          5: Result := FindMod;
-          6: if (SRL_Procs[srl_OnRandomCall] <> nil) then
-               SRL_Procs[srl_OnRandomCall]();
+  findNonInventoryRandoms();
 
-        end;
-        if (Result) then
-        begin
-          if (SRL_Procs[srl_OnFindRandom] <> nil) then
-            SRL_Procs[srl_OnFindRandom]();
-          Break;
-        end;
-      end;
-    end; //End SRL's Func.
-  {$ENDIF}
-  if Result then
-    MSI_SubDebug('MSI_FindRandoms: Finished Random Event!')
-  else
-    if (not LoggedIn) then
-      MSI_Players[CurrentPlayer].ReportInfo.FalseReason := 'Failed to solve random';
-
-  NextRandCheck := GetSystemTime + MSI_Settings[SETUP_RANDOMS_WAIT];
+  nextRandCheck := (getSystemTime() + MSI_Settings[SETUP_RANDOMS_WAIT]);
 end;
 
 (*
