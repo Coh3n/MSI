@@ -81,7 +81,7 @@ const
     CHECKBOX_SMART_SIGNED = 4;
     CHECKBOX_SMART_DEBUG  = 5;
 
-  BUTTON_COUNT = 13;
+  BUTTON_COUNT = 14;
     BUTTON_CONTINUE           = 1;
     BUTTON_SETTINGS           = 2;
     BUTTON_PLAYER             = 3;
@@ -95,6 +95,7 @@ const
     BUTTON_SCRIPT_LIST_ADD    = 11;
     BUTTON_SCRIPT_LIST_CANCEL = 12;
     BUTTON_ADVANCED_PLAYER    = 13;
+    BUTTON_STATS_SIGNUP       = 14;
 
   LABEL_COUNT = 8;
     LABEL_PLAYERS     = 1;
@@ -146,7 +147,6 @@ var
 {$i msi/msi/form/events.simba}
 {$i msi/msi/form/defaults.simba}
 {$i msi/msi/form/scriptList.simba}
-{$i msi/msi/form/mainmenu.simba}
 
 {
 type
@@ -208,7 +208,7 @@ begin
       else
         MainMenu.Items.Items[i - 1].Add(MainMenuItems[i][j]);
 
-      MainMenuItems[i][j].OnClick := @MM_Click;
+      MainMenuItems[i][j].OnClick := @_Click;
     end;
   end;
 end;
@@ -289,7 +289,8 @@ begin
     Parent := SettingsTabs[TAB_SETTING_STATS];
     Top    := _SPACING;
     Left   := _SPACING;
-    Text   := 'ID';
+    Name   := 'ID';
+    Hint   := 'The stats ID/username you signed up with.';
   end;
 
   Edits[EDIT_STATS_PASS] := _TEdit(SettingsTabs[TAB_SETTING_STATS]);
@@ -298,7 +299,9 @@ begin
     Parent := Edits[EDIT_STATS_ID].Parent;
     Top    := Edits[EDIT_STATS_ID].Top + Height + _SPACING;
     Left   := Edits[EDIT_STATS_ID].Left;
-    Text   := 'Password';
+    Name   := 'Password';
+    Tag    := $01;
+    Hint   := 'The stats password you use to sign into the SRL stats website.';
   end;
 
   Labels[LABEL_STATS_ID] := TLabel.Create(SettingsTabs[TAB_SETTING_STATS]);
@@ -317,6 +320,16 @@ begin
     Caption := 'SRL Stats Password';
     Left    := Edits[EDIT_STATS_PASS].Left + Edits[EDIT_STATS_PASS].Width + _SPACING;
     Top     := Edits[EDIT_STATS_PASS].Top + _EDIT_LABEL;
+  end;
+
+  Buttons[BUTTON_STATS_SIGNUP] := _TButton(SettingsTabs[TAB_SETTING_STATS]);
+  with Buttons[BUTTON_STATS_SIGNUP] do
+  begin
+    Parent := Edits[EDIT_STATS_PASS].Parent;
+    Caption := 'Get Stats Account';
+    Top := Edits[EDIT_STATS_PASS].Top + Height + _SPACING;
+    Left := Edits[EDIT_STATS_ID].Left;
+    Width := 150;
   end;
 end;
 

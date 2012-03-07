@@ -49,7 +49,6 @@ begin
   Result := TButton.Create(Owner);
   with Result do
   begin
-    Font.Style := [fsItalic];
     ShowHint   := true;
     Height     := 25;
     OnClick    := @_Click;
