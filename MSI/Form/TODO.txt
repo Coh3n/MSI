@@ -11,14 +11,22 @@ MSI Form TODO
     - Password
   - Lower CPU
     - Don't print long report (remove SETUP_PRINT_REPORT)
-    - Lower DebugLevel
-  - Logs
+    - Enable MSI debugging
+  - Debugging
+    - Debug Level
     - Save Debug Log
     - Save Progress Report
+    - Use Progress Report GUI
   - Antiban
     - Human-like Breaking
     - Switch Worlds
     - RestAt, RestUntil
+    - Enable Death Walking (not recommended)
+    - Quick-chat level up
+    - Random Next Player 
+    - Switch worlds when logging
+    - Enable SRL's Random Tool (recommended)
+    - Max Players
   - Advanced
     - Antiban Wait
     - Randoms Check Wait 
