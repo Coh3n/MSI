@@ -29,6 +29,9 @@ MSI Form TODO
     - Max Players
   - Advanced
     - Antiban Wait
-    - Randoms Check Wait 
+    - Randoms Check Wait
+  - Paths
+    - Debug Log 
+    - Progress Report 
 
 - Intro. page/logo
