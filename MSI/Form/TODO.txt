@@ -2,16 +2,17 @@ MSI Form TODO
 ~~~~~~~~~~~~~
 
 - MSI Settings (side-tabs)
-  - SMART Settings
-    - Signed
-    - Debug
-    - Preferred World
-  - Stats
-    - ID 
-    - Password
-  - Lower CPU
-    - Don't print long report (remove SETUP_PRINT_REPORT)
-    - Enable MSI debugging
+  X- SMART Settings
+    X- Signed
+    X- Debug
+    X- Preferred World **
+  X- Stats
+    X- ID 
+    X- Password
+    X- Get account
+  X- Lower CPU
+    X- Don't print long report **
+    X- Disable MSI debugging **
   - Debugging
     - Debug Level
     - Save Debug Log
@@ -19,19 +20,18 @@ MSI Form TODO
     - Use Progress Report GUI
   - Antiban
     - Human-like Breaking
-    - Switch Worlds
-    - RestAt, RestUntil
+    - RestAt, RestUntil **
     - Enable Death Walking (not recommended)
     - Quick-chat level up
     - Random Next Player 
-    - Switch worlds when logging
-    - Enable SRL's Random Tool (recommended)
-    - Max Players
+    - Switch worlds when logging **
+    - Switch worlds if too many people
+    - Enable SRL's Random Tool (recommended) **    
   - Advanced
     - Antiban Wait
     - Randoms Check Wait
   - Paths
-    - Debug Log 
-    - Progress Report 
+    - Debug Log **
+    - Progress Report **
 
 - Intro. page/logo

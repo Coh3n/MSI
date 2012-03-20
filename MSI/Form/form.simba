@@ -74,12 +74,14 @@ const
   COMBOBOX_COUNT = 1;
     COMBOBOX_LAMPSKILL = 1;
 
-  CHECKBOX_COUNT = 5;
+  CHECKBOX_COUNT = 7;
     CHECKBOX_ACTIVE       = 1;
     CHECKBOX_MEMBER       = 2;
     CHECKBOX_APPLY_ALL    = 3;
     CHECKBOX_SMART_SIGNED = 4;
     CHECKBOX_SMART_DEBUG  = 5;
+    CHECKBOX_CPU_REPORT   = 6;
+    CHECKBOX_CPU_DEBUG    = 7;
 
   BUTTON_COUNT = 14;
     BUTTON_CONTINUE           = 1;
@@ -336,12 +338,35 @@ end;
 
 procedure initSettingsCPU();
 begin
-  SettingsTabs[TAB_SETTING_CPU].Caption := 'Lower CPU';
+  SettingsTabs[TAB_SETTING_CPU].Caption := 'CPU';
+
+  CheckBoxes[CHECKBOX_CPU_REPORT] := _TCheckBox(SettingsTabs[TAB_SETTING_CPU]);
+  with CheckBoxes[CHECKBOX_CPU_REPORT] do
+  begin
+    Parent  := SettingsTabs[TAB_SETTING_CPU];
+    Caption := '  Do not print detailed progress report';
+    Checked := false;
+    Top     := _SPACING;
+    Left    := _SPACING;
+    Hint    := 'If using multiple players, the detailed report can be quite long '+#10+#13+
+               'and may take a few seconds to print. Check off to save a few seconds.';
+  end;
+
+  CheckBoxes[CHECKBOX_CPU_DEBUG] := _TCheckBox(SettingsTabs[TAB_SETTING_CPU]);
+  with CheckBoxes[CHECKBOX_CPU_DEBUG] do
+  begin
+    Parent  := CheckBoxes[CHECKBOX_CPU_REPORT].Parent;
+    Caption := '  Disable debugging (not recommended)';
+    Checked := false;
+    Top     := CheckBoxes[CHECKBOX_CPU_REPORT].Top + Height + _SPACING;
+    Left    := _SPACING;
+    Hint    := 'Check off to disable debugging to the debug box. Will still save to file unless that option has been disabled.';
+  end;
 end;
 
-procedure initSettingsLogs();
+procedure initSettingsDebug();
 begin
-  SettingsTabs[TAB_SETTING_LOGS].Caption := 'Logs';
+  SettingsTabs[TAB_SETTING_LOGS].Caption := 'Debugging';
 end;
 
 procedure initSettingsAntiban();
@@ -374,7 +399,7 @@ begin
   initSettingsSMART();
   initSettingsStats();
   initSettingsCPU();
-  initSettingsLogs();
+  initSettingsDebug();
   initSettingsAntiban();
   initSettingsAdvanced();
 end;
