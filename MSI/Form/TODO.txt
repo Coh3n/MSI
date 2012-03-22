@@ -13,25 +13,22 @@ MSI Form TODO
   X- Lower CPU
     X- Don't print long report **
     X- Disable MSI debugging **
-  - Debugging
-    - Debug Level
-    - Save Debug Log
-    - Save Progress Report
-    - Use Progress Report GUI
-  - Antiban
-    - Human-like Breaking
-    - RestAt, RestUntil **
-    - Enable Death Walking (not recommended)
-    - Quick-chat level up
-    - Random Next Player 
-    - Switch worlds when logging **
-    - Switch worlds if too many people
-    - Enable SRL's Random Tool (recommended) **    
-  - Advanced
-    - Antiban Wait
-    - Randoms Check Wait
-  - Paths
-    - Debug Log **
-    - Progress Report **
+  X- Debugging
+    X- Debug Level
+    X- Save Debug Log
+    X- Save Progress Report
+    X- Use Progress Report GUI
+  X- Antiban
+    X- Human-like Breaking
+    X- RestAt, RestUntil **
+    X- Enable Death Walking (not recommended)
+    X- Quick-chat level up
+    X- Random Next Player 
+    X- Switch worlds when logging **
+    X- Switch worlds if too many people
+    X- Enable SRL's Random Tool (recommended) **    
+  X- Advanced
+    X- Antiban Wait
+    X- Randoms Check Wait
 
 - Intro. page/logo

@@ -58,7 +58,7 @@ const
   CHECKLIST_COUNT = 1;
     CHECKLIST_REWARDS = 1;
 
-  EDIT_COUNT = 11;
+  EDIT_COUNT = 17;
     EDIT_USERNAME    = 1;
     EDIT_PASSWORD    = 2;
     EDIT_PIN         = 3;
@@ -70,20 +70,35 @@ const
     EDIT_SMART_WORLD = 9;
     EDIT_STATS_ID    = 10;
     EDIT_STATS_PASS  = 11;
+    EDIT_DEBUG_LEVEL = 12;
+    EDIT_ANTIBAN_PLAYERS    = 13;
+    EDIT_ANTIBAN_REST_AT    = 14;
+    EDIT_ANTIBAN_REST_UNTIL = 15;
+    EDIT_ADVANCE_ANTIBAN    = 16;
+    EDIT_ADVANCE_RANDOMS    = 17;
 
   COMBOBOX_COUNT = 1;
     COMBOBOX_LAMPSKILL = 1;
 
-  CHECKBOX_COUNT = 7;
-    CHECKBOX_ACTIVE       = 1;
-    CHECKBOX_MEMBER       = 2;
-    CHECKBOX_APPLY_ALL    = 3;
-    CHECKBOX_SMART_SIGNED = 4;
-    CHECKBOX_SMART_DEBUG  = 5;
-    CHECKBOX_CPU_REPORT   = 6;
-    CHECKBOX_CPU_DEBUG    = 7;
+  CHECKBOX_COUNT = 16;
+    CHECKBOX_ACTIVE        = 1;
+    CHECKBOX_MEMBER        = 2;
+    CHECKBOX_APPLY_ALL     = 3;
+    CHECKBOX_SMART_SIGNED  = 4;
+    CHECKBOX_SMART_DEBUG   = 5;
+    CHECKBOX_CPU_REPORT    = 6;
+    CHECKBOX_CPU_DEBUG     = 7;
+    CHECKBOX_DEBUG_LOG     = 8;
+    CHECKBOX_DEBUG_REPORT  = 9;
+    CHECKBOX_DEBUG_GUI     = 10;
+    CHECKBOX_ANTIBAN_HUMAN = 11;
+    CHECKBOX_ANTIBAN_DEATH = 12;
+    CHECKBOX_ANTIBAN_QC    = 13;
+    CHECKBOX_ANTIBAN_NP    = 14;
+    CHECKBOX_ANTIBAN_WORLD = 15;
+    CHECKBOX_ANTIBAN_RTOOL = 16;
 
-  BUTTON_COUNT = 14;
+  BUTTON_COUNT = 15;
     BUTTON_CONTINUE           = 1;
     BUTTON_SETTINGS           = 2;
     BUTTON_PLAYER             = 3;
@@ -98,8 +113,9 @@ const
     BUTTON_SCRIPT_LIST_CANCEL = 12;
     BUTTON_ADVANCED_PLAYER    = 13;
     BUTTON_STATS_SIGNUP       = 14;
+    BUTTON_START_SCRIPT       = 15;
 
-  LABEL_COUNT = 8;
+  LABEL_COUNT = 14;
     LABEL_PLAYERS     = 1;
     LABEL_SCRIPTS     = 2;
     LABEL_LAMPSKILL   = 3;
@@ -108,12 +124,18 @@ const
     LABEL_SMART_WORLD = 6;
     LABEL_STATS_ID    = 7;
     LABEL_STATS_PASS  = 8;
+    LABEL_DEBUG_LEVEL = 9;
+    LABEL_ANTIBAN_PLAYERS    = 10;
+    LABEL_ANTIBAN_REST_AT    = 11;
+    LABEL_ANTIBAN_REST_UNTIL = 12;
+    LABEL_ADVANCE_ANTIBAN    = 13;
+    LABEL_ADVANCE_RANDOMS    = 14;
 
   TAB_SETTING_COUNT = 6;
     TAB_SETTING_SMART    = 1;
     TAB_SETTING_STATS    = 2;
     TAB_SETTING_CPU      = 3;
-    TAB_SETTING_LOGS     = 4;
+    TAB_SETTING_DEBUG    = 4;
     TAB_SETTING_ANTIBAN  = 5;
     TAB_SETTING_ADVANCED = 6;
 
@@ -143,7 +165,7 @@ var
   OpenDialog : TOpenDialog;
   SaveDialog : TSaveDialog;
 
-  ScriptReady: Boolean;
+  MSI_ScriptReady: Boolean;
 
 {$i misc.simba}
 {$i events.simba}
@@ -177,7 +199,7 @@ begin
   end;
 end;
 
-procedure createSkillForm(skill: integer);
+procedure initSkillForm(skill: integer);
 begin
 end;
 }
@@ -366,17 +388,241 @@ end;
 
 procedure initSettingsDebug();
 begin
-  SettingsTabs[TAB_SETTING_LOGS].Caption := 'Debugging';
+  SettingsTabs[TAB_SETTING_DEBUG].Caption := 'Debugging';
+
+  Edits[EDIT_DEBUG_LEVEL] := _TEdit(SettingsTabs[TAB_SETTING_DEBUG]);
+  with Edits[EDIT_DEBUG_LEVEL] do
+  begin
+    Parent := SettingsTabs[TAB_SETTING_DEBUG];
+    Top    := _SPACING;
+    Left   := _SPACING;
+    Text   := '10';
+    Hint   := 'The lower the Debug Level, the less debug text will be printed in the Simba debug box.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Labels[LABEL_DEBUG_LEVEL] := TLabel.Create(SettingsTabs[TAB_SETTING_DEBUG]);
+  with Labels[LABEL_DEBUG_LEVEL] do
+  begin
+    Parent  := Edits[EDIT_DEBUG_LEVEL].Parent;
+    Caption := 'Debug Level';
+    Left    := Edits[EDIT_DEBUG_LEVEL].Left + Edits[EDIT_DEBUG_LEVEL].Width + _SPACING;
+    Top     := Edits[EDIT_DEBUG_LEVEL].Top + _EDIT_LABEL;
+  end;
+
+  CheckBoxes[CHECKBOX_DEBUG_LOG] := _TCheckBox(SettingsTabs[TAB_SETTING_DEBUG]);
+  with CheckBoxes[CHECKBOX_DEBUG_LOG] do
+  begin
+    Parent  := Edits[EDIT_DEBUG_LEVEL].Parent;
+    Caption := '  Save Debug Log (recommended)';
+    Checked := true;
+    Top     := Edits[EDIT_DEBUG_LEVEL].Top + Height + _SPACING + 6;
+    Left    := _SPACING;
+    Hint    := 'Debugging logs are saved to Simba/Includes/MSI/DebugLogs/';
+  end;
+
+  CheckBoxes[CHECKBOX_DEBUG_REPORT] := _TCheckBox(SettingsTabs[TAB_SETTING_DEBUG]);
+  with CheckBoxes[CHECKBOX_DEBUG_REPORT] do
+  begin
+    Parent  := Edits[EDIT_DEBUG_LEVEL].Parent;
+    Caption := '  Save Progress Reports (recommended)';
+    Checked := true;
+    Top     := CheckBoxes[CHECKBOX_DEBUG_LOG].Top + Height + _SPACING;
+    Left    := _SPACING;
+    Hint    := 'Progress reports are saved to Simba/Includes/MSI/Progress Reports/';
+  end;
+
+  CheckBoxes[CHECKBOX_DEBUG_LOG] := _TCheckBox(SettingsTabs[TAB_SETTING_DEBUG]);
+  with CheckBoxes[CHECKBOX_DEBUG_LOG] do
+  begin
+    Parent  := Edits[EDIT_DEBUG_LEVEL].Parent;
+    Caption := '  Use Progress Report GUI';
+    Top     := CheckBoxes[CHECKBOX_DEBUG_REPORT].Top + Height + _SPACING;
+    Left    := _SPACING;
+    Hint    := 'Shows a separate window that displays the progress report.';
+  end;
 end;
 
 procedure initSettingsAntiban();
 begin
   SettingsTabs[TAB_SETTING_ANTIBAN].Caption := 'Antiban';
+
+  Edits[EDIT_ANTIBAN_PLAYERS] := _TEdit(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Edits[EDIT_ANTIBAN_PLAYERS] do
+  begin
+    Parent := SettingsTabs[TAB_SETTING_ANTIBAN];
+    Top    := _SPACING;
+    Left   := _SPACING;
+    Width  := 50;
+    Text   := '100';
+    Hint   := 'Will switch worlds if this many players are found on the minimap.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Edits[EDIT_ANTIBAN_REST_AT] := _TEdit(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Edits[EDIT_ANTIBAN_REST_AT] do
+  begin
+    Parent := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Top    := Edits[EDIT_ANTIBAN_PLAYERS].Top + Height + _SPACING;
+    Left   := Edits[EDIT_ANTIBAN_PLAYERS].Left;
+    Text   := '20';
+    Width  := 50;
+    Hint   := 'Will start resting when the player''s energy goes below this value.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Edits[EDIT_ANTIBAN_REST_UNTIL] := _TEdit(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Edits[EDIT_ANTIBAN_REST_UNTIL] do
+  begin
+    Parent := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Top    := Edits[EDIT_ANTIBAN_REST_AT].Top + Height + _SPACING;
+    Left   := Edits[EDIT_ANTIBAN_REST_AT].Left;
+    Text   := '80';
+    Width  := 50;
+    Hint   := 'Will rest until the player''s energy gets to this value.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Labels[LABEL_ANTIBAN_PLAYERS] := TLabel.Create(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Labels[LABEL_ANTIBAN_PLAYERS] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := 'Maximum players in the area';
+    Left    := Edits[EDIT_ANTIBAN_PLAYERS].Left + Edits[EDIT_ANTIBAN_PLAYERS].Width + _SPACING;
+    Top     := Edits[EDIT_ANTIBAN_PLAYERS].Top + _EDIT_LABEL;
+  end;
+
+  Labels[LABEL_ANTIBAN_REST_AT] := TLabel.Create(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Labels[LABEL_ANTIBAN_REST_AT] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := 'Rest at energy';
+    Left    := Edits[EDIT_ANTIBAN_REST_AT].Left + Edits[EDIT_ANTIBAN_REST_AT].Width + _SPACING;
+    Top     := Edits[EDIT_ANTIBAN_REST_AT].Top + _EDIT_LABEL;
+  end;
+
+  Labels[LABEL_ANTIBAN_REST_UNTIL] := TLabel.Create(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with Labels[LABEL_ANTIBAN_REST_UNTIL] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := 'Rest until energy';
+    Left    := Edits[EDIT_ANTIBAN_REST_UNTIL].Left + Edits[EDIT_ANTIBAN_REST_UNTIL].Width + _SPACING;
+    Top     := Edits[EDIT_ANTIBAN_REST_UNTIL].Top + _EDIT_LABEL;
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_HUMAN] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_HUMAN] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Use human-like breaking (single player only)';
+    Top     := Edits[EDIT_ANTIBAN_REST_UNTIL].Top + Height + _SPACING + 6;
+    Left    := Edits[EDIT_ANTIBAN_PLAYERS].Left;
+    Hint    := 'Will sometimes use the "logout timeout" for breaking, rather than exiting to lobby.';
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_DEATH] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_DEATH] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Enable death walking';
+    Top     := CheckBoxes[CHECKBOX_ANTIBAN_HUMAN].Top + Height + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_ANTIBAN_HUMAN].Left;
+    Hint    := 'If a player gets lost, it will teleport to Lumbridge and walk back to the script''s starting location.';
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_QC] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_QC] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Use quick-chat when level is gained';
+    Top     := CheckBoxes[CHECKBOX_ANTIBAN_DEATH].Top + Height + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_ANTIBAN_DEATH].Left;
+    Hint    := 'If a player gains a level, it will use quick-chat to say the new level of that gained skill.';
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_NP] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_NP] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Random next player (multiplayer only)';
+    Top     := CheckBoxes[CHECKBOX_ANTIBAN_QC].Top + Height + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_ANTIBAN_QC].Left;
+    Hint    := 'When switching players, will switch to a random player rather than the next player.';
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_WORLD] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_WORLD] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Switch worlds when logging in';
+    Top     := CheckBoxes[CHECKBOX_ANTIBAN_NP].Top + Height + _SPACING;
+    Left    := CheckBoxes[CHECKBOX_ANTIBAN_NP].Left;
+    Hint    := 'Will switch worlds after taking breaks or switching players.';
+  end;
+
+  CheckBoxes[CHECKBOX_ANTIBAN_RTOOL] := _TCheckBox(SettingsTabs[TAB_SETTING_ANTIBAN]);
+  with CheckBoxes[CHECKBOX_ANTIBAN_RTOOL] do
+  begin
+    Parent  := Edits[EDIT_ANTIBAN_PLAYERS].Parent;
+    Caption := '  Use SRL''s Random Tool';
+    Top     := Edits[EDIT_ANTIBAN_PLAYERS].Top;
+    Left    := 300;
+    Checked := true;
+    Hint    := 'Plays a sound when a random event is found.';
+  end;
 end;
 
 procedure initSettingsAdvanced();
 begin
   SettingsTabs[TAB_SETTING_ADVANCED].Caption := 'Advanced';
+
+  Edits[EDIT_ADVANCE_ANTIBAN] := _TEdit(SettingsTabs[TAB_SETTING_ADVANCED]);
+  with Edits[EDIT_ADVANCE_ANTIBAN] do
+  begin
+    Parent := SettingsTabs[TAB_SETTING_ADVANCED];
+    Top    := _SPACING;
+    Left   := _SPACING;
+    Width  := 75;
+    Text   := '15000';
+    Hint   := 'The interval (in milliseconds) to perform antiban.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Edits[EDIT_ADVANCE_RANDOMS] := _TEdit(SettingsTabs[TAB_SETTING_ADVANCED]);
+  with Edits[EDIT_ADVANCE_RANDOMS] do
+  begin
+    Parent := Edits[EDIT_ADVANCE_ANTIBAN].Parent;
+    Top    := Edits[EDIT_ADVANCE_ANTIBAN].Top + Height + _SPACING;
+    Left   := Edits[EDIT_ADVANCE_ANTIBAN].Left;
+    Width  := 75;
+    Text   := '15000';
+    Hint   := 'The interval (in milliseconds) to check for random events.';
+    Font.Style := [];
+    Font.Color := clBlack;
+  end;
+
+  Labels[LABEL_ADVANCE_ANTIBAN] := TLabel.Create(SettingsTabs[TAB_SETTING_ADVANCED]);
+  with Labels[LABEL_ADVANCE_ANTIBAN] do
+  begin
+    Parent  := Edits[EDIT_ADVANCE_ANTIBAN].Parent;
+    Caption := 'Perform antiban inverval (ms)';
+    Left    := Edits[EDIT_ADVANCE_ANTIBAN].Left + Edits[EDIT_ADVANCE_ANTIBAN].Width + _SPACING;
+    Top     := Edits[EDIT_ADVANCE_ANTIBAN].Top + _EDIT_LABEL;
+  end;
+
+  Labels[LABEL_ADVANCE_RANDOMS] := TLabel.Create(SettingsTabs[TAB_SETTING_ADVANCED]);
+  with Labels[LABEL_ADVANCE_RANDOMS] do
+  begin
+    Parent  := Edits[EDIT_ADVANCE_ANTIBAN].Parent;
+    Caption := 'Check for randoms interval (ms)';
+    Left    := Edits[EDIT_ADVANCE_RANDOMS].Left + Edits[EDIT_ADVANCE_RANDOMS].Width + _SPACING;
+    Top     := Edits[EDIT_ADVANCE_RANDOMS].Top + _EDIT_LABEL;
+  end;
 end;
 
 procedure initGlobalSettings();
@@ -719,7 +965,7 @@ begin
   begin
     Parent  := Lists[LIST_PLAYERS].Parent;
     Width   := Edits[EDIT_USERNAME].Width / 2 - (_SPACING / 2);
-    Top     := CheckBoxes[CHECKBOX_MEMBER].Top + CheckBoxes[CHECKBOX_MEMBER].Height + _SPACING;
+    Top     := Lists[LIST_PLAYERS].Top + Lists[LIST_PLAYERS].Height - Height;
     Left    := Edits[EDIT_USERNAME].Left;
     Hint    := 'Adds the player with the current settings to the Player List';
     Caption := '+';
@@ -746,7 +992,7 @@ begin
     Top    := Lists[LIST_PLAYERS].Top;
     Width  := Lists[LIST_PLAYERS].Width;
     Height := Buttons[BUTTON_PLAYER_DELETE].Top + Buttons[BUTTON_PLAYER_DELETE].Height - Top;
-    Left   := Edits[EDIT_USERNAME].Left + Edits[EDIT_USERNAME].Width + (_SPACING * 2);
+    Left   := Edits[EDIT_USERNAME].Left + Edits[EDIT_USERNAME].Width + _SPACING + 9;
     Hint   := 'A list of all the selected player''s scripts. Double click to open advanced settings.';
   end;
 
@@ -801,8 +1047,19 @@ begin
     Parent := Lists[LIST_PLAYERS].Parent;
     Left   := Buttons[BUTTON_SCRIPT_SETTINGS].Left + 1;
     Top    := Buttons[BUTTON_SCRIPT_SETTINGS].Top + Buttons[BUTTON_SCRIPT_SETTINGS].Height + _SPACING;;
-    Hint   := 'Apply the current settings to all players';
+    Hint   := 'Apply the current settings to all players.';
     Caption := '  Apply to all';
+  end;
+
+  Buttons[BUTTON_START_SCRIPT] := _TButton(Forms[FORM_MAIN]);
+  with Buttons[BUTTON_START_SCRIPT] do
+  begin
+    Parent  := Lists[LIST_PLAYERS].Parent;
+    Top     := Panels[PANEL_PLAYER].Height - Height - _SPACING;
+    Width   := 100;
+    Left    := Panels[PANEL_PLAYER].Width - Width - _SPACING;
+    Hint    := 'Click to start the script.';
+    Caption := 'Start Script';
   end;
 
   initPlayerAdvanced();
@@ -816,7 +1073,7 @@ begin
   with Forms[FORM_MAIN] do
   begin
     Width   := 559;
-    Height  := 304;
+    Height := 324
     Caption := 'MSI Phoenix ~ Multiple Script Integration @ SRL-Forums';
     OnPaint := @_Paint;
   end;
@@ -849,7 +1106,6 @@ begin
     Top         := 8;
     Left        := 220;
     Font.Height := 25;
-    Font.Style  := [fsItalic];
   end;
 
   Buttons[BUTTON_PLAYER] := _TButton(Forms[FORM_MAIN]);
@@ -938,6 +1194,9 @@ begin
   except
     writeln(ExceptionToString(ExceptionType, ExceptionParam));
   end;
+
+  if (MSI_ScriptReady) then
+    writeln('MSI is ready!');
 end.
 {$ENDIF}
 

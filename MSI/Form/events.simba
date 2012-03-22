@@ -229,8 +229,10 @@ begin
         begin
           Lists[LIST_PLAYERS].Items.Add(Edits[EDIT_USERNAME].Text);
           resetPlayerSettings();
-        end else
+        end else begin
           showMessage('You need to enter player information before one can be added.');
+          exit;
+        end;
 
         Buttons[BUTTON_PLAYER_DELETE].Enabled := true;
       end;
@@ -254,5 +256,11 @@ begin
 
     Buttons[BUTTON_STATS_SIGNUP]:
       openWebPage('http://stats.villavu.com/register');
+
+    Buttons[BUTTON_START_SCRIPT]:
+      begin
+        MSI_ScriptReady := true;
+        Forms[FORM_MAIN].ModalResult := mrOK;
+      end;
   end;
 end;
