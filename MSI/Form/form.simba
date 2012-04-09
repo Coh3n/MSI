@@ -167,11 +167,592 @@ var
 
   MSI_ScriptReady: Boolean;
 
-{$i misc.simba}
-{$i events.simba}
-{$i defaults.simba}
-{$i scriptList.simba}
-{$i internalmethods.simba}
+(**
+ * Converts the 'skill' constant to a string.
+ *)
+function skillToStr(skill: integer): string;
+begin
+  case skill of
+    SKILL_NONE: result := 'Money Making';
+    SKILL_ATTACK: result := 'Attack';
+    SKILL_DEFENCE: result := 'Defence';
+    SKILL_STRENGTH: result := 'Strength';
+    SKILL_HITPOINTS, SKILL_HP: result := 'Constitution';
+    SKILL_RANGE: result := 'Range';
+    SKILL_PRAYER: result := 'Prayer';
+    SKILL_MAGIC: result := 'Magic';
+    SKILL_COOKING: result := 'Cooking';
+    SKILL_WOODCUTTING: result := 'Woodcutting';
+    SKILL_FLETCHING: result := 'Fletching';
+    SKILL_FISHING: result := 'Fishing';
+    SKILL_FIREMAKING: result := 'Firemaking';
+    SKILL_CRAFTING: result := 'Crafting';
+    SKILL_SMITHING: result := 'Smithing';
+    SKILL_MINING: result := 'Mining';
+    SKILL_HERBLORE: result := 'Herblore';
+    SKILL_AGILITY: result := 'Agility';
+    SKILL_THIEVING: result := 'Thieving';
+    SKILL_SLAYER: result := 'Slayer';
+    SKILL_FARMING: result := 'Farming';
+    SKILL_RUNECRAFTING: result := 'Runecrafting';
+    SKILL_HUNTER: result := 'Hunter';
+    SKILL_CONSTRUCTION: result := 'Construction';
+    SKILL_SUMMONING: result := 'Summoning';
+    SKILL_DUNGEONEERING: result := 'Dungeoneering';
+
+    else
+      MSI_SubDebug('[FORM]: Invalid skill in skillToString');
+  end;
+end;
+
+(**
+ * Removed the spaces at the start of 's'. Used for adding scripts to a player's
+ * script list.
+ *)
+function removePreSpaces(s: string): string;
+var
+  i: integer;
+begin
+  for i := 1 to length(s) do
+    if (s[i] <> ' ') then
+    begin
+      result := copy(s, i, length(s));
+      break;
+    end;
+end;
+
+(**
+ * Prevents people from typing in a ComboBox.
+ *)
+procedure preventTyping(sender: TObject; var key: char);
+begin
+  key := chr(VK_CANCEL);
+end;
+
+(**
+ * Returns true if 'str' is in the list box 'list'.
+ *)
+function inList(list: TListBox; str: string): boolean;
+var
+  i: integer;
+begin
+  for i := 0 to (list.items.count - 1) do
+    if (lowercase(str) = lowercase(list.items.strings[i])) then
+    begin
+      result := true;
+      break;
+    end;
+
+  //writeln(toStr('inList: '+toStr(result)));
+end;
+
+(**
+ * Deletes the list entery 'element' from 'list'.
+ *)
+procedure deleteFromList(list: TListBox; element: integer);
+begin
+  if (element = 0) then
+    list.itemIndex := 1
+  else
+    list.itemIndex := list.itemIndex - 1;
+
+  list.items.delete(element);
+end;
+
+
+(**
+ * Resets player advanced components (advanced settings form) so they're blank
+ * for the next player.
+ *)
+procedure resetPlayerAdvanced();
+begin
+end;
+
+(**
+ * Resets player components (username/password/etc.) so they're ready for
+ * another player to be added.
+ *)
+procedure resetPlayerSettings();
+begin
+  Edits[EDIT_USERNAME].Text := '';
+  Edits[EDIT_PASSWORD].Text := '';
+  Edits[EDIT_PIN].Text      := '';
+  Edits[EDIT_USERNAME].OnExit(Edits[EDIT_USERNAME]);
+  Edits[EDIT_PASSWORD].OnExit(Edits[EDIT_PASSWORD]);
+  Edits[EDIT_PIN].OnExit(Edits[EDIT_PIN]);
+
+  Lists[LIST_PLAYER_SCRIPTS].Clear;
+  Buttons[BUTTON_SCRIPT_DELETE].Enabled := false;
+  Buttons[BUTTON_SCRIPT_ADD].Enabled := false;
+  Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := false;
+
+  CheckBoxes[CHECKBOX_ACTIVE].Checked := false;
+  CheckBoxes[CHECKBOX_MEMBER].Checked := false;
+  CheckBoxes[CHECKBOX_APPLY_ALL].Checked := false;
+end;
+
+
+(**
+ * _Enter and _Exit are used for TEdits. When clicked, TEdit will clear (if
+ * nothing has been entered yet); will show password if TEdit is a password
+ * field. Text is distinguished using italics and the color grey.
+ *)
+procedure _Enter(Sender: TObject);
+begin
+  if (Sender is TEdit) then
+    with TEdit(Sender) do
+      if (text = name) then
+      begin
+        text := '';
+
+        font.color := clBlack;
+        font.style := [];
+      end else
+        if (tag = $01) then
+          passwordChar := #0;
+end;
+
+(**
+ * See description for _Enter.
+ *)
+procedure _Exit(Sender: TObject);
+begin
+  if (Sender is TEdit) then
+    with TEdit(Sender) do
+      if (text = '') then
+      begin
+        text := name;
+
+        font.color := clGray;
+        font.style := [fsItalic];
+
+        if (tag = $01) then
+          passwordChar := #0;
+      end else
+        if (tag = $01) then
+          passwordChar := '*';
+end;
+
+(**
+ * Used to paint the line under the titles and panel buttons.
+ *)
+procedure _Paint(sender: TObject);
+begin
+  with TForm(sender) do
+    with canvas do
+    begin
+      moveTo(10, (Panels[PANEL_PLAYER].Top - 3));
+      lineTo((Width - 10), (Panels[PANEL_PLAYER].Top - 3));
+    end;
+end;
+
+(**
+ * Handles double clicks for all components.
+ *)
+procedure _DoubleClick(sender: TObject);
+begin
+  case sender of
+    Lists[LIST_PLAYERS]:
+      if (TListBox(Sender).ItemIndex <> -1) then
+        Forms[FORM_SETTINGS_PLAYER].Visible := true;
+
+    Lists[LIST_PLAYER_SCRIPTS]:
+      if (TListBox(Sender).ItemIndex <> -1) then
+        Forms[FORM_SCRIPT_SETUP].Visible := true;
+  end;
+end;
+
+(**
+ * Handles left clicks for most components. Some components have specific
+ * methods, which are found in the other form include files.
+ *)
+procedure _Click(sender: TObject);
+var
+  i: integer;
+begin
+  case sender of
+    MainMenuItems[MENU_FILE][ITEM_NEW]:
+      begin
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_LOAD]:
+      begin
+        if (OpenDialog.Execute) then
+        begin
+          // Code to load all player information here
+          Edits[EDIT_USERNAME].Text := ReadINI('0', 'Test', OpenDialog.FileName);
+        end;
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_SAVE]:
+      begin
+        if (SaveDialog.Execute) then
+        begin
+          // Code to save all player information here
+          writeINI('0', 'Test', Edits[EDIT_USERNAME].Text, SaveDialog.FileName);
+        end;
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_SAVE_AS]:
+      begin
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_DEFAULT]:
+      begin
+      end;
+
+    MainMenuItems[MENU_FILE][ITEM_CLOSE]:
+      Forms[FORM_MAIN].modalResult := mrOk;
+
+    MainMenuItems[MENU_START][ITEM_RUN]:
+      begin
+        MSI_Ready := true;
+        Forms[FORM_MAIN].modalResult := mrOk;
+      end;
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_BUG]:
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=444');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_SUGGESTION]:
+      openWebPage('http://villavu.com/forum/forumdisplay.php?f=445');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_REPORTS]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56134');
+
+    MainMenuItems[MENU_FEEDBACK][ITEM_CONTRIBUTE]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56179');
+
+    MainMenuItems[MENU_START][ITEM_MAIN]:
+      begin
+        Panels[PANEL_PLAYER].Visible   := false;
+        Panels[PANEL_SETTINGS].Visible := false;
+        Panels[PANEL_MAIN].Visible     := true;
+      end;
+
+    MainMenuItems[MENU_HELP][ITEM_FORUM]:
+      openWebPage('http://villavu.com/forum/index.php');
+
+    MainMenuItems[MENU_HELP][ITEM_HELP]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=57723');
+
+    MainMenuItems[MENU_HELP][ITEM_DOC]:
+      openWebPage('http://docs.wizzup.org/msi/index.html#');
+
+    MainMenuItems[MENU_HELP][ITEM_ABOUT]:
+      openWebPage('http://villavu.com/forum/showthread.php?t=56614');
+
+    Lists[LIST_PLAYERS]:
+      begin
+        i := Lists[LIST_PLAYERS].ItemIndex;
+
+        if (i <> -1) then
+        begin
+          Labels[LABEL_SCRIPTS].Caption := Lists[LIST_PLAYERS].Items.Strings[i] + '''s Scripts';
+
+          Buttons[BUTTON_ADVANCED_PLAYER].Enabled := true;
+          Buttons[BUTTON_SCRIPT_ADD].Enabled := true;
+        end else begin
+          Lists[LIST_PLAYER_SCRIPTS].Clear();
+          Labels[LABEL_SCRIPTS].Caption := 'Player''s Scripts';
+        end;
+      end;
+
+    Lists[LIST_PLAYER_SCRIPTS]:
+      begin
+        if (Lists[LIST_PLAYER_SCRIPTS].ItemIndex <> -1) then
+        begin
+          Buttons[BUTTON_SCRIPT_DELETE].Enabled := true;
+          Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := true;
+        end;
+      end;
+
+    Buttons[BUTTON_ADVANCED_PLAYER]:
+      _DoubleClick(Lists[LIST_PLAYERS]);
+
+    Buttons[BUTTON_CONTINUE]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := true;
+        Buttons[BUTTON_SETTINGS].Enabled := false;
+
+        Panels[PANEL_MAIN].Visible := false;
+        Panels[PANEL_SETTINGS].Visible := true;
+
+        Labels[LABEL_TITLE].caption := 'Global Settings';
+      end;
+
+    Buttons[BUTTON_SETTINGS]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := true;
+        Buttons[BUTTON_SETTINGS].Enabled := false;
+
+        Panels[PANEL_PLAYER].Visible := false;
+        Panels[PANEL_SETTINGS].Visible := true;
+
+        Labels[LABEL_TITLE].caption := 'Global Settings';
+      end;
+
+    Buttons[BUTTON_PLAYER]:
+      begin
+        Buttons[BUTTON_PLAYER].Enabled := false;
+        Buttons[BUTTON_SETTINGS].Enabled := true;
+
+        Panels[PANEL_PLAYER].Visible := true;
+        Panels[PANEL_SETTINGS].Visible := false;
+
+        Labels[LABEL_TITLE].caption := 'Player Settings';
+      end;
+
+    Buttons[BUTTON_PLAYER_CANCEL]:
+      Forms[FORM_SETTINGS_PLAYER].Visible := false;
+
+    Buttons[BUTTON_PLAYER_DELETE]:
+      begin
+        deleteFromList(Lists[LIST_PLAYERS], Lists[LIST_PLAYERS].ItemIndex);
+
+        Buttons[BUTTON_SCRIPT_ADD].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+        Buttons[BUTTON_PLAYER_DELETE].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+        Buttons[BUTTON_ADVANCED_PLAYER].Enabled := (Lists[LIST_PLAYERS].Items.Count > 0);
+
+        _Click(Lists[LIST_PLAYERS]);
+      end;
+
+    Buttons[BUTTON_PLAYER_ADD]:
+      begin
+        if (Edits[EDIT_USERNAME].Text <> Edits[EDIT_USERNAME].Name) then
+        begin
+          Lists[LIST_PLAYERS].Items.Add(Edits[EDIT_USERNAME].Text);
+          resetPlayerSettings();
+        end else begin
+          showMessage('You need to enter player information before one can be added.');
+          exit;
+        end;
+
+        Buttons[BUTTON_PLAYER_DELETE].Enabled := true;
+      end;
+
+    Buttons[BUTTON_SCRIPT_ADD]:
+      Forms[FORM_SCRIPT_LIST].Visible := true;
+
+    Buttons[BUTTON_SCRIPT_DELETE]:
+      begin
+        deleteFromList(Lists[LIST_PLAYER_SCRIPTS], Lists[LIST_PLAYER_SCRIPTS].ItemIndex);
+
+        Buttons[BUTTON_SCRIPT_DELETE].Enabled := (Lists[LIST_PLAYER_SCRIPTS].Items.Count > 0);
+        Buttons[BUTTON_SCRIPT_SETTINGS].Enabled := (Lists[LIST_PLAYER_SCRIPTS].Items.Count > 0);
+      end;
+
+    Buttons[BUTTON_SCRIPT_SETTINGS]:
+      Forms[FORM_SCRIPT_SETUP].Visible := true;
+
+    Buttons[BUTTON_SCRIPT_LIST_CANCEL]:
+      Forms[FORM_SCRIPT_LIST].Visible := false;
+
+    Buttons[BUTTON_STATS_SIGNUP]:
+      openWebPage('http://stats.villavu.com/register');
+
+    Buttons[BUTTON_START_SCRIPT]:
+      begin
+        MSI_ScriptReady := true;
+        Forms[FORM_MAIN].ModalResult := mrOK;
+      end;
+  end;
+end;
+
+
+(**
+ * Default methods used to create components.  Avoids a lot of repeated code
+ * and makes is very easy to change the size of all components if needed.
+ *)
+
+function _TListBox(Owner: TComponent): TListBox;
+begin
+  Result := TListBox.Create(Owner);
+  with Result do
+  begin
+    OnDblClick := @_DoubleClick;
+    OnClick    := @_Click;
+    ShowHint   := true;
+  end;
+end;
+
+function _TEdit(Owner: TComponent): TEdit;
+begin
+  Result := TEdit.Create(Owner);
+  with Result do
+  begin
+    ShowHint := true;
+
+    Height := 20;
+    Width  := 100;
+    Text   := name;
+
+    Font.Style := [fsItalic];
+    Font.Color := clGray;
+
+    OnEnter := @_Enter;
+    OnExit  := @_Exit;
+  end;
+end;
+
+function _TComboBox(Owner: TComponent): TComboBox;
+begin
+  Result := TComboBox.Create(Owner);
+  with Result do
+  begin
+    ShowHint := true;
+
+    Height := 20;
+    Width  := 100;
+    Text   := name;
+
+    Font.Style := [fsItalic];
+    Font.Color := clGray;
+  end;
+end;
+
+function _TButton(Owner: TComponent): TButton;
+begin
+  Result := TButton.Create(Owner);
+  with Result do
+  begin
+    ShowHint   := true;
+    Height     := 25;
+    OnClick    := @_Click;
+  end;
+end;
+
+function _TCheckBox(Owner: TComponent): TCheckBox;
+begin
+  Result := TCheckBox.Create(Owner);
+  with Result do
+  begin
+    Width := 15;
+    Height := 15;
+
+    ShowHint := true;
+
+    OnClick  := @_Click;
+  end;
+end;
+
+
+var
+  SL_Trees: array of TIntegerArray;
+  SL_TreeIndexes: TIntegerArray;
+
+(**
+ * Loops through all MSI scripts, sorting them into skill categories. Sets
+ * SL_Trees array.
+ *)
+procedure SL_SetTrees();
+var
+  i: integer;
+begin
+  setLength(SL_Trees, SKILL_COUNT);
+  setLength(SL_TreeIndexes, SKILL_COUNT);
+
+  for i := 0 to high(MSI_Scripts) do
+  begin
+    if (MSI_Scripts[i].Name = '') then
+      continue;
+
+    with MSI_Scripts[i] do
+    begin
+      setLength(SL_Trees[skillConst], length(SL_Trees[skillConst]) + 1);
+      SL_Trees[skillConst][high(SL_Trees[skillConst])] := constant;
+    end;
+  end;
+end;
+
+(**
+ * Will either expand or contract the 'tree' in the script list.
+ *)
+procedure SL_ModifyTree(tree: integer; expand: boolean);
+var
+  c, i, j: integer;
+begin
+  for i := 0 to high(SL_Trees) do
+  begin
+    if (length(SL_Trees[i]) <= 0) then
+      continue;
+
+    if (tree = SL_TreeIndexes[i]) then
+      with Lists[LIST_ALL_SCRIPTS] do
+      begin
+        if (expand) then
+          Items.Strings[SL_TreeIndexes[i] - 1] := '-   ' + skillToStr(i)
+        else
+          Items.Strings[SL_TreeIndexes[i] - 1] := '+  ' + skillToStr(i);
+
+        c := 0;
+
+        for j := high(SL_Trees[i]) downto 0 do
+        begin
+          if (expand) then
+            Items.Insert(tree, '         ' + capitalize(MSI_Scripts[SL_Trees[i][j]].Name))
+          else
+            Items.Delete(tree);
+
+          inc(c);
+        end;
+
+        continue;
+      end;
+
+    if (expand) then
+      incEx(SL_TreeIndexes[i], c)
+    else
+      decEx(SL_TreeIndexes[i], c);
+  end;
+end;
+
+(**
+ * Expands or contracts the clicked tree in the script list.
+ *)
+procedure SL_ExpandTree(Sender: TObject);
+var
+  e: integer;
+begin
+  e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
+  if (e = -1) then
+    exit;
+
+  if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
+    SL_ModifyTree(e + 1, true)
+  else
+    if (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) > 0) then
+      SL_ModifyTree(e + 1, false);
+
+  Buttons[BUTTON_SCRIPT_LIST_ADD].Enabled := true;
+end;
+
+(**
+ * Adds the selected script to the player's script list.
+ *)
+procedure SL_AddScript(Sender: TObject);
+var
+  e: integer;
+begin
+  e := Lists[LIST_ALL_SCRIPTS].ItemIndex;
+  if (e = -1) then
+    exit;
+
+  // if one of the expandable options (i.e. skill titles)
+  if (pos('+', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) or
+     (pos('-', Lists[LIST_ALL_SCRIPTS].Items.Strings[e]) = 1) then
+  begin
+    showMessage('Invalid selection');
+    exit;
+  end;
+
+  // add the splected script to the player's script list
+  if (not inList(Lists[LIST_PLAYER_SCRIPTS], removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e]))) then
+    Lists[LIST_PLAYER_SCRIPTS].Items.Add(
+      removePreSpaces(Lists[LIST_ALL_SCRIPTS].Items.Strings[e])
+    );
+
+  Forms[FORM_SCRIPT_LIST].Visible := false;
+end;
 
 {
 type
