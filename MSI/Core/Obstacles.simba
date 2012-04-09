@@ -236,6 +236,17 @@ begin
         Camera     := ['n', true];
       end;
 
+    OBS_DOOR_CBRANGE:
+      with result do
+      begin
+        Name       := 'OBS_DOOR_CBRANGE';
+        ObjConst   := DOOR_NORMAL;
+        ObjMir     := DOOR_NORMAL;
+        ObjMirArea := MSBox;
+        MirAction  := moNothing;
+        Camera     := ['n', true];
+      end;
+
   end;
 
   result.constant := obs;
@@ -442,9 +453,16 @@ begin
 
   makeCompass(obs.camera[0]);
 
-  while ((not result) and (t < 5)) do
+  while ((not result) and (t < 10)) do
   begin
     inc(t);
+
+    //For door handling purposes
+    if (obs.name = 'OBS_DOOR_CBRANGE') and (t > 2) then
+    begin
+      Result :=  True;
+      Exit;
+    end;
 
     if (MSI_FindObject(obsObj, moLeft)) then
     begin
