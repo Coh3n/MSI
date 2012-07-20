@@ -20,7 +20,6 @@ program MSI_Script;
 {$DEFINE EXTRA_CHARACTER_STATS} // Saves player stats in HTML format
 
 // Define other settings
-{$DEFINE SRL5}  // Uncomment if you're testing SRL5
 {$DEFINE SPS}   // Comment to disable SPS (no walking scripts)
 {$DEFINE SMART} // Comment to use MSI with a browser
 {$DEFINE SRL_REMOTE} // Use SRL's player remote control
@@ -54,6 +53,7 @@ begin
   MSI_Settings[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
   MSI_Settings[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
   MSI_Settings[SETUP_DEATH_WALK]    := True;    // Use MSI's death walking feature if the player gets lost?
+  MSI_Settings[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
   MSI_Settings[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
   MSI_Settings[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
   MSI_Settings[SETUP_RANDOMS_WAIT]  := 10000;   // Minimum time to wait between randoms checks
@@ -266,10 +266,12 @@ begin
 
   // initialize SMART and clear it's canvas
   {$IFDEF SMART}
-  SMART_Server := 10;
-  SMART_Members := False;
-  SMART_Signed := True;
-  SMART_SuperDetail := False;
+    {$IFNDEF SIMBAMAJOR990}
+      SMART_Server := 10;
+      SMART_Members := False;
+      SMART_Signed := True;
+      SMART_SuperDetail := False;
+    {$ENDIF}
   {$ENDIF}
 
   SetupSRL;
@@ -305,3 +307,4 @@ begin
 
   MSI_Mainloop;
 end.
+
