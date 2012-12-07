@@ -1,0 +1,2434 @@
+(*
+Items
+=====
+
+The Items file stores any routines that have anything to do with interacting
+with items in Runescape.
+
+The source for Items.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Items.simba>`_.
+
+*)
+
+(*
+MSI_GetDTMPoints
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetDTMPoints(which: Integer): TPointArray;
+
+Gets the points for an item's ('which') DTM.  The first point in the array is
+the item's mainpoint.  This function is called in MSI_LoadDTM (where the DTM is
+actually created).
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemPoints := MSI_GetDTMPoints(HATCHET_RUNE);
+*)
+function MSI_GetDTMPoints(which: Integer): TPointArray;
+begin
+  setLength(result, 5);
+
+  case which of
+    HATCHET_BRONZE..HATCHET_RUNE:
+      Result := [
+                  Point(586, 243), // Main point
+                  Point(587, 249),
+                  Point(574, 261),
+                  Point(575, 248),
+                  Point(587, 240)
+                ];
+
+    HATCHET_DRAGON:
+      Result := [
+                  Point(1152, 485),
+                  Point(1162, 484),
+                  Point(1142, 486),
+                  Point(1135, 505),
+                  Point(1162, 491)
+                ];
+
+    LOGS_NORMAL..LOGS_MAGIC:
+      Result := [
+                  Point(623, 291),
+                  Point(624, 279),
+                  Point(635, 296),
+                  Point(614, 299),
+                  Point(609, 289)
+                ];
+
+    PICKAXE_BRONZE..PICKAXE_RUNE:
+      Result := [
+                  Point(578, 218),
+                  Point(589, 222),
+                  Point(577, 215),
+                  Point(563, 217),
+                  Point(574, 241)
+                ];
+
+    PICKAXE_DRAGON:
+      Result := [
+                  Point(1216, 374),
+                  Point(1212, 378),
+                  Point(1200, 390),
+                  Point(1209, 370),
+                  Point(1223, 363)
+                ];
+
+    ORE_CLAY:
+      Result := [
+                  Point(24, 29),
+                  Point(22, 32),
+                  Point(18, 27),
+                  Point(31, 27),
+                  Point(29, 31)
+                ];
+
+    ORE_COPPER..ORE_RUNITE:
+      Result := [
+                  Point(252, 318),
+                  Point(245, 313),
+                  Point(263, 316),
+                  Point(256, 325),
+                  Point(244, 328)
+                ];
+
+    FISH_SMALLNET:
+      Result := [
+                  Point(1173, 396),
+                  Point(1165, 399),
+                  Point(1165, 389),
+                  Point(1184, 391),
+                  Point(1180, 405)
+                ];
+
+    FISH_CAGE_CRAYFISH:
+      Result := [
+                  Point(704, 340),
+                  Point(700, 326),
+                  Point(706, 347),
+                  Point(715, 331),
+                  Point(694, 344)
+                ];
+
+    FISH_ROD_BAIT:
+      Result := [
+                  Point(567, 341),
+                  Point(576, 350),
+                  Point(577, 329),
+                  Point(573, 343),
+                  Point(590, 323)
+                ];
+
+    FISH_BAIT:
+      Result := [
+                  Point(665, 376),
+                  Point(649, 372),
+                  Point(667, 370),
+                  Point(675, 373),
+                  Point(652, 381)
+                ];
+
+    FISH_ROD_FLY:
+      Result := [
+                  Point(615, 373),
+                  Point(632, 357),
+                  Point(617, 385),
+                  Point(608, 381),
+                  Point(619, 365)
+                ];
+
+    FISH_HARPOON:
+      Result := [
+                  Point(629, 321),
+                  Point(612, 351),
+                  Point(622, 323),
+                  Point(633, 324),
+                  Point(618, 335)
+                ];
+
+    FISH_HARPOON_BARB:
+      Result := [
+                  Point(512, 220),
+                  Point(507, 224),
+                  Point(499, 232),
+                  Point(523, 211),
+                  Point(518, 219)
+                ];
+
+    FISH_POT_LOBSTER:
+      Result := [
+                  Point(665, 343),
+                  Point(676, 328),
+                  Point(649, 345),
+                  Point(666, 350),
+                  Point(658, 324)
+                ];
+
+    FISH_RAW_SHRIMP, FISH_COOKED_SHRIMP, FISH_RAW_ANCHOVIE, FISH_COOKED_ANCHOVIE:
+      Result := [
+                  Point(14, 17),
+                  Point(4, 11),
+                  Point(7, 23),
+                  Point(15, 28),
+                  Point(22, 21),
+                  Point(26, 8)
+                ];
+
+    FISH_RAW_CRAYFISH, FISH_COOKED_CRAYFISH:
+      Result := [
+                  Point(15, 14),
+                  Point(11, 5),
+                  Point(8, 24),
+                  Point(7, 30),
+                  Point(19, 18),
+                  Point(23, 10)
+                ];
+
+    FISH_RAW_SARDINE, FISH_COOKED_SARDINE:
+      Result := [
+                  Point(15, 16),
+                  Point(8, 18),
+                  Point(12, 22),
+                  Point(19, 8),
+                  Point(21, 14)
+                ];
+
+    FISH_RAW_HERRING, FISH_COOKED_HERRING:
+      Result := [
+                  Point(12, 19),
+                  Point(15, 12),
+                  Point(3, 25),
+                  Point(15, 24),
+                  Point(29, 16),
+                  Point(11, 13)
+                ];
+
+    FISH_RAW_TROUT, FISH_COOKED_TROUT, FISH_RAW_PIKE, FISH_COOKED_PIKE,
+    FISH_RAW_SALMON, FISH_COOKED_SALMON:
+      Result := [
+                  Point(1188, 408),
+                  Point(1195, 399),
+                  Point(1200, 402),
+                  Point(1192, 414),
+                  Point(1188, 415)
+                ];
+
+    FISH_RAW_TUNA, FISH_COOKED_TUNA:
+      Result := [
+                  Point(1217, 378),
+                  Point(1218, 373),
+                  Point(1235, 376),
+                  Point(1229, 382),
+                  Point(1221, 386)
+                ];
+
+    FISH_RAW_LOBSTER, FISH_COOKED_LOBSTER:
+      Result := [
+                  Point(619, 231),
+                  Point(615, 222),
+                  Point(614, 233),
+                  Point(619, 240),
+                  Point(628, 230)
+                ];
+
+    FISH_RAW_SWORDFISH, FISH_COOKED_SWORDFISH:
+      Result := [
+                  Point(1249, 383),
+                  Point(1247, 388),
+                  Point(1244, 382),
+                  Point(1263, 382),
+                  Point(1261, 391)
+                ];
+
+    FISH_RAW_MONKFISH, FISH_COOKED_MONKFISH:
+      Result := [
+                  Point(19, 16),
+                  Point(30, 10),
+                  Point(8, 14),
+                  Point(16, 25),
+                  Point(38, 22)
+                ];
+
+    FISH_RAW_SHARK, FISH_COOKED_SHARK:
+     Result := [
+                 Point(1214, 403),
+                 Point(1211, 413),
+                 Point(1211, 394),
+                 Point(1223, 395),
+                 Point(1224, 417)
+               ];
+
+    GEM_UNCUT_SAPPHIRE..GEM_UNCUT_DIAMOND:
+      Result := [
+                  Point(1156, 514),
+                  Point(1164, 525),
+                  Point(1163, 508),
+                  Point(1147, 506),
+                  Point(1147, 522)
+                ];
+
+    MISC_BIRD_NEST:
+      Result := [
+                  Point(1155, 422),
+                  Point(1154, 413),
+                  Point(1141, 422),
+                  Point(1157, 431),
+                  Point(1169, 425)
+                ];
+
+    MISC_FEATHER:
+      Result := [
+                  Point(1198, 422),
+                  Point(1196, 427),
+                  Point(1200, 412),
+                  Point(1208, 420),
+                  Point(1220, 409)
+                ];
+
+    STAFF_AIR..STAFF_FIRE:
+      Result := [
+                  Point(586, 219),
+                  Point(587, 216),
+                  Point(586, 223),
+                  Point(566, 242),
+                  Point(578, 225)
+                ];
+
+    CLAY_SOFT:
+      Result := [
+                  Point(28, 25),
+                  Point(16, 27),
+                  Point(27, 13),
+                  Point(39, 26),
+                  Point(28, 33)
+                ];
+
+    VIAL_EMPTY, VIAL_WATER:
+      Result := [
+                  Point(580, 234),
+                  Point(580, 243),
+                  Point(585, 232),
+                  Point(569, 239),
+                  Point(586, 240)
+                ];
+
+    JUG_EMPTY, JUG_WATER:
+      Result := [
+                  Point(886, 273),
+                  Point(898, 280),
+                  Point(884, 294),
+                  Point(874, 286),
+                  Point(883, 267)
+                ];
+
+    BOWL_EMPTY, BOWL_WATER:
+      Result := [
+                  Point(970, 278),
+                  Point(968, 269),
+                  Point(984, 278),
+                  Point(969, 290),
+                  Point(953, 280)
+                ];
+
+    BUCKET_EMPTY, BUCKET_WATER:
+      Result := [
+                  Point(883, 314),
+                  Point(883, 303),
+                  Point(894, 316),
+                  Point(885, 330),
+                  Point(876, 320)
+                ];
+
+    TIARA_AIR, TIARA_EARTH, TIARA_WATER, TIARA_BODY, TIARA_MIND, TIARA_FIRE:
+      Result := [
+                  Point(1112, 413),
+                  Point(1099, 407),
+                  Point(1124, 404),
+                  Point(1122, 414),
+                  Point(1103, 414)
+                ];
+
+    DWARVEN_ARMY_AXE:
+      Result := [
+                  Point(29, 24),
+                  Point(20, 15),
+                  Point(29, 18),
+                  Point(15, 26),
+                  Point(39, 33)
+                ];
+				
+ 	  COAL_BAG:
+      Result := [
+                  Point(1035, 475),
+                  Point(1030, 462),
+                  Point(1046, 479),
+                  Point(1025, 480),
+                  Point(1037, 465)
+                ];
+
+    else
+      MSI_SubDebug('MSI_GetDTMPoints: Invalid item constant - ' + IntToStr(which));
+  end;
+end;
+
+(*
+MSI_GetItemColor
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetItemColor(which: Integer): Integer;
+
+Gets the item 'which''s color.  This color is used to create the item's DTM in
+MSI_LoadDTM.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  itemColor := MSI_GetItemColor(HATCHET_RUNE);
+*)
+function MSI_GetItemColor(which: Integer): Integer;
+begin
+  case which of
+    HATCHET_BRONZE : Result := 1649466;
+    HATCHET_IRON   : Result := 3618618;
+    HATCHET_STEEL  : Result := 5855581;
+    HATCHET_MITHRIL: Result := 4599598;
+    HATCHET_ADAMANT: Result := 3489076;
+    HATCHET_RUNE   : Result := 4932921;
+    HATCHET_DRAGON : Result := 790869;
+
+    LOGS_NORMAL: Result := 2704989;
+    LOGS_OAK   : Result := 3628669;
+    LOGS_WILLOW: Result := 1325634;
+    LOGS_MAPLE : Result := 800853;
+    LOGS_YEW   : Result := 668228;
+    LOGS_MAGIC : Result := 3759204;
+
+    PICKAXE_BRONZE : Result := 5805509;
+    PICKAXE_IRON   : Result := 3816253;
+    PICKAXE_STEEL  : Result := 13487574;
+    PICKAXE_MITHRIL: Result := 12156541;
+    PICKAXE_ADAMANT: Result := 10204059;
+    PICKAXE_RUNE   : Result := 12495486;
+    PICKAXE_DRAGON : Result := 725070;
+
+    ORE_CLAY      : Result := 5076363;
+    ORE_COPPER    : Result := 3696563;
+    ORE_TIN       : Result := 6776684;
+    ORE_IRON      : Result := 1712955;
+    ORE_SILVER    : Result := 9538186;
+    ORE_COAL      : Result := 1844261;
+    ORE_GOLD      : Result := 1675188;
+    ORE_MITHRIL   : Result := 5519672;
+    ORE_ADAMANTITE: Result := 3884091;
+    ORE_RUNITE    : Result := 5525056;
+
+    FISH_SMALLNET     : Result := 2503746;
+    FISH_CAGE_CRAYFISH: Result := 5461079;
+    FISH_ROD_BAIT     : Result := 5197651;
+    FISH_BAIT         : Result := 1605551;
+    FISH_ROD_FLY      : Result := 3355445;
+    FISH_HARPOON      : Result := 6052960;
+    FISH_POT_LOBSTER  : Result := 6184546;
+    FISH_HARPOON_BARB : Result := 2833740;
+
+    FISH_RAW_SHRIMP    : Result := 4742531;
+    FISH_RAW_CRAYFISH  : Result := 2046823;
+    FISH_RAW_ANCHOVIE  : Result := 5986135;
+    FISH_RAW_SARDINE   : Result := 9940887;
+    FISH_RAW_HERRING   : Result := 10461094;
+    FISH_RAW_TROUT     : Result := 9803164;
+    FISH_RAW_PIKE      : Result := 6319968;
+    FISH_RAW_SALMON    : Result := 5924258;
+    FISH_RAW_TUNA      : Result := 11777211;
+    FISH_RAW_LOBSTER   : Result := 2244720;
+    FISH_RAW_SWORDFISH : Result := 11301795;
+    FISH_RAW_MONKFISH  : Result := 4017773;
+    FISH_RAW_SHARK     : Result := 8158594;
+
+    FISH_COOKED_SHRIMP    : Result := 1195905;
+    FISH_COOKED_CRAYFISH  : Result := 1265804;
+    FISH_COOKED_ANCHOVIE  : Result := 6766393;
+    FISH_COOKED_SARDINE   : Result := 7303552;
+    FISH_COOKED_HERRING   : Result := 7303552;
+    FISH_COOKED_TROUT     : Result := 6777207;
+    FISH_COOKED_PIKE      : Result := 5405277;
+    FISH_COOKED_SALMON    : Result := 1851076;
+    FISH_COOKED_TUNA      : Result := 8093326;
+    FISH_COOKED_LOBSTER   : Result := 1728190;
+    FISH_COOKED_SWORDFISH : Result := 7819120;
+    FISH_COOKED_MONKFISH  : Result := 4279125;
+    FISH_COOKED_SHARK     : Result := 3228503;
+
+    GEM_UNCUT_SAPPHIRE : Result := 7279119;
+    GEM_UNCUT_EMERALD  : Result := 1007117;
+    GEM_UNCUT_RUBY     : Result := 791130;
+    GEM_UNCUT_DIAMOND  : Result := 9276819;
+
+    MISC_BIRD_NEST : Result := 2634036;
+    MISC_FEATHER   : Result := 530952;
+
+    STAFF_AIR   : Result := 12235442;
+    STAFF_WATER : Result := 13115933;
+    STAFF_EARTH : Result := 4610428;
+    STAFF_FIRE  : Result := 1911496;
+
+    CLAY_SOFT   : Result := 802904;
+    VIAL_EMPTY  : Result := 5920342;
+    VIAL_WATER  : Result := 11040368;
+    JUG_EMPTY   : Result := 6710891;
+    JUG_WATER   : Result := 12085350;
+    BOWL_EMPTY  : Result := 1203069;
+    BOWL_WATER  : Result := 11712313;
+    BUCKET_EMPTY: Result := 1521995;
+    BUCKET_WATER: Result := 9008758;
+
+    TIARA_AIR   : Result := 14014175;
+    TIARA_EARTH : Result := 2048358;
+    TIARA_WATER : Result := 16222243;
+    TIARA_BODY  : Result := 855309;
+    TIARA_MIND  : Result := 2175211;
+    TIARA_FIRE  : Result := 1450400;
+
+    DWARVEN_ARMY_AXE : Result := 3758694;
+	
+	  COAL_BAG : Result := 5665945;
+
+    else
+      MSI_SubDebug('MSI_GetItemColor: Invalid item constant - '+IntToStr(Which));
+  end;
+end;
+
+(*
+MSI_LoadDTM
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadDTM(which: Integer): Integer;
+
+This is the function that creates the DTM for the item 'which'.  This function
+is called in MSI_LoadAllItems only.  Uses both MSI_GetDTMPoints and
+MSI_GetItemColor to complete the DTM.
+
+.. note::
+
+  | Author: Ejjman1
+  | Last Updated: 10 June 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Item[HATCHET_RUNE].DTM := MSI_LoadDTM(HATCHET_RUNE);
+*)
+function MSI_LoadDTM(which: Integer): Integer;
+var
+  dtmMainPoint: TDTMPointDef;
+  dtmSubPoints: Array [0..4] of TDTMPointDef;
+  TempTDTM: TDTM;
+  pts: TPointArray;
+  clr, i: Integer;
+begin
+  pts := MSI_GetDTMPoints(which);
+  clr := MSI_GetItemColor(which);
+
+  with dtmMainPoint do
+  begin
+    x := pts[0].x;
+    y := pts[0].y;
+    AreaSize := 0;
+    AreaShape := 0;
+    Color := clr;
+    Tolerance := DTM_TOLERANCE;
+  end;
+
+  for i := 0 to High(dtmSubPoints) do
+    with dtmSubPoints[i] do
+    begin
+      AreaSize := 1;
+      AreaShape := 0;
+
+      if (i > 0) then
+      begin
+        Color := SRL_OUTLINE_BLACK;
+        Tolerance := 0;
+      end else begin
+        Color := clr;
+        Tolerance := DTM_TOLERANCE;
+      end;
+    end;
+
+  dtmSubPoints[0].x := pts[0].x;
+  dtmSubPoints[0].y := pts[0].y;
+
+  dtmSubPoints[1].x := pts[1].x;
+  dtmSubPoints[1].y := pts[1].y;
+
+  dtmSubPoints[2].x := pts[2].x;
+  dtmSubPoints[2].y := pts[2].y;
+
+  dtmSubPoints[3].x := pts[3].x;
+  dtmSubPoints[3].y := pts[3].y;
+
+  dtmSubPoints[4].x := pts[4].x;
+  dtmSubPoints[4].y := pts[4].y;
+
+  TempTDTM.MainPoint := dtmMainPoint;
+  TempTDTM.SubPoints := dtmSubPoints;
+  Result := AddDTM(TempTDTM);
+end;
+
+(*
+MSI_LoadItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadItem(whichItem: Integer): Boolean;
+
+Loads the item 'whichItem' into the MSI_Items array of TItem.  This procedure
+should only be called in MSI_LoadAllItems.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Items) do
+    MSI_LoadItem(i);
+*)
+function MSI_LoadItem(whichItem: Integer): Boolean;
+begin
+  // set defaults first so they can be "reset" in the case if needed
+  with MSI_Items[whichItem] do
+  begin
+    Stackable := false;
+    EquipLevel := -1;
+    DTM := -1;
+  end;
+
+  case whichItem of
+    { HATCHETS =================================== ]
+    [============================================= }
+    HATCHET_BRONZE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bronze Hatchet';
+        UpText := ['onze hat'];
+        EquipLevel := 1;
+      end;
+
+    HATCHET_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron Hatchet';
+        UpText := ['on hatch'];
+        EquipLevel := 1;
+      end;
+
+    HATCHET_STEEL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Steel Hatchet';
+        UpText := ['eel hatc'];
+        EquipLevel := 5;
+      end;
+
+    HATCHET_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril Hatchet';
+        UpText := ['thril ha'];
+        EquipLevel := 20;
+      end;
+
+    HATCHET_ADAMANT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamant Hatchet';
+        UpText := ['amant ha'];
+        EquipLevel := 30;
+      end;
+
+    HATCHET_RUNE :
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune Hatchet';
+        UpText := ['ne hatch'];
+        EquipLevel := 40;
+      end;
+
+    HATCHET_DRAGON :
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dragon Hatchet';
+        UpText := ['gon hat'];
+        EquipLevel := 60;
+      end;
+
+    { LOGS ======================================= ]
+    [============================================= }
+    LOGS_NORMAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Normal logs';
+        StatsName := 'Normal Logs Chopped';
+        UpText := ['Logs'];
+      end;
+
+    LOGS_OAK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Oak logs';
+        StatsName := 'Oak Logs Chopped';
+        UpText := ['logs'];
+      end;
+
+    LOGS_WILLOW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Willow logs';
+        StatsName := 'Willow Logs Chopped';
+        UpText := ['illow', 'illow logs', 'low'];
+      end;
+
+    LOGS_MAPLE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Maple logs';
+        StatsName := 'Maple Logs Chopped';
+      end;
+
+    LOGS_YEW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Yew logs';
+        StatsName := 'Yew Logs Chopped';
+      end;
+
+    LOGS_MAGIC:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Magic logs';
+        StatsName := 'Magic Logs Chopped';
+      end;
+
+    { PICKAXES =================================== ]
+    [============================================= }
+    PICKAXE_BRONZE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bronze pickaxe';
+        UpText := ['onze pi'];
+        EquipLevel := 1;
+      end;
+
+    PICKAXE_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron pickaxe';
+        UpText := ['ron pi'];
+        EquipLevel := 1;
+      end;
+
+    PICKAXE_STEEL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Steel pickaxe';
+        UpText := ['eel pi'];
+        EquipLevel := 5;
+      end;
+
+    PICKAXE_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril pickaxe';
+        UpText := ['ril pi'];
+        EquipLevel := 20;
+      end;
+
+    PICKAXE_ADAMANT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamant pickaxe';
+        UpText := ['ant pi'];
+        EquipLevel := 30;
+      end;
+
+    PICKAXE_RUNE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune pickaxe';
+        UpText := ['une pi'];
+        EquipLevel := 40;
+      end;
+
+    PICKAXE_DRAGON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dragon pickaxe';
+        UpText := ['agon pi'];
+        EquipLevel := 60;
+      end;
+
+    { ORE ======================================== ]
+    [============================================= }
+    ORE_CLAY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Clay Ore';
+        StatsName := 'Clay (Mined)';
+        UpText := ['lay', 'Clay'];
+      end;
+
+    ORE_COPPER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Copper ore';
+        StatsName := 'Copper Ore (Mined)';
+        UpText := ['opper'];
+      end;
+
+    ORE_TIN:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Tin ore';
+        StatsName := 'Tin Ore (Mined)';
+        UpText := ['in or'];
+      end;
+
+    ORE_IRON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Iron ore';
+        StatsName := 'Iron Ore (Mined)';
+        UpText := ['ron o'];
+      end;
+
+    ORE_SILVER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Silver ore';
+        StatsName := 'Silver Ore (Mined)';
+        UpText := ['ilver'];
+      end;
+
+    ORE_COAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Coal ore';
+        StatsName := 'Coal Ore (Mined)';
+        UpText := ['oal'];
+      end;
+
+    ORE_GOLD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Gold ore';
+        StatsName := 'Gold Ore (Mined)';
+        UpText := ['Gold','old'];
+      end;
+
+    ORE_MITHRIL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mithril ore';
+        StatsName := 'Mithril Ore (Mined)';
+        UpText := ['ithril'];
+      end;
+
+    ORE_ADAMANTITE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Adamantite ore';
+        StatsName := 'Adamant Ore (Mined)';
+        UpText := ['daman'];
+      end;
+
+    ORE_RUNITE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Runite ore';
+        StatsName := 'Runite Ore (Mined)';
+        UpText := ['unite'];
+      end;
+
+    { FISH TOOLS ================================= ]
+    [============================================= }
+    FISH_SMALLNET:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Small Fishing Net';
+        UpText := ['ishing net'];
+      end;
+
+    FISH_CAGE_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Crayfish Cage';
+        UpText := ['rayfish cage'];
+      end;
+
+    FISH_ROD_BAIT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fishing Rod';
+        UpText := ['Fishing rod'];
+      end;
+
+    FISH_BAIT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fishing Bait';
+        UpText := ['ishing bait'];
+      end;
+
+    FISH_ROD_FLY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fly Fishing Rod';
+        UpText := ['ly fishing'];
+      end;
+
+    FISH_HARPOON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Harpoon';
+        UpText := ['arpoon'];
+      end;
+
+    FISH_HARPOON_BARB:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Barb-tail harpoon';
+        UpText := ['arb-tail harpoon'];
+        EquipLevel := 1;
+      end;
+
+    FISH_POT_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Lobster Pot';
+        UpText := ['obster pot'];
+      end;
+
+    { FISH ======================================== ]
+    [============================================== }
+    FISH_RAW_SHRIMP:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw shrimps';
+        StatsName := 'Shrimp Caught';
+        UpText := ['aw shrim', 'w shr', 'rim'];
+      end;
+
+    FISH_RAW_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw crayfish';
+        StatsName := 'Crayfish Caught';
+        UpText := ['aw crayfish'];
+      end;
+
+    FISH_RAW_ANCHOVIE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw anchovies';
+        StatsName := 'Anchovies Caught';
+        UpText := ['aw anchovies'];
+      end;
+
+    FISH_RAW_SARDINE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw sardines';
+        StatsName := 'Sardines Caught';
+        UpText := ['aw sardine', 'ine'];
+      end;
+
+    FISH_RAW_HERRING:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw herring';
+        StatsName := 'Herring Caught';
+        UpText := ['aw herring'];
+      end;
+
+    FISH_RAW_TROUT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw trout';
+        StatsName := 'Trout Caught';
+        UpText := ['aw trout'];
+      end;
+
+    FISH_RAW_PIKE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw pike';
+        StatsName := 'Pike Caught';
+        UpText := ['aw pike'];
+      end;
+
+    FISH_RAW_SALMON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw salmon';
+        StatsName := 'Salmon Caught';
+        UpText := ['aw salmon'];
+      end;
+
+    FISH_RAW_TUNA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw tuna';
+        StatsName := 'Tuna Caught';
+        UpText := ['aw tuna'];
+      end;
+
+    FISH_RAW_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw lobster';
+        StatsName := 'Lobster Caught';
+        UpText := ['aw lobster', 'w lob', 'obst'];
+      end;
+
+    FISH_RAW_SWORDFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw swordfish';
+        StatsName := 'Swordfish Caught';
+        UpText := ['aw swordfish', 'aw sword', 'aw swo'];
+      end;
+
+    FISH_RAW_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Monkfish';
+        StatsName := 'Monkfish Caught';
+        UpText := ['aw monkfish', 'aw monk', 'aw mon'];
+      end;
+
+    FISH_RAW_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Raw Shark';
+        StatsName := 'Shark Caught';
+        UpText := ['aw shark'];
+      end;
+
+    FISH_COOKED_SHRIMP:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked shrimps';
+        StatsName := 'Shrimp Cooked';
+        UpText := ['hrimps'];
+      end;
+
+    FISH_COOKED_CRAYFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked crayfish';
+        StatsName := 'Crayfish Cooked';
+        UpText := ['rayfish'];
+      end;
+
+    FISH_COOKED_ANCHOVIE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked anchovies';
+        StatsName := 'Anchovies Cooked';
+        UpText := ['nchovies'];
+      end;
+
+    FISH_COOKED_SARDINE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked sardines';
+        StatsName := 'Sardines Cooked';
+        UpText := ['ardine'];
+      end;
+
+    FISH_COOKED_HERRING:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked herring';
+        StatsName := 'Herring Cooked';
+        UpText := ['erring'];
+      end;
+
+    FISH_COOKED_TROUT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked trout';
+        StatsName := 'Trout Cooked';
+        UpText := ['rout'];
+      end;
+
+    FISH_COOKED_PIKE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked pike';
+        StatsName := 'Pike Cooked';
+        UpText := ['ike'];
+      end;
+
+    FISH_COOKED_SALMON:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked salmon';
+        StatsName := 'Salmon Cooked';
+        UpText := ['almon'];
+      end;
+
+    FISH_COOKED_TUNA:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked tuna';
+        StatsName := 'Tuna Cooked';
+        UpText := ['una'];
+      end;
+
+    FISH_COOKED_LOBSTER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked lobster';
+        StatsName := 'Lobster Cooked';
+        UpText := ['obster'];
+      end;
+
+    FISH_COOKED_SWORDFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked swordfish';
+        StatsName := 'Swordfish Cooked';
+        UpText := ['wordfish'];
+      end;
+
+    FISH_COOKED_MONKFISH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Monkfish';
+        StatsName := 'Monkfish Cooked';
+        UpText := ['Monkfish', 'Monk', 'Mon'];
+      end;
+
+    FISH_COOKED_SHARK:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cooked Shark';
+        StatsName := 'Shark Cooked';
+        UpText := ['hark'];
+      end;
+
+    { GEMS ======================================== ]
+    [============================================== }
+    GEM_UNCUT_SAPPHIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut sapphire';
+        UpText := ['ut sapp'];
+      end;
+
+    GEM_UNCUT_EMERALD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut emerald';
+        UpText := ['ut emer'];
+      end;
+
+    GEM_UNCUT_RUBY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut ruby';
+        UpText := ['ut rub'];
+      end;
+
+    GEM_UNCUT_DIAMOND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Uncut diamond';
+        UpText := ['ut diamo'];
+      end;
+
+    { MISC ITEMS ================================= ]
+    [============================================= }
+    MISC_BIRD_NEST:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bird''s nest';
+        UpText := ['s nest'];
+      end;
+
+    MISC_FEATHER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Feather';
+        UpText := ['eather'];
+        Stackable := True;
+      end;
+
+    { STAFFS ===================================== ]
+    [============================================= }
+    STAFF_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Air';
+        UpText := ['of air'];
+        EquipLevel := 0;
+      end;
+
+    STAFF_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Water';
+        UpText := ['of water'];
+        EquipLevel := 0;
+      end;
+
+    STAFF_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Earth';
+        UpText := ['of earth'];
+        EquipLevel := 0;
+      end;
+
+    STAFF_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Staff of Fire';
+        UpText := ['of fire'];
+        EquipLevel := 0;
+      end;
+
+    { RUNES ====================================== ]
+    [ ============================================ }
+    MSI_RUNE_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air rune';
+        StatsName := 'Air Runes (Crafted)';
+        UpText := ['Air', 'ir', 'ir r'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYLBmYmCwAWJvIA4AYn8g9gLih0C5z0D8EYhfAPEDIH4LxPevXgWSTCi4qrSEgR/IwoYZcWAIAADlvQuM');
+      end;
+
+    MSI_RUNE_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water rune';
+        StatsName := 'Water Runes (Crafted)';
+        UpText := ['er ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYLBlYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxOJS84AkEwquKi1h4AeysGFGHBgCAGOaCdo=');
+      end;
+
+    MSI_RUNE_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth rune';
+        StatsName := 'Earth Runes (Crafted)';
+        UpText := ['th ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxLG2vECSCQVXlZYw8ANZ2DAjDgwBAFrfCbc=');
+      end;
+
+    MSI_RUNE_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire rune';
+        StatsName := 'Fire Runes (Crafted)';
+        UpText := ['ire ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLi50C5z0D8EYhfAPEDIH4LxHMUxYAkEwquKi1h4AeysGFGHBgCAGhRCeM=');
+      end;
+
+    MSI_RUNE_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind rune';
+        StatsName := 'Mind Runes (Crafted)';
+        UpText := ['nd run'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxFaWHECSCQVXlZYw8ANZ2DAjDgwBAE63CY4=');
+      end;
+
+    MSI_RUNE_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body rune';
+        StatsName := 'Body Runes (Crafted)';
+        UpText := ['ody r'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxHy8vECSCQVXlZYw8ANZ2DAjDgwBADWPCTs=');
+      end;
+
+    MSI_RUNE_CHAOS:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Chaos rune';
+        StatsName := 'Chaos Runes (Crafted)';
+        UpText := ['haos'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBiYmCwAWJvIA4AYn8g9gLiV0C5z0D8EYhfAPEDIH4LxDfnyQNJJhRcVVrCwA9kYcOMODAEAACkXgqp');
+      end;
+
+    MSI_RUNE_DEATH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Death rune';
+        StatsName := 'Death Runes (Crafted)';
+        UpText := ['Death', 'eath rune', 'eat'];
+        Stackable := True;
+        DTM := DTMFromString('mlwAAAHicY2dgYLBhgmBvIA4AYn8g9gJiJyB+A5T/DMQfgfgFED8A4rdA/BSI71+9CiSZUHBVaQlDUW4uAz+Qhwsz4sFQAAByFA4e');
+      end;
+
+    MSI_RUNE_NATURE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Nature rune';
+        StatsName := 'Nature Runes (Crafted)';
+        UpText := ['ture r'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4FYqEYUSDKh4KrSEgZ+IAsbZsSBIQAAW7YJuA==');
+      end;
+
+    MSI_RUNE_COSMIC:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Cosmic rune';
+        StatsName := 'Cosmic Runes (Crafted)';
+        UpText := ['osmic'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4H42hV5IMmEgqtKSxj4gSxsmBEHhgAAtN4K3g==');
+      end;
+
+    MSI_RUNE_LAW:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Law rune';
+        StatsName := 'Law Runes (Crafted)';
+        UpText := ['aw ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYHBjYmCwAWJvIA4AYn8g9gLiF0C5z0D8kQHCfgDEb4FYXuUmkGRCwVWlJQz8QBY2zIgDQwAAf2QKMQ==');
+      end;
+
+    MSI_RUNE_BLOOD:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Blood rune';
+        StatsName := 'Blood Runes (Crafted)';
+        UpText := ['ood ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtXUSAkxVJWWAFlMKJgfqhcdM+LAEAAA6BsDCQ==');
+      end;
+
+    MSI_RUNE_ASTRAL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Astral rune';
+        StatsName := 'Astral Runes (Crafted)';
+        UpText := ['tral ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtUcX3OMoaq0BMhiQsH8UL3omBEHhgAAYF4Emg==');
+      end;
+
+    MSI_RUNE_SOUL:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Soul rune';
+        StatsName := 'Soul Runes (Crafted)';
+        UpText := ['oul ru'];
+        Stackable := True;
+        DTM := DTMFromString('mggAAAHicY2NgYOACYj4gFgZiESDmZ4AADiDmRWILQtVMnHyToaq0BMhiQsH8UL3omBEHhgAATgkEXg==');
+      end;
+
+    { Money Making =============================== ]
+    [============================================= }
+    CLAY_SOFT:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Soft Clay';
+        StatsName := 'Clay (Softened)';
+        UpText := ['oft clay'];
+      end;
+
+    VIAL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial';
+        StatsName := 'Vial (Empty)';
+        UpText := ['ial'];
+      end;
+
+    VIAL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Vial of water';
+        StatsName := 'Vials Filled';
+        UpText := ['ial of water', 'water'];
+      end;
+
+    JUG_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug';
+        StatsName := 'Jug (Empty)';
+        UpText := ['ug'];
+      end;
+
+    JUG_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Jug of water';
+        StatsName := 'Jugs Filled';
+        UpText := ['ug of water'];
+      end;
+
+    BOWL_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl';
+        StatsName := 'Bowl (Empty)';
+        UpText := ['owl'];
+      end;
+
+    BOWL_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bowl of water';
+        StatsName := 'Bowls Filled';
+        UpText := ['owl of water'];
+      end;
+
+    BUCKET_EMPTY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket';
+        StatsName := 'Bucket (Empty)';
+        UpText := ['ucket'];
+      end;
+
+    BUCKET_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Bucket of water';
+        StatsName := 'Buckets Filled';
+        UpText := ['ucket of water'];
+      end;
+
+    { Tiara ====================================== ]
+    [============================================= }
+    TIARA_AIR:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Air tiara';
+        UpText := ['Air', 'ir tia', 'ir t'];
+        EquipLevel := 1;
+      end;
+
+    TIARA_EARTH:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Earth tiara';
+        UpText := ['Earth', 'rth tia', 'th ti'];
+        EquipLevel := 1;
+      end;
+
+    TIARA_WATER:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Water tiara';
+        UpText := ['Water', 'ater tia', 'ter te'];
+        EquipLevel := 1;
+      end;
+
+    TIARA_MIND:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Mind tiara';
+        UpText := ['Mind', 'ind tia', 'nd t'];
+        EquipLevel := 1;
+      end;
+
+    TIARA_BODY:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Body tiara';
+        UpText := ['Body', 'dy tia', 'dy t'];
+        EquipLevel := 1;
+      end;
+
+    TIARA_FIRE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Fire tiara';
+        UpText := ['Fire', 're tia'];
+        EquipLevel := 1;
+      end;
+
+    MSI_RUNE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Rune essence';
+        UpText := ['une essen', 'ne e', 'Rune es', 'ne ess', 'ess'];
+        DTM := DTMFromString('mwQAAAHic42RgYJjGxMAwG4qnAvEEIO4F4hlAvAiIlwBxACMDgy8QBwNxGBAHAnEMEMcBcQRUzs3ZmSHA1wdM21hZMTja2wFNZ0LB/ECSEGYkAsMBABwwDP4=');
+      end;
+
+    MSI_PURE_ESSENCE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Pure essence';
+        StatsName := 'Pure Essence (Mined)';
+        UpText := ['ure essen'];
+        DTM := DTMFromString('mrAAAAHic42BgYNjPxMBwAIiPAvERIN4NxCeA+BwQHwZif0YGhhAgDgBiLyCOA+IYIA6EsvMyMxlSEuIZSvLzGZrraoEmMqFgfiCJDzMSwDAAABbvDp4=');
+      end;
+
+    DWARVEN_ARMY_AXE:
+      with MSI_Items[whichItem] do
+      begin
+        Name := 'Dwarven Army Axe';
+        UpText := ['arven army'];
+        EquipLevel := 10;
+      end;
+	  
+ 	  COAL_BAG:
+	    with MSI_Items[whichItem] do
+	    begin
+	      Name := 'Coal bag';
+		    UpText := ['oal ba'];
+  	  end;
+  end;
+
+  if (MSI_Items[whichItem].Name <> '') then
+  begin
+    result := true;
+
+    // set the DTM to default if it hasn't already been set
+    if (MSI_Items[whichItem].DTM = -1) then
+      MSI_Items[whichItem].DTM := MSI_LoadDTM(whichItem);
+
+    SetDTMName(MSI_Items[whichItem].DTM, Capitalize(MSI_Items[whichItem].Name));
+  end;
+end;
+
+(*
+MSI_LoadAllItems
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllItems;
+
+Loads all of the items used throuhgout MSI into the MSI_Items global array.
+This procedure should only be called in MSI_Setup
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Setup.simba>`_.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 25 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllItems;
+*)
+procedure MSI_LoadAllItems;
+var
+  i: Integer;
+begin
+  for i := 0 to High(MSI_Items) do
+    MSI_LoadItem(i);
+end;
+
+(*
+MSI_GetItemExp
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_GetItemExp(Skill: Integer; Items: TIntegerArray): TExtendedArray;
+
+Returns an array of the experience for certain items depening on the skill.
+For example, for Woodcutting, getting a Normal Log may be 25 experience where
+burning a Normal Log for Firemaking may be 30 experience.
+
+.. note::
+
+  | Author: The MSI Team
+  | Last Updated: 03 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  exps := MSI_GetItemExp(SKILL_WOODCUTTING, [LOGS_NORMAL, LOGS_OAK]);
+*)
+function MSI_GetItemExp(Skill: Integer; Items: TIntegerArray): TExtendedArray;
+var
+  i: integer;
+  e: extended;
+begin
+  setLength(result, length(items));
+
+  for i := 0 to High(Items) do
+  begin
+    e := 0;
+    case Skill of
+      SKILL_WOODCUTTING:
+        case Items[i] of
+          LOGS_NORMAL : e := 25.0;
+          LOGS_OAK    : e := 37.5;
+          LOGS_WILLOW : e := 67.5;
+          LOGS_MAPLE  : e := 100.0;
+          LOGS_YEW    : e := 175.0;
+          LOGS_MAGIC  : e := 250.0;
+
+          else
+            MSI_SubDebug('MSI_GetItemExperiences: Invalid item for woodcutting ' + IntToStr(Items[i]));
+        end;
+
+      SKILL_MINING:
+        case Items[i] of
+          ORE_CLAY      : e := 5.0;
+          ORE_TIN       : e := 17.5;
+          ORE_COPPER    : e := 17.5;
+          ORE_IRON      : e := 35.0;
+          ORE_SILVER    : e := 40.0;
+          ORE_COAL      : e := 50.0;
+          ORE_GOLD      : e := 65.0;
+          ORE_MITHRIL   : e := 80.0;
+          ORE_ADAMANTITE: e := 95.0;
+          ORE_RUNITE    : e := 125.0;
+
+          else
+             MSI_Debug('MSI_GetItemExperiences: Invalid item for mining: ' + IntToStr(Items[i]));
+        end;
+
+      SKILL_FISHING:
+        case Items[i] of
+          FISH_RAW_SHRIMP    : e := 10.0;
+          FISH_RAW_CRAYFISH  : e := 10.0;
+          FISH_RAW_SARDINE   : e := 20.0;
+          FISH_RAW_HERRING   : e := 30.0;
+          FISH_RAW_ANCHOVIE  : e := 40.0;
+          FISH_RAW_TROUT     : e := 50.0;
+          FISH_RAW_PIKE      : e := 60.0;
+          FISH_RAW_SALMON    : e := 70.0;
+          FISH_RAW_TUNA      : e := 80.0;
+          FISH_RAW_LOBSTER   : e := 90.0;
+          FISH_RAW_SWORDFISH : e := 100.0;
+          FISH_RAW_SHARK     : e := 110.0;
+          FISH_RAW_MONKFISH  : e := 120.0;
+
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for fishing: ' + IntToStr(Items[i]));
+        end;
+
+      SKILL_COOKING:
+        case Items[i] of
+          FISH_RAW_SHRIMP,
+          FISH_RAW_CRAYFISH,
+          FISH_RAW_SARDINE,
+          FISH_RAW_HERRING,
+          FISH_RAW_ANCHOVIE,
+          FISH_RAW_TROUT,
+          FISH_RAW_PIKE,
+          FISH_RAW_SALMON,
+          FISH_RAW_TUNA,
+          FISH_RAW_LOBSTER,
+          FISH_RAW_SWORDFISH,
+          FISH_RAW_SHARK        : e := 0.0;
+          FISH_COOKED_SHRIMP    : e := 30.0;
+          FISH_COOKED_CRAYFISH  : e := 30.0;
+          FISH_COOKED_SARDINE   : e := 40.0;
+          FISH_COOKED_HERRING   : e := 50.0;
+          FISH_COOKED_ANCHOVIE  : e := 30.0;
+          FISH_COOKED_TROUT     : e := 70.0;
+          FISH_COOKED_PIKE      : e := 80.0;
+          FISH_COOKED_SALMON    : e := 90.0;
+          FISH_COOKED_TUNA      : e := 100.0;
+          FISH_COOKED_LOBSTER   : e := 120.0;
+          FISH_COOKED_SWORDFISH : e := 140.0;
+          FISH_COOKED_SHARK     : e := 210.0;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for cooking: ' + IntToStr(Items[i]));
+        end;
+
+      SKILL_RUNECRAFTING:
+        case Items[i] of
+          MSI_RUNE_AIR    : e := 5;
+          MSI_RUNE_BODY   : e := 7.5;
+          MSI_RUNE_MIND   : e := 5.5;
+          MSI_RUNE_EARTH  : e := 6.5;
+          MSI_RUNE_FIRE   : e := 7;
+          MSI_RUNE_WATER  : e := 6;
+          MSI_RUNE_CHAOS  : e := 8.5;
+          MSI_RUNE_LAW    : e := 9.5;
+          MSI_RUNE_COSMIC : e := 8;
+          MSI_RUNE_DEATH  : e := 10;
+          MSI_RUNE_NATURE : e := 9;
+          MSI_RUNE_SOUL   : e := -1;
+          MSI_RUNE_BLOOD  : e := 10.5;
+          MSI_RUNE_ASTRAL : e := 8.7;
+          else
+             MSI_SubDebug('MSI_GetItemExperiences: Invalid object for Runecrafting: ' + IntToStr(Items[i]));
+        end;
+
+
+      else
+        MSI_SubDebug('MSI_GetItemExperiences: Invalid script skill');
+    end;
+
+    Result[i] := e;
+  end;
+end;
+
+(*
+MSI_FreeItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_FreeItem(Which: Integer);
+
+Frees the MSI item 'Which'.  This procedure is called only in MSI_FreeAllItems.
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 03 July 2010 by Naum
+
+Example:
+
+.. code-block:: pascal
+
+  for i := 0 to High(MSI_Items) do
+    MSI_FreeItem(i);
+*)
+Procedure MSI_FreeItem(Which: Integer);
+Begin
+  Try
+    FreeDTM(MSI_Items[Which].DTM);
+
+    With MSI_Items[Which] Do
+    Begin
+      Name := '';
+      UpText := [''];
+      DTM := -1;
+    End;
+  Except End;
+End;
+
+(*
+MSI_FreeAllItems
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_FreeAllItems;
+
+Frees all of MSI's items.  This procedure is only called in MSI_ScriptTerminate.
+
+.. note::
+
+  | Author: Naum
+  | Last Updated: 03 July 2010 by Naum
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_FreeAllItems;
+*)
+Procedure MSI_FreeAllItems;
+var
+  I: Integer;
+begin
+  for I := 0 to High(MSI_Items) do
+    MSI_FreeItem(I);
+end;
+
+(*
+MSI_AddException
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_AddException(Item, Slot: Integer);
+
+Adds the inventory slot 'Slot' to the current player's current script's
+Exceptions array. Set's the item's 'Item' InvSlot attribute.  The Exceptions
+array is used so the user can add inventory slots they don't want to be dropped
+or banked.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_AddException(PICKAXE_RUNE, 28);
+*)
+procedure MSI_AddException(Item, Slot: Integer);
+begin
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+  begin
+    // If exception slot already exists, exit
+    if (InIntArray(Exceptions, Slot)) then
+      Exit;
+
+    SetLength(Exceptions, Length(Exceptions) + 1);
+    Exceptions[High(Exceptions)] := Slot;
+
+    // Set the item's inventory slot
+    MSI_Items[Item].InvSlot := Slot;
+
+    ClearSameIntegers(Exceptions);
+
+    MSI_SubDebug('Exception Added: ' + MSI_Items[Item].Name + ' in slot ' + IntToStr(Slot));
+    MSI_SubDebug('There are now ' + IntToStr(Length(Exceptions)) + ' exceptions');
+  end;
+end;
+
+(*
+MSI_DeleteException
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DeleteException(Item, Slot: Integer);
+
+Basically works the exact opposite of MSI_AddException.  This is used if a tool
+has been equipped, for example.  Set's the item's 'Item' InvSlot attribute back
+to 0 (i.e. not in the inventory).
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_RemoveException(PICKAXE_RUNE, 28);
+*)
+procedure MSI_DeleteException(Item, Slot: Integer);
+var
+  i: Integer;
+begin
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+    if (not InIntArray(DontDrop, Slot)) then
+      if (InIntArrayEx(Exceptions, i, Slot)) then
+      begin
+        DeleteValueInIntArray(Exceptions, i);
+        MSI_Items[Item].InvSlot := 0; // Reset the item's inventory slot
+
+        MSI_SubDebug('Exception Removed: ' + MSI_Items[Item].Name + ' in slot ' + IntToStr(Slot));
+        MSI_SubDebug('There are now ' + IntToStr(Length(Exceptions)) + ' exceptions');
+      end;
+end;
+
+(*
+MSI_FindItemSlots
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindItemSlots(Item: Integer): TIntegerArray;
+
+Returns the slots where the item 'Item' is found.  The type of slots depends on
+the current script's BankType attribute.  TBankType can be found in
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Globals.simba>`_.  If the
+item found is stackable, and for some reason it's found in more than one slot,
+it will perform a series of uptext checks to get rid of the false positives.
+
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 November 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  slots := MSI_FindItemSlots(LOGS_NORMAL);
+*)
+function MSI_FindItemSlots(Item: Integer): TIntegerArray;
+var
+  i, j, t, c: Integer;
+  itemPoints: TPointArray;
+  b: TBox;
+  bankType: TBank;
+  searchArea: string;
+begin
+  if (MSI_Items[Item].Name = '') or (not LoggedIn) then
+    Exit;
+
+  gameTab(TAB_INV);
+  c := 0;
+
+  bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
+  case bankType of
+    Bank, NoBank, Drop: searchArea := 'inv';
+    DBox: searchArea := 'deposit box';
+  end;
+
+  itemPoints := ItemCoordinates(searchArea, 'dtm', MSI_Items[Item].DTM, []);
+  setLength(result, length(itemPoints));
+
+  for i := 0 to High(itemPoints) do
+    for j := 1 to 28 do
+    begin
+      case bankType of
+        Bank, NoBank, Drop: b := InvBox(j);
+        DBox: b := DepositItemBox(j);
+      end;
+
+      if (PointInBox(itemPoints[i], b)) then
+      begin
+        result[c] := j;
+        inc(c);
+      end;
+    end;
+
+  setLength(result, c);
+
+  // If the item is stackable and more than one is found, will check uptext to remove bad items
+  if (MSI_Items[Item].Stackable) then
+    if (Length(Result) > 1) then
+      for i := 0 to High(itemPoints) do
+      begin
+        MMouse(itemPoints[i].x, itemPoints[i].y, 4, 4);
+        Wait(RandomRange(300, 500));
+
+        if (WaitUptextMulti(MSI_Items[Item].Uptext, 500)) then
+          Continue
+        else
+          if (InIntArrayEx(Result, t, CoordsToItem(itemPoints[i].x, itemPoints[i].y))) then
+            DeleteValueInIntArray(Result, t);
+      end;
+
+  MSI_Debug('MSI_FindItemSlots: Found '+IntToStr(Length(result))+' '+MSI_Items[Item].Name+' in '+searchArea+' slot(s) ' + ToStr(Result));
+end;
+
+(*
+MSI_ClickItemSlot
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItemSlot(Slot: Integer; Options: TStringArray): Boolean;
+
+Clicks the slot 'Slot' and chooses the corrent option from 'Options'.  Will
+right-click if the uptext isn't correct.  Like MSI_FindItemSlots, the slot area
+depends on the script's BankType attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 21 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickItemSlot(1, ['Drop', 'rop']) then
+    MSI_Debug('Dropped item');
+*)
+function MSI_ClickItemSlot(Slot: Integer; Options: TStringArray): Boolean;
+var
+  x, y: Integer;
+  bankType: TBank;
+  b: TBox;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  bankType := MSI_Scripts[MSI_Players[CurrentPlayer].Scripts[CurrentScript].Name].BankType;
+  case bankType of
+    Bank, NoBank, Drop: b := InvBox(Slot);
+    DBox: b := DepositItemBox(Slot);
+  end;
+
+  if (not FindColor(x, y, SRL_OUTLINE_BLACK, b.x1, b.y1, b.x2, b.y2)) then
+  begin
+    MSI_SubDebug('Item doesn''t exist in slot ' + IntToStr(Slot));
+    Result := True;
+    Exit;
+  end;
+
+  MMouse((b.x1 + b.x2)/2, (b.y1 + b.y2)/2, 10, 10);
+  GetMousePos(x, y);
+
+  if (WaitUpTextMulti(Options, 100 + Random(20))) then
+  begin
+    Mouse(x, y, 0, 0, True);
+    Result := True;
+  end else begin
+    Mouse(x, y, 0, 0, False);
+    Result := WaitOptionMulti(Options, 250 + Random(50));
+  end;
+
+  if (not Result) then
+    MSI_SubDebug('MSI_ClickItemSlot: Failed to click item slot')
+  else
+    MSI_SubDebug('MSI_ClickItemSlot: Succesfully clicked item slot');
+end;
+
+(*
+MSI_ClickItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
+
+Uses a combination of MSI_FindItemSlots and MSI_ClickItemSlot to find and click
+the first occurance of the item 'Item'.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 24 April 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ClickItem(HATCHET_BRONZE, ['Wield', 'ield'])) then
+    MSI_Debug('Equipped hatchet');
+*)
+function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
+var
+  slots: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  slots := MSI_FindItemSlots(Item);
+  if (Length(slots) > 0) then
+    Result := MSI_ClickItemSlot(slots[0], Options)
+  else
+    MSI_SubDebug(MSI_Items[Item].Name + ' not found!');
+
+  if (not Result) then
+    MSI_SubDebug('MSI_ClickItem: Failed to click item: '+MSI_Items[Item].Name)
+  else
+    MSI_SubDebug('MSI_ClickItem: Succesfully clicked ' + MSI_Items[Item].Name);
+end;
+
+(*
+MSI_ClickItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ClickItem(Item: Integer; Options: TStringArray): Boolean;
+
+Works exactly like MSI_ClickItem, except for multiple items.  This function is
+primarily used for banking.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 11 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_ClickItems([ROCK_COPPER, ROCK_TIN]. ['Deposit', 'eposit']);
+*)
+procedure MSI_ClickItems(Items: TIntegerArray; Options: TStringArray);
+var
+  i, j: Integer;
+  slots: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  for i := 0 to High(Items) do
+  begin
+    slots := MSI_FindItemSlots(Items[i]);
+    for j := 0 to High(slots) do
+      MSI_ClickItemSlot(slots[j], Options);
+  end;
+end;
+
+(*
+MSI_DragItem
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_DragItem(Item, TargetSlot: Integer): Boolean;
+
+Drags the first occurance of the item 'Item' to the inventory slot 'TargetSlot'.
+
+.. note::
+
+  | Author: Zyt3x
+  | Last Updated: 13 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_DragItem(PICKAXE_RUNE, 28)) then
+    MSI_Debug('Dragged pickaxe to preferred slot');
+*)
+function MSI_DragItem(Item, TargetSlot: Integer): Boolean;
+var
+  slots: TIntegerArray;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  Result := True;
+  slots := MSI_FindItemSlots(Item);
+  if (Length(slots) > 0) then
+    DragItem(slots[0], TargetSlot)
+  else begin
+    MSI_SubDebug(MSI_Items[Item].Name + ' not found!');
+    Result := False;
+    Exit;
+  end;
+
+  if (not Result) then
+    MSI_SubDebug('MSI_DragItem: Failed to click item: '+MSI_Items[Item].Name)
+  else
+    MSI_SubDebug('MSI_DragItem: Succesfully clicked ' + MSI_Items[Item].Name);
+end;
+
+(*
+MSI_EquipItem
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_EquipItem(Skill, Item: Integer): Boolean;
+
+Equips the item 'Item' if the player has the required skill level of 'Skill' to
+do so.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 March 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_EquipItem(SKILL_ATTACK, PICKAXE_STEEL)) then
+    MSI_Debug('Equipped pickaxe');
+*)
+function MSI_EquipItem(Skill, Item: Integer): Boolean;
+var
+  slot, lev, t, x, y: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  if (MSI_Items[Item].EquipLevel < 0) then
+  begin
+    MSI_SubDebug(MSI_Items[Item].Name+' is not equippable');
+    Exit;
+  end;
+
+  // Get the player's skill level
+  if (Skill <> -1) then
+  begin
+    {$IFDEF REFLECTION}
+    lev := R_GetSkillLevel(Skill);
+    {$ELSE}
+    lev := GetSkillLevel(Skill);
+    {$ENDIF}
+  end;
+
+  MSI_AddHeader('MSI_EquipItem');
+  MSI_Debug('Attempting to equip '+Capitalize(MSI_Items[Item].Name));
+
+  if (lev >= MSI_Items[Item].EquipLevel) then
+    if (MSI_ClickItem(Item, ['Wield', 'ield', 'eld', 'Wear', 'ear'])) then
+    begin
+      // Get the inventory slot that was clicked
+      GetMousePos(x, y);
+      slot := CoordsToItem(x, y);
+
+      // Wait for the item to disappear from inventory (i.e. equipped)
+      t := (GetSystemTime + 5000);
+      while (GetSystemTime < t) do
+      begin
+        if (not ExistsItem(slot)) then
+        begin
+          Result := True;
+          MSI_DeleteException(Item, slot);
+          MSI_Debug('Equipped '+Capitalize(MSI_Items[Item].Name));
+          Break;
+        end;
+
+        Wait(RandomRange(250, 500));
+      end;
+
+    end else
+      MSI_Debug(MSI_Items[Item].Name+' is not in slot '+ToStr(MSI_Items[Item].InvSlot))
+  else
+    MSI_Debug('Player doesn''t have required level');
+
+  MSI_CloseHeader('MSI_EquipItem: '+BoolToStr(Result));
+end;
+
+(*
+MSI_FindTool
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
+
+Returns true if the specified tool (Tool) is found in the game tab (WhichTab).
+Sets the items coordinates to x and y.  Uses DTMs to find the item, and adds the
+tool to the exceptions array if found in the inventory.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindTool(HATCHET_BRONZE, TAB_INV, x, y)) then
+    MSI_Debug('Found ' + MSI_Items[HATCHET_BRONZE].Name);
+*)
+function MSI_FindTool(tool, whichTab: integer; var x, y: integer): boolean;
+var
+  s: string;
+  toolFound: boolean;
+  tools: TPointArray;
+begin
+  if (not loggedIn) then
+    exit;
+
+  gameTab(whichTab);
+  result := false;
+
+  MSI_AddHeader('MSI_FindTool');
+
+  if (whichTab = TAB_INV) then
+  begin
+    s := 'Inventory';
+    tools := itemCoordinates('inv', 'dtm', MSI_Items[tool].DTM, []);
+    if (length(tools) > 0) then
+    begin
+      toolFound := true;
+      x := tools[0].x;
+      y := tools[0].y;
+    end;
+  end else begin
+    s := 'Equipment';
+    toolFound := FindDTM(MSI_Items[tool].DTM, x, y, MIX1, MIY1, MIX2, MIY2);
+  end;
+
+  MSI_Debug('Searching ' + s + ' tab');
+
+  if (toolFound) then
+  begin
+    result := true;
+    MSI_Debug('Found DTM of ' + MSI_Items[tool].name);
+
+    if (whichTab = TAB_INV) then
+      if (not MSI_EquipItem(SKILL_ATTACK, tool)) then
+        MSI_AddException(tool, coordsToItem(x, y));
+  end else
+		MSI_Debug('Failed to find DTM of ' + MSI_Items[tool].name);
+
+  MSI_CloseHeader('MSI_FindTool: ' + boolToStr(result))
+end;
+
+(*
+MSI_DropAll
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_DropAll;
+
+Uses SRL's dropping routines to drop all items in the inventory with the
+exception of the Exceptions array for the current script.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 December 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_DropAll;
+*)
+procedure MSI_DropAll;
+var
+  i: Integer;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_DropAll');
+
+  with MSI_Players[CurrentPlayer].Scripts[CurrentScript] do
+  begin
+    if (Length(DontDrop) > 0) then
+      for i := 0 to High(DontDrop) do
+        Exceptions := CombineIntArray(Exceptions, MSI_FindItemSlots(DontDrop[i]));
+
+    ClearSameIntegers(Exceptions);
+    if (Length(Exceptions) <= 0) then
+      DropAll
+    else
+      DropAllExcept(Exceptions);
+  end;
+
+  MSI_CloseHeader('MSI_DropAll: Finished');
+end;
+
+(*
+MSI_WaitItemGone
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_WaitItemGone(item: TItem): boolean;
+
+Waits until the item 'item' is no longer found in the inventory.
+
+.. note::
+
+  | Author: NCSD & Coh3n
+  | Last Updated: 02 July 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_WaitItemGone(FISH_RAW_TROUT)) then
+    MSI_Debug('We are done cooking');
+*)
+function MSI_WaitItemGone(item: TItem): boolean;
+var
+  t, tt, howMany: Integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  MSI_AddHeader('MSI_WaitItemGone');
+
+  t := (getSystemTime + 180000);
+  repeat
+    howMany := countItems('dtm', item.DTM, []);
+
+    tt := (getSystemTime + 5000);
+    while (getSystemTime < tt) do
+    begin
+      if (countItems('dtm', item.DTM, []) = 0) then
+      begin
+        result := true;
+        break;
+      end;
+
+      MSI_FindRandoms(false);
+      MSI_AntiBan(randomRange(0, 7000), ANTI_BAN_CHANCE);
+
+      wait(1000);
+    end;
+
+    if (not result) then
+      if (countItems('dtm', item.DTM, []) >= howMany) then
+      begin
+        MSI_Debug('We''ve stopped converting the material');
+        result := false;
+        break;
+      end;
+  until(result or (getSystemTime > t) or (not loggedIn));
+
+  MSI_CloseHeader('MSI_WaitItemGone: ' + boolToStr(result));
+end;
+
+(*
+MSI_UseItemOn
+~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+
+Uses an item ('item') on a main screen object ('objs').  Will look for the
+first object in 'objs' first.
+
+.. note::
+
+  | Author: NCDS & Coh3n
+  | Last Updated: 09 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_UseItemOn(FISH_RAW_TROUT, COOKSPOT_AK_RANGE)) then
+    MSI_Debug('Starting to cook');
+*)
+function MSI_UseItemOn(item: integer; objs: TIntegerArray): boolean;
+var
+  x, y: integer;
+  oo: TMSObjectArray;
+  o: TMSObject;
+begin
+  if (not loggedIn) then
+    exit;
+
+  if (not FindColor(x, y, SRL_OUTLINE_WHITE, MIX1, MIY1, MIX2, MIY2)) then
+  begin
+    if (not MSI_ClickItem(item, ['Use', 'se'])) then
+      exit;
+  end else
+    MSI_SubDebug('MSI_UseItemOn: Item already selected');
+
+  oo := MSI_GetObjects(objs);
+  result := MSI_FindObjects(oo, moLeft, o);
+end;
+
+

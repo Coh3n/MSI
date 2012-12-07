@@ -1,0 +1,1952 @@
+(*
+Scripts
+=======
+
+The Scripts file is short and sweet. This is where all the scripts are defined.
+
+The source for Scripts.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Core/Scripts.simba>`_.
+
+*)
+
+(*
+MSI_LoadScript
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_LoadScript(whichScript: Integer): Boolean;
+
+Sets the script 'whichScript' in the MSI_Scripts array.  This function should
+only be called in MSI_LoadAllScripts.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 12 November 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadScript(SCRIPT_VE_MINER);
+*)
+function MSI_LoadScript(whichScript: Integer): Boolean;
+var
+  i: integer;
+begin
+  case whichScript of
+    { WOODCUTTERS ================================ ]
+    [============================================= }
+    SCRIPT_POWER_CHOP:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Powerchopper';
+        Constant      := SCRIPT_POWER_CHOP;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Drop;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [
+          TREE_DEAD, TREE_NORMAL, TREE_NORMAL_NEW, TREE_OAK, TREE_OAK_NEW,
+          TREE_WILLOW, TREE_WILLOW_NEW, TREE_MAPLE, TREE_MAPLE_NEW,
+          TREE_YEW, TREE_YEW_NEW, TREE_MAGIC
+        ];
+      end;
+
+    SCRIPT_VE_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Oaks';
+        Constant      := SCRIPT_VE_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_VE_BANK to LOC_VE_OAKS';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_OAKS;
+
+          SPSPath := [
+            TPointArray([Point(4851, 2969), Point(4873, 2937),
+                         Point(4951, 2935), Point(4961, 2978)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Oaks';
+        Constant      := SCRIPT_GE_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_OAKS';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_OAKS;
+
+          SPSPath := [
+            TPointArray([Point(4550, 2723), Point(4597, 2682),
+                         Point(4623, 2738), Point(4606, 2804)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6', '11_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Yews';
+        Constant      := SCRIPT_GE_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_YEWS';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(4554, 2724), Point(4598, 2681),
+                         Point(4641, 2638), Point(4693, 2645)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_DB_TREES:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Normals';
+        Constant      := SCRIPT_DB_TREES;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_NORMAL_NEW, TREE_DEAD];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_TREES';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_TREES;
+
+          SPSPath  := [
+            TPointArray([Point(4208, 3685), Point(4154, 3657),
+                         Point(4153, 3590)])
+          ];
+
+          SPSAreas    := [
+            TStringArray(['10_8', '10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_DB_OAKS:
+      With MSI_Scripts[WhichScript] do
+      begin
+        Name          := 'Draynor Oaks';
+        Constant      := SCRIPT_DB_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_OAKS';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_OAKS;
+
+          SPSPath := [
+            TPointArray([Point(4207, 3686), Point(4241, 3682)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_DB_WILLOWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Willows';
+        Constant      := SCRIPT_DB_WILLOWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_WILLOW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_WILLOWS';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_WILLOWS;
+
+          SPSPath := [
+            TPointArray([Point(4206, 3686), Point(4181, 3729)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_RM_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Rimmington Yews';
+        Constant      := SCRIPT_RM_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_PS_BANK to LOC_RM_YEWS';
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_RM_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(4025, 3714), Point(3862, 3697),
+                         Point(3587, 3728)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['9_9', '8_9', '10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_RM_WILLOWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Rimmington Willows';
+        Constant      := SCRIPT_RM_WILLOWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_WILLOW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_PS_DBOX to LOC_RM_WILLOWS';
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_RM_WILLOWS;
+
+          SPSPath := [
+            TPointArray([Point(4024, 3717), Point(3947, 3719),
+                         Point(3866, 3814), Point(3835, 3996)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['9_9', '10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_PS_WILLOWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Port Sarim Willows';
+        Constant      := SCRIPT_PS_WILLOWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_WILLOW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_PS_DBOX to LOC_PS_WILLOWS';
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_PS_WILLOWS;
+
+          SPSPath := [
+            TPointArray([Point(4030, 3714), Point(4081, 3644)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_8', '10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_PS_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Port Sarim Yews';
+        Constant      := SCRIPT_PS_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_PS_DBOX to LOC_PS_YEWS';
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_PS_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(4028, 3714), Point(4077, 3647),
+                         Point(4046, 3578)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['9_9', '9_8', '10_8'])
+          ];
+        end;
+      end;
+
+    SCRIPT_SV_MAGICS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Magics';
+        Constant      := SCRIPT_SV_MAGICS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_MAGIC];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_MAGICS';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_MAGICS;
+
+          SPSPath := [
+            TPointArray([Point(2739, 2679), Point(2689, 3066),
+                         Point(2646, 3062)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_SV_MAPLES:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Maples';
+        Constant      := SCRIPT_SV_MAPLES;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_MAPLE];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_MAPLES';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_MAPLES;
+
+          SPSPath := [
+            TPointArray([Point(2737, 2681), Point(2744, 2636)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['6_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_SV_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Yews';
+        Constant      := SCRIPT_SV_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_YEWS';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(2739, 2681), Point(2732, 2737),
+                         Point(2720, 2781), Point(2677, 2799)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_SV_OAKS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Oaks';
+        Constant      := SCRIPT_SV_OAKS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_OAK];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_OAKS';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_OAKS;
+
+          SPSPath := [
+            TPointArray([Point(2738, 2681), Point(2725, 2726)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['6_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_SV_TREES:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Seers Village Trees';
+        Constant      := SCRIPT_SV_TREES;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_SV;
+        AdjustCamera  := true;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_NORMAL];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_SV_BANK to LOC_SV_TREES';
+          StartLoc := LOC_SV_BANK;
+          EndLoc   := LOC_SV_TREES;
+
+          SPSPath := [
+            TPointArray([Point(2737, 2679), Point(2723, 2871)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['6_6', '6_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_EV_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Edgeville yews';
+        Constant      := SCRIPT_EV_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_EV;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_EV_BANK to LOC_EV_YEWS';
+          StartLoc := LOC_EV_BANK;
+          EndLoc   := LOC_EV_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(4212, 2682), Point(4183, 2758)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_DB_YEWS:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Village Yews';
+        Constant      := SCRIPT_DB_YEWS;
+        SkillName     := 'Woodcutting';
+        SkillConst    := SKILL_WOODCUTTING;
+        MaxTime       := 120;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_ChopInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupWoodcutting;
+
+        Defaults.Trees := [TREE_YEW_NEW];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_YEWS';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_YEWS;
+
+          SPSPath := [
+            TPointArray([Point(4208, 3687), Point(4454, 3740)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_9', '11_9'])
+          ];
+        end;
+      end;
+
+    { MINERS ===================================== ]
+    [============================================= }
+    SCRIPT_POWER_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Powerminer';
+        Constant    := SCRIPT_POWER_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Drop;
+        AdjustCamera := true;
+        AutoObjects := @MSI_MineInvFull;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [
+          ROCK_CLAY, ROCK_COPPER, ROCK_TIN, ROCK_IRON, ROCK_SILVER,
+          ROCK_COAL, ROCK_GOLD, ROCK_MITHRIL, ROCK_ADAMANTITE
+        ];
+      end;
+
+    SCRIPT_VE_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Miner';
+        Constant      := SCRIPT_VE_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_VE_BANK to LOC_VE_MINE';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4852, 2969), Point(4873, 2937),
+                         Point(4961, 2938), Point(5002, 3029),
+                         Point(5003, 3095), Point(4986, 3181)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_LSW_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumby Swamp West Miner';
+        Constant      := SCRIPT_LSW_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AdjustCamera  := True;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL, ROCK_ADAMANTITE];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_LSW_MINE';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_LSW_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4210, 3684), Point(4387, 3858),
+                         Point(4423, 4075)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_9', '11_10', '10_10'])
+          ];
+        end;
+      end;
+
+    SCRIPT_LSE_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Lumby Swamp East Miner';
+        Constant      := SCRIPT_LSE_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_AK;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_AK_BANK to LOC_LSE_MINE';
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_LSE_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4914, 3996), Point(4845, 3969),
+                         Point(4750, 4068)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['12_9', '11_10', '11_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_VW_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock West Miner';
+        Constant      := SCRIPT_VW_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VW;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_CLAY, ROCK_IRON, ROCK_SILVER];
+
+        with PathInfo do
+        begin
+        Name := 'LOC_VW_BANK to LOC_VW_MINE';
+          StartLoc := LOC_VW_BANK;
+          EndLoc   := LOC_VW_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4580, 2903), Point(4516, 2952),
+                         Point(4555, 3175)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FW_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Miner';
+        Constant      := SCRIPT_FW_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_COAL];
+
+        with PathInfo do
+        begin
+        Name := 'LOC_FW_BANK to LOC_FW_MINE';
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_MINE;
+
+          SPSPath := [
+            TPointArray([Point(3619, 3177), Point(3591, 3233)]),
+            TPointArray([Point(3572, 3233), Point(3466, 3222)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7']),
+            TStringArray(['8_7', '9_7'])
+          ];
+
+          Obstacles[OBS_LOC_TO] := [OBS_WALL_FW];
+          Obstacles[OBS_LOC_FROM] := [OBS_WALL_FW];
+        end;
+      end;
+
+    SCRIPT_BBV_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Barbarian Village Miner';
+        Constant      := SCRIPT_BBV_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_EV;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_TIN, ROCK_COAL];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_EV_BANK to LOC_BBV_MINE';
+          StartLoc := LOC_EV_BANK;
+          EndLoc   := LOC_BBV_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4211, 2685), Point(4234, 2785),
+                         Point(4159, 2965)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_6', '10_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_RM_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Rimmington Miner';
+        Constant      := SCRIPT_RM_MINER;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := DBox;
+        WhichBank     := DBOX_PS;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_CLAY, ROCK_TIN, ROCK_COPPER, ROCK_IRON, ROCK_GOLD];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_PS_DBOX to LOC_RM_MINE';
+          StartLoc := LOC_PS_DBOX;
+          EndLoc   := LOC_RM_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4027, 3716), Point(3900, 3688),
+                         Point(3762, 3711)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['9_9', '9_8'])
+          ];
+        end;
+      end;
+
+    SCRIPT_DB_CLAY:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Clay';
+        Constant      := SCRIPT_DB_CLAY;
+        SkillName     := 'Mining';
+        SkillConst    := SKILL_MINING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_MineInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_CLAY];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_CLAY';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_CLAY;
+
+          SPSPath := [
+            TPointArray([Point(4208, 3685), Point(4248, 3658),
+                         Point(4269, 3483), Point(4401, 3389)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_8', '10_9', '11_8'])
+          ];
+        end;
+      end;
+
+    SCRIPT_AK_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Al Kharid Miner';
+        Constant    := SCRIPT_AK_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_AK;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [
+          ROCK_SILVER, ROCK_IRON, ROCK_COAL, ROCK_MITHRIL, ROCK_GOLD,
+          ROCK_COPPER, ROCK_TIN, ROCK_ADAMANTITE
+        ];
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_AK_MINE;
+
+          SPSPath := [
+            TPointArray([Point(4910, 3996), Point(5033, 3504)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['12_8', '12_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GUILD_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Mining Guild Miner';
+        Constant    := SCRIPT_GUILD_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_FE;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_COAL, ROCK_MITHRIL];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FE_BANK to LOC_GUILD_MINE';
+          StartLoc := LOC_FE_BANK;
+          EndLoc := LOC_GUILD_MINE;
+
+          SPSPath := [
+            // Bank -> Ladder Down
+            TPointArray([Point(3890, 3233), Point(3937, 3256),
+                         Point(3921, 3304)]),
+
+            // Ladder Up -> In Mine
+            TPointArray([Point(295, 531), Point(375, 531)])
+          ];
+
+          SPSSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+          SPSAreas    := [TStringArray(['9_7', '9_8']), TStringArray(['dwarven_mine'])];
+
+          Obstacles[OBS_LOC_TO] := [OBS_LADDER_MG_DOWN];
+          Obstacles[OBS_LOC_FROM] := [OBS_LADDER_MG_UP];
+        end;
+      end;
+
+    SCRIPT_CG_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Crafting Guild Miner';
+        Constant    := SCRIPT_CG_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_FE;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [ROCK_GOLD, ROCK_SILVER, ROCK_CLAY];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FE_BANK to LOC_CG_MINE';
+          StartLoc := LOC_FE_BANK;
+          EndLoc   := LOC_CG_MINE;
+
+          SPSPath := [
+            // bank to outside guild
+            TPointArray([Point(3885, 3237), Point(3864, 3284),
+                         Point(3863, 3379), Point(3739, 3527),
+                         Point(3646, 3487), Point(3570, 3500)]),
+
+            // guild door to mine
+            TPointArray([Point(3570, 3500), Point(3599, 3536)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['8_8', '9_7', '9_8']),
+            TStringArray(['8_8'])
+          ];
+
+          Obstacles[OBS_LOC_TO] := [OBS_DOOR_CG_IN];
+          Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CG_OUT];
+        end;
+      end;
+
+    SCRIPT_Y_MINER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name        := 'Yanille Miner';
+        Constant    := SCRIPT_Y_MINER;
+        SkillName   := 'Mining';
+        SkillConst  := SKILL_MINING;
+        BankType    := Bank;
+        WhichBank   := MSI_BANK_Y;
+        AutoObjects := @MSI_MineInvFull;
+        BankObjects := @MSI_BankStandard;
+        PlayerSetup := @MSI_SetupMining;
+
+        Defaults.Rocks := [
+          ROCK_IRON,ROCK_MITHRIL,ROCK_COPPER,ROCK_TIN,
+          ROCK_CLAY
+        ];
+
+        with PathInfo do
+        begin
+          StartLoc := LOC_Y_BANK;
+          EndLoc   := LOC_Y_MINE;
+
+          SPSPath := [
+            TPointArray([Point(2285, 4300),Point(2330, 4155),
+              Point(2340, 4120)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_10','6_10'])
+          ];
+        end;
+      end;
+
+    { FISHERS ==================================== ]
+    [============================================= }
+    SCRIPT_POWER_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Powerfisher';
+        Constant      := SCRIPT_POWER_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Drop;
+        AutoObjects   := @MSI_FishInvFull;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_LURE, FISHSPOT_CAGE,
+          FISHSPOT_HARPOON
+        ];
+      end;
+
+    SCRIPT_DB_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Draynor Village Fisher';
+        Constant      := SCRIPT_DB_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_DB;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [FISHSPOT_NET, FISHSPOT_BAIT];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_DB_BANK to LOC_DB_FISH';
+          StartLoc := LOC_DB_BANK;
+          EndLoc   := LOC_DB_FISH;
+
+          SPSPath := [
+            TPointArray([Point(4206, 3686), Point(4181, 3740)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_BBV_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Barbarian Village Fisher';
+        Constant      := SCRIPT_BBV_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_EV;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [FISHSPOT_LURE, FISHSPOT_BAIT];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_EV_BANK to LOC_BBV_FISH';
+          StartLoc := LOC_EV_BANK;
+          EndLoc   := LOC_BBV_FISH;
+
+          SPSPath := [
+            TPointArray([Point(4209, 2678), Point(4236, 2709),
+                         Point(4235, 2782), Point(4185, 2792),
+                         Point(4210, 2895), Point(4271, 2917)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_6', '10_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_CB_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Catherby Fisher';
+        Constant      := SCRIPT_CB_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_CB;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_CB_BANK to LOC_CB_FISH';
+          StartLoc := LOC_CB_BANK;
+          EndLoc   := LOC_CB_FISH;
+
+          SPSPath := [
+            TPointArray([Point(3073, 2889), Point(3190, 2918)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['7_7', '8_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_KJ_NOTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Karamja Stiles Noter';
+        Constant      := SCRIPT_KJ_NOTER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := NPC;
+        WhichBank     := NPC_STILES;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankNPC;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_BAIT, FISHSPOT_CAGE, FISHSPOT_HARPOON
+        ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_KJ_STILES to LOC_KJ_FISH';
+          StartLoc := LOC_KJ_STILES;
+          EndLoc   := LOC_KJ_FISH;
+
+          SPSPath := [
+            TPointArray([Point(3246, 4096), Point(3534, 3951)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['8_9', '8_10', '7_10'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FG_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Guild Fisher';
+        Constant      := SCRIPT_FG_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FG;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET, FISHSPOT_CAGE, FISHSPOT_HARPOON,
+          FISHSPOT_HARPOON_SHARK
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FG_BANK to LOC_FG_FISH';
+          StartLoc := LOC_FG_BANK;
+          EndLoc   := LOC_FG_FISH;
+
+          SPSPath := [
+            TPointArray([Point(2178, 2964), Point(2247, 2970)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['5_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FC_FISHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Fishing Colony Fisher';
+        Constant      := SCRIPT_FC_FISHER;
+        SkillName     := 'Fishing';
+        SkillConst    := SKILL_FISHING;
+        BankType      := Bank;
+        WhichBank     := NPC_ARNOLD;
+        AutoObjects   := @MSI_FishInvFull;
+        BankObjects   := @MSI_BankStandard;
+        PlayerSetup   := @MSI_SetupFishing;
+
+        Defaults.FishSpots := [
+          FISHSPOT_NET_MONKFISH
+         ];
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FC_BANK to LOC_FC_FISH';
+          StartLoc := LOC_FC_BANK;
+          EndLoc   := LOC_FC_FISH;
+
+          SPSPath := [
+            TPointArray([Point(1160,1880),Point(1215,1835)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['2_4','3_4'])
+          ];
+        end;
+      end;
+
+
+
+    { COOKERS ==================================== ]
+    [============================================= }
+    SCRIPT_AK_COOKER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Al-Kharid Cooker';
+        Constant      := SCRIPT_AK_COOKER;
+        SkillName     := 'Cooking';
+        SkillConst    := SKILL_COOKING;
+        BankType      := Bank;
+        GetMaterials  := True;
+        WhichBank     := MSI_BANK_AK;
+        AutoObjects   := @MSI_CookFullInv;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupCooking;
+
+        with Defaults do
+        begin
+          CookingSpot := [COOKSPOT_AK_RANGE];
+
+          Materials := [
+            MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+            MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+            MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+            MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+            MATERIAL_SHARK
+          ];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_AK_BANK to LOC_AK_RANGE';
+          StartLoc := LOC_AK_BANK;
+          EndLoc   := LOC_AK_RANGE;
+
+          SPSPath := [
+            TPointArray([Point(4913, 3996), Point(4930, 3939)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['12_9'])
+          ];
+        end;
+      end;
+
+    SCRIPT_CB_COOKER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Catherby Cooker';
+        Constant      := SCRIPT_CB_COOKER;
+        SkillName     := 'Cooking';
+        SkillConst    := SKILL_COOKING;
+        BankType      := Bank;
+        GetMaterials  := True;
+        WhichBank     := MSI_BANK_CB;
+        AutoObjects   := @MSI_CookFullInv;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupCooking;
+
+        with Defaults do
+        begin
+          CookingSpot := [COOKSPOT_CB_RANGE];
+
+          Materials := [
+            MATERIAL_CRAYFISH, MATERIAL_SHRIMP, MATERIAL_SARDINE,
+            MATERIAL_ANCHOVIE, MATERIAL_HERRING, MATERIAL_TROUT,
+            MATERIAL_PIKE, MATERIAL_SALMON, MATERIAL_TUNA,
+            MATERIAL_LOBSTER, MATERIAL_SWORDFISH, MATERIAL_MONKFISH,
+            MATERIAL_SHARK
+          ];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_CB_BANK to LOC_CB_RANGE';
+          StartLoc := LOC_CB_BANK;
+          EndLoc   := LOC_CB_RANGE;
+
+          SPSPath := [
+            TPointArray([Point(3076, 2892), Point(3100, 2896)]),
+            TPointArray([Point(3100, 2896), Point(3103, 2881)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['7_7']), TStringArray(['7_7'])
+          ];
+
+          Obstacles[OBS_LOC_TO] := [OBS_DOOR_CBRange];
+          Obstacles[OBS_LOC_FROM] := [OBS_DOOR_CBRange];
+        end;
+      end;
+
+    { Magers ===================================== ]
+    [============================================= }
+    SCRIPT_ALCHER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Alcher';
+        Constant      := SCRIPT_ALCHER;
+        SkillName     := 'Magic';
+        SkillConst    := SKILL_MAGIC;
+        BankType      := NoBank;
+        AutoObjects   := @MSI_DoMagic;
+        PlayerSetup   := @MSI_SetupMagic;
+
+        with Defaults do
+        begin
+          Spells := [SPELL_ALCH_HIGH, SPELL_ALCH_LOW];
+          StaffType := LeastCasts;
+        end;
+      end;
+
+    SCRIPT_TELEPORTER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Teleporter';
+        Constant      := SCRIPT_TELEPORTER;
+        SkillName     := 'Magic';
+        SkillConst    := SKILL_MAGIC;
+        BankType      := NoBank;
+        AutoObjects   := @MSI_DoMagic;
+        PlayerSetup   := @MSI_SetupMagic;
+
+        with Defaults do
+        begin
+          Spells := [SPELL_TELE_HOME, SPELL_TELE_VARROCK, SPELL_TELE_LUMBRIDGE,
+                    SPELL_TELE_FALADOR, SPELL_TELE_HOUSE, SPELL_TELE_CAMELOT];
+          StaffType := LeastCasts;
+        end;
+      end;
+
+    { Money Makers =============================== ]
+    [============================================= }
+    SCRIPT_VE_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Clay Softener';
+        Constant      := SCRIPT_VE_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_VE];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_VE_BANK to LOC_VE_FOUNTAIN';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Clay Softener';
+        Constant      := SCRIPT_GE_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_GE];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_FOUNTAIN';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_EV_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Edgeville Clay Softener';
+        Constant      := SCRIPT_EV_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_EV;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [WELL_EV];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_EV_BANK to LOC_EV_WELL';
+          StartLoc := LOC_EV_BANK;
+          EndLoc   := LOC_EV_WELL;
+
+          SPSPath := [
+            TPointArray([Point(4210, 2682), Point(4179, 2650)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['10_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FW_SOFTENER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Softener';
+        Constant      := SCRIPT_FW_SOFTENER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_SoftenClay;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Materials := [MATERIAL_CLAY];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FW_BANK to LOC_FW_PUMP';
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          SPSPath := [
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_VE_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Varrock East Container Filler';
+        Constant      := SCRIPT_VE_FILLER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_VE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_VE];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+        Name := 'LOC_VE_BANK to LOC_VE_FOUNTAIN';
+          StartLoc := LOC_VE_BANK;
+          EndLoc   := LOC_VE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4795, 2918)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_7', '12_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_GE_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Grand Exchange Container Filler';
+        Constant      := SCRIPT_GE_Filler;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_GE;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [FOUNTAIN_GE];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_GE_BANK to LOC_GE_FOUNTAIN';
+          StartLoc := LOC_GE_BANK;
+          EndLoc   := LOC_GE_FOUNTAIN;
+
+          SPSPath := [
+            TPointArray([Point(4551, 2725), Point(4502, 2685)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['11_6'])
+          ];
+        end;
+      end;
+
+    SCRIPT_FW_FILLER:
+      with MSI_Scripts[whichScript] do
+      begin
+        Name          := 'Falador West Container Filler';
+        Constant      := SCRIPT_FW_FILLER;
+        SkillName     := 'N/A';
+        SkillConst    := SKILL_NONE;
+        BankType      := Bank;
+        WhichBank     := MSI_BANK_FW;
+        GetMaterials  := True;
+        AutoObjects   := @MSI_FillItems;
+        BankObjects   := @MSI_BankWithdraw;
+        PlayerSetup   := @MSI_SetupSoftener;
+
+        with Defaults do
+        begin
+          Objects   := [PUMP_FW];
+          Materials := [MATERIAL_VIAL, MATERIAL_JUG, MATERIAL_BOWL,
+                        MATERIAL_BUCKET];
+        end;
+
+        with PathInfo do
+        begin
+          Name := 'LOC_FW_BANK to LOC_FW_PUMP';
+          StartLoc := LOC_FW_BANK;
+          EndLoc   := LOC_FW_PUMP;
+
+          SPSPath := [
+            TPointArray([Point(3622, 3179), Point(3639, 3133)])
+          ];
+
+          SPSAreas   := [
+            TStringArray(['8_7', '9_7'])
+          ];
+        end;
+      end;
+
+    SCRIPT_RC_AIR:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Air Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_VW;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_AIR;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_VW_BANK to LOC_ALTAR_AIR';
+          startLoc := LOC_VW_BANK;
+          endLoc   := LOC_ALTAR_AIR;
+
+          spsPath := [
+            TPointArray([Point(4565, 2907), Point(4563, 2935),
+                         Point(4347, 3019)]),
+
+            TPointArray([])
+          ];
+
+          spsAreas   := [
+            TStringArray(['11_7', '10_7']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_AIR];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_AIR];
+        end;
+      end;
+
+    SCRIPT_RC_EARTH:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Earth Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_VE;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_EARTH;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_VW_BANK to LOC_ALTAR_EARTH';
+          startLoc := LOC_VE_BANK;
+          endLoc   := LOC_ALTAR_EARTH;
+
+          SPSPath := [
+            TPointArray([Point(4850, 2971), Point(4912, 2937),
+                         Point(4972, 2929), Point(5054, 2758)]),
+
+            TPointArray([Point(350, 435), Point(356, 398)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['12_6', '12_7']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_EARTH];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_EARTH];
+        end;
+      end;
+
+    SCRIPT_RC_FIRE:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Fire Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_AK;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_FIRE;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_AK_BANK to LOC_ALTAR_FIRE';
+          startLoc := LOC_AK_BANK;
+          endLoc   := LOC_ALTAR_FIRE;
+
+          SPSPath := [
+            TPointArray([Point(4913, 3995), Point(5100, 3643)]),
+
+            TPointArray([Point(331, 203), Point(355, 227)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['12_9', '12_8']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_FIRE];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_FIRE];
+        end;
+      end;
+
+    SCRIPT_RC_WATER:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Water Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_DB;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_WATER;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_DB_BANK to LOC_ALTAR_WATER';
+          startLoc := LOC_DB_BANK;
+          endLoc   := LOC_ALTAR_WATER;
+
+          SPSPath := [
+            TPointArray([Point(4208, 3685), Point(4571, 3997)]),
+
+            TPointArray([Point(395, 85), Point(351, 74)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['10_9', '11_9']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_WATER];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_WATER];
+        end;
+      end;
+
+    SCRIPT_RC_MIND:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Mind Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_FW;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_MIND;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_FW_BANK to LOC_ALTAR_MIND';
+          startLoc := LOC_FW_BANK;
+          endLoc   := LOC_ALTAR_MIND;
+
+          SPSPath := [
+            TPointArray([Point(3620, 3180), Point(3695, 3109),
+                         Point(3791, 2963), Point(3733, 2810),
+                         Point(3758, 2604)]),
+
+            TPointArray([Point(196, 129), Point(162, 69)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['9_7', '9_6']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_MIND];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_MIND];
+        end;
+      end;
+
+    SCRIPT_RC_BODY:
+      with MSI_Scripts[whichScript] do
+      begin
+        name         := 'Body Runecrafter';
+        constant     := whichScript;
+        skillName    := 'Runecrafting';
+        skillConst   := SKILL_RUNECRAFTING;
+        bankType     := Bank;
+        whichBank    := MSI_BANK_EV;
+        getMaterials := True;
+        autoObjects  := @MSI_CraftRunes;
+        bankObjects  := @MSI_BankWithdraw;
+        playerSetup  := @MSI_SetupRunecrafting;
+
+        defaults.objects   := [ALTAR_RUNECRAFTING];
+        defaults.materials := [MATERIAL_ESSENCE_RUNE];
+        defaults.tiara     := TIARA_BODY;
+
+        with pathInfo do
+        begin
+          name     := 'LOC_EV_BANK to LOC_ALTAR_BODY';
+          startLoc := LOC_EV_BANK;
+          endLoc   := LOC_ALTAR_BODY;
+
+          SPSPath := [
+            TPointArray([Point(4210, 2683), Point(4127, 2653),
+                         Point(4052, 2867)]),
+
+            TPointArray([Point(137, 263), Point(144, 244)])
+          ];
+
+          spsAreas   := [
+            TStringArray(['10_6', '10_7', '9_6', '9_7']), TStringArray(['runecrafting_altars'])
+          ];
+
+          spsSurfaces := [RUNESCAPE_SURFACE, RUNESCAPE_OTHER];
+
+          obstacles[OBS_LOC_TO] := [OBS_RUINS_BODY];
+          obstacles[OBS_LOC_FROM] := [OBS_PORTAL_BODY];
+        end;
+      end;
+
+
+  end; // big case
+
+  // set all path leg's surfaces to RUNESCAPE_SURFACE if not already set
+  {$IFDEF SPS}
+  with MSI_Scripts[whichScript] do
+  begin
+    if (maxTime <= 0) then
+      maxTime := 60; // default time for one load is an hour
+
+    // sets rs surface as default SPS surface
+    if (length(pathInfo.spsSurfaces) <= 0) then
+    begin
+      setLength(pathInfo.spsSurfaces, length(pathInfo.spsPath));
+
+      for i := 0 to high(pathInfo.spsSurfaces) do
+        pathInfo.spsSurfaces[i] := RUNESCAPE_SURFACE;
+    end;
+  end;
+  {$ENDIF}
+
+  Result := (MSI_Scripts[whichScript].Name <> '');
+end;
+
+(*
+MSI_LoadAllScripts
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_LoadAllScripts;
+
+Loads all of MSI's scripts into memory.  Should only be called ONCE in
+MSI_Setup.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 July 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_LoadAllScripts;
+*)
+procedure MSI_LoadAllScripts;
+var
+  i: Integer;
+begin
+  for i := 0 to High(MSI_Scripts) do
+    MSI_LoadScript(i);
+end;

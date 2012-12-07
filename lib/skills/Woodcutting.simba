@@ -1,0 +1,292 @@
+(*
+Woodcutting
+===========
+
+The Woodcutting file holds all the functions/procedures that are used
+specifically for the Woodcutting skill.
+
+The source for Woodcutting.simba can be found
+`here <https://github.com/SRL/MSI/raw/master/MSI/Skills/Woodcutting.simba>`_.
+
+*)
+
+const
+  TREE_MAX_DIST = 75; // Maximum pixel distance from tracking box to player
+
+(*
+MSI_SetupWoodcutting
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_SetupWoodcutting(): Boolean;
+
+Sets the player up for Woodcutting.  Will start by looking for the best hatchet
+depending on the player's skill level.  Will check both the equipment and
+inventory tabs.  If a hatchet can't be found, it will attempt to withdraw one
+from the bank (if player is at a bank), and equip it depending on the player's
+attack level.  This function is pointed to any woodcutting script's
+'PlayerSetup' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 06 October 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_TREES].PlayerSetup := @MSI_SetupWoodcutting;
+*)
+function MSI_SetupWoodcutting(): Boolean;
+var
+  i, j, x, y: Integer;
+  tabs: TIntegerArray;
+  script: TScript;
+begin
+  if (not LoggedIn) then
+    Exit;
+
+  MSI_AddHeader('MSI_SetupWC/Mining');
+  script := MSI_Players[CurrentPlayer].GetScript();
+
+  // If it's already on the inventory, it will search there first
+  if (GetCurrentTab = TAB_INV) then
+    tabs := [TAB_INV, TAB_EQUIP]
+  else
+    tabs := [TAB_EQUIP, TAB_INV];
+
+  for i := 0 to 1 do
+  begin
+    if (MSI_Players[CurrentPlayer].Member) then
+      if (script.skillConst = SKILL_WOODCUTTING) then
+        Result := MSI_FindTool(DWARVEN_ARMY_AXE, tabs[i], x, y);
+
+    if (not Result) then
+      for j := MSI_BestTool downto MSI_WorstTool do // First search for the best tool
+        if (MSI_FindTool(j, tabs[i], x, y)) then
+        begin
+          Result := True;
+          Break;
+        end;
+
+    if (Result) then
+    begin
+      if (tabs[i] = TAB_INV) then
+        MSI_Items[j].InvSlot := CoordsToItem(x, y); // Set tool's inventory slot
+
+      Break;
+    end;
+  end;
+  
+  if (MSI_Players[CurrentPlayer].Scripts[CurrentScript].CoalBag) then
+    MSI_FindTool(COAL_BAG, tab_Inv, x, y);
+
+  if (not Result) then
+    if (script.bankType = Bank) then // if script is a banking one
+      if (MSI_Locations[MSI_Players[CurrentPlayer].Location].AtBank) then // if at bank
+        Result := MSI_WithdrawBestTool()
+      else begin  // if not at bank
+        if (MSI_WalkPath(script.pathInfo, false)) then
+          Result := MSI_WithdrawBestTool();
+      end;
+
+  MSI_CloseHeader('MSI_SetupWC/Mining: ' + BoolToStr(Result));
+end;
+
+(*
+MSI_FindBirdNest
+~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_FindBirdNest(): Boolean;
+
+Finds and picks up birds nest if fallen from a tree.  This function is only
+called in MSI_WaitWhileChopping, and if the current player is a member.
+
+.. note::
+
+  | Author: NCDS
+  | Last Updated: 10 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_FindBirdNest) then
+    MSI_Debug('Found and picked up bird's nest');
+*)
+function MSI_FindBirdNest: boolean;
+var
+  nest: TMSObject;
+begin
+  if (not (MSI_Players[CurrentPlayer].Member)) or (not LoggedIn) then
+    Exit;
+
+  MSI_Debug('Looking for bird''s nests');
+
+  if (not isChatBoxTextBetween(BIRD_NEST_CBMESSAGE, 0, 8, 6)) then
+    exit;
+
+  nest := MSI_GetObject(OBJ_BIRD_NEST);
+  if (MSI_FindObject(nest, moLeft)) then
+  begin
+    result := true;
+    flag;
+    wait(randomRange(100, 300));
+  end;
+end;
+
+(*
+MSI_IsChopping
+~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_IsChopping(): Boolean;
+
+Returns true if the player is chopping a tree.  This procedure uses MSI's color
+animating routines.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 January 2012 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_IsChopping()) then
+    MSI_Debug('Player is chopping');
+*)
+function MSI_IsChopping(): boolean;
+begin
+  result := (not MSI_IsAnimating(MSI_GetAnimation(ANIM_IDLE)));
+  //result := (MSI_IsAnimating(MSI_GetAnimation(ANIM_CHOPPING_NEW)));
+end;
+
+(*
+MSI_WaitWhileChopping
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  procedure MSI_WaitWhileChopping(tree: TMSObject);
+
+Waits while the player is chopping.  Will do random even checks plus MSI's
+antiban.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 28 January 2012 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_IsChopping()) then
+    MSI_WaitWhileChopping(tree);
+*)
+procedure MSI_WaitWhileChopping(tree: TMSObject);
+var
+  t: integer;
+begin
+  if (not loggedIn) then
+    exit;
+
+  flag;
+  wait(randomRange(1000, 1500));
+  t := (getSystemTime + tree.maxTime);
+
+  while (loggedIn and (not invFull) and (getSystemTime < t)) do
+  begin
+    if (not waitFunc(@MSI_IsChopping, 10, 1000)) then
+      break;
+
+    MSI_FindRandoms(false);
+    MSI_AntiBan(randomRange(200, 500), ANTI_BAN_CHANCE);
+
+    wait(1);
+
+    // to properly set camera/compass angles as a failsafe
+    with MSI_Players[CurrentPlayer] do
+      if (length(MSI_Locations[Location].SubLocs) > 0) then
+        if (random(15) < 5) then
+          makeCompass(MSI_Locations[Location].SubLocs[CurrentPoint].Compass);
+  end;
+end;
+
+(*
+MSI_ChopTree
+~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChopTree(trees: TIntegerArray): boolean;
+
+Finds and chops the first tree found in the array 'Which'.  'ForceFail' is used
+to deliberately make the function fail if for some reason the player's hatchet
+was lost, for example.
+
+.. note::
+
+  | Author: marpis
+  | Last Updated: 10 June 2011 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  if (MSI_ChopTree([TREE_NORMAL, TREE_OAK])) then
+    MSI_Debug('Chopped tree');
+*)
+function MSI_ChopTree(trees: TIntegerArray): boolean;
+var
+  treeObjs: TMSObjectArray;
+  tree: TMSObject;
+begin
+  if (not loggedIn) then
+    exit;
+
+  treeObjs := MSI_GetObjects(trees);
+
+  if (MSI_FindObjects(treeObjs, moLeft, tree)) then
+  begin
+    result := true;
+    MSI_WaitWhileChopping(tree);
+  end else
+    MSI_FindRandoms(true);
+end;
+
+(*
+MSI_ChopInvFull
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+  function MSI_ChopInvFull: Boolean;
+
+Calls MSI_AutoInvFull (Skills.simba).  This is the function that is pointed to
+a Woodcutting script's 'AutoObjects' attribute.
+
+.. note::
+
+  | Author: Coh3n
+  | Last Updated: 20 September 2010 by Coh3n
+
+Example:
+
+.. code-block:: pascal
+
+  MSI_Scripts[SCRIPT_VE_TREES].AutoObjects := @MSI_ChopInvFull;
+*)
+function MSI_ChopInvFull: Boolean;
+begin
+  Result := MSI_AutoInvFull(@MSI_ChopTree); // MSI_AutoInvFull in Skills.simba
+end;
+
+
