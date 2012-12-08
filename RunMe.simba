@@ -2,33 +2,18 @@
 RunMe
 =====
 
-The RunMe file is the file that the user will actually run.  It doesn't matter
-whether they're using the form or not, they still have to run this file.  If
-not using the form, the user should only change the DeclareSettings and
-DeclarePlayers procedures.
+The RunMe file is the file that the user will actually run.
 
-The source for can be found
+The source for RunMe.simba can be found
 `here <https://github.com/SRL/MSI/raw/master/RunMe.simba>`_, and a very detailed
 guide on how to properly setup MSI can be found here
-`here <http://villavu.com/forum/showthread.php?p=745942#post745942>`_ if you are
-having trouble setting up.
+`here <http://villavu.com/forum/showthread.php?p=745942#post745942>`_.
 
 *)
 
 program MSI_Script;
-// Define the extras you want to use
-{$DEFINE EXTRA_CHARACTER_STATS} // Saves player stats in HTML format
-
-// Define other settings
-{$DEFINE SPS}   // Comment to disable SPS (no walking scripts)
-{$DEFINE SMART} // Comment to use MSI with a browser
-{$DEFINE SRL_REMOTE} // Use SRL's player remote control
-
-{ ============================================================================ }
-{$i MSI/MSI/Core/Setup.simba}
-
-const
-  USE_FORM = True;
+{$DEFINE SMART}
+{$i MSI/lib/core/setup.simba}
 
 (*
 DeclareSettings
@@ -44,15 +29,12 @@ of setting requested by any user.
 *)
 procedure DeclareSettings();
 begin
-  MSI_Settings[SETUP_RANDOM_TOOL]   := True;    // Use SRL's Random Tool? It notifies you when a random is found.
-  MSI_Settings[SETUP_REPORT_GUI]    := False;   // Use a GUI to display the progress report (recommended)
   MSI_Settings[SETUP_DEBUG_SMART]   := True;    // Debugs things onto SMART (may cause lag)
   MSI_Settings[SETUP_SAVE_DEBUG]    := True;    // Save's the debug box text to a file
   MSI_Settings[SETUP_SAVE_REPORT]   := True;    // Save's the progress report to a file
   MSI_Settings[SETUP_HUMAN_BREAK]   := True;    // Take more human like breaks
   MSI_Settings[SETUP_SWITCH_WORLDS] := True;    // Switch worlds when switching players or after breaks
   MSI_Settings[SETUP_PRINT_REPORT]  := True;    // Will only print the short report in the debug box (will still save long report to file)
-  MSI_Settings[SETUP_DEATH_WALK]    := True;    // Use MSI's death walking feature if the player gets lost?
   MSI_Settings[SETUP_BREAK_TIME]    := 15;      // Single player only - how long to break for (in minutes)
   MSI_Settings[SETUP_DEBUG_LEVEL]   := 10;      // The lower the number, the less the script will debug
   MSI_Settings[SETUP_ANTIBAN_WAIT]  := 15000;   // Minimum time to wait between antibans (in milliseconds 1000ms = 1s)
@@ -80,152 +62,20 @@ procedure DeclarePlayers();
 var
   i: Integer;
 begin
-  HowManyPlayers := 1;
-  NumberOfPlayers(HowManyPlayers);
-  SetLength(MSI_Players, HowManyPlayers);
+  numberOfPlayers := 1;
+  setLength(players, numberOfPlayers);
 
-  for i := 0 to High(MSI_Players) do
-    SetLength(MSI_Players[i].Scripts, 100);
-
-  CurrentPlayer := 0;
-  CurrentScript := 0;
-
-  with MSI_Players[0] do
+  with players[0] do
   begin
-    Name       := '';      // Username
-    Pass       := '';      // Password
-    Pin        := '';      // Bank pin; leave as '' if player doesn't have one
-    Active     := True;    // Use this player?
-    Member     := False;   // Is this player a member?
-    BreakLoads := 0;       // Amount of loads before breaking/switching players; leave 0 to not take breaks
-    BreakTime  := 0;       // Amount of time (in minutes) before breaking/witching; leave 0 to not take breaks
-    TotalLoads := 0;       // Total loads for the player to do; leave 0 if using TotalTime or to go forever
-    TotalTime  := 0;       // How long for the player to run? (in minutes); leave 0 if using TotalLoads or go forever
-
-    with Scripts[0] do
-    begin
-    end;
+    loginName := '';   // email/name used to login
+    displayName := ''; // in-game display name (optional)
+    password := '';
+    bankPin := '';     // bank pin (optional if not using a banking script)
+    active := true;    // use this player?
+    member := false;   // is this player a member?
+    integers[0] := 60; // how many minutes to run this player for
+    booleans[0] := true; // take breaks?
   end;
-{
-  with MSI_Players[1] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := 0;
-    BreakTime  := 0;
-    TotalLoads := 0;
-    TotalTime  := 0;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[2] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[3] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[4] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[5] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[6] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-
-  with MSI_Players[7] do
-  begin
-    Name       := '';
-    Pass       := '';
-    Pin        := '';
-    Active     := True;
-    Member     := False;
-    BreakLoads := ;
-    BreakTime  := ;
-    TotalLoads := ;
-    TotalTime  := ;
-
-    with Scripts[0] do
-    begin
-    end;
-  end;
-}
 end;
 
 var
@@ -237,42 +87,8 @@ begin
 
   ClearDebug;
   MSI_Setup;
-
-  // initilize form if selected, otherwise call player setup routines
-  if (USE_FORM) then
-  begin
-    try
-      try
-        ThreadSafeCallEx('ShowMSIForm');
-      finally
-        ThreadSafeCallEx('FreeMSIForm');
-      end;
-    except
-      Writeln(ExceptionToString(ExceptionType, ExceptionParam));
-    end;
-
-    HowManyPlayers := Length(MSI_Players);
-    NumberOfPlayers(HowManyPlayers);
-
-    for i := 0 to High(MSI_Players) do
-      SetLength(MSI_Players[i].Scripts, 100);
-
-    if (not ScriptReady) then
-      TerminateScript;
-  end else begin
-    DeclareSettings;
-    DeclarePlayers;
-  end;
-
-  // initialize SMART and clear it's canvas
-  {$IFDEF SMART}
-    {$IFNDEF SIMBAMAJOR990}
-      SMART_Server := 10;
-      SMART_Members := False;
-      SMART_Signed := True;
-      SMART_SuperDetail := False;
-    {$ENDIF}
-  {$ENDIF}
+  DeclareSettings;
+  DeclarePlayers;
 
   SetupSRL;
   ActivateClient;
@@ -290,20 +106,6 @@ begin
     DebugFile := CreateFile(PATH_DEBUG + ScriptStart + '.txt');
 
   SetupSRLStats(21, MSI_Settings[SETUP_STATS_ID], MSI_Settings[SETUP_STATS_PASS]);
-
-  MSI_WalkingDefines();
-
-  // these settings aren't yet in the player form
-  if (USE_FORM) then
-  begin
-    MSI_Settings[SETUP_RANDOM_TOOL] := true;
-    MSI_Settings[SETUP_PRINT_REPORT] := true;
-    MSI_Settings[SETUP_REPORT_GUI]  := false;
-    MSI_Settings[SETUP_DEATH_WALK] := true;
-  end;
-
-  if (MSI_Settings[SETUP_RANDOM_TOOL]) then
-    SetupRandomTool(15000, 5, appPath+'Includes/MSI/MSI/RandomSound.wav');
 
   MSI_Mainloop;
 end.

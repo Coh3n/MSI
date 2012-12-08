@@ -1,0 +1,9 @@
+- removed object tracking
+- removed form
+- removed extras
+- removed random tool feature (no more randoms)
+
+- removed from MSI_Settings
+  - random tool
+  - report gui
+  - death walk
