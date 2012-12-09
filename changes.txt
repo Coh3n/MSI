@@ -7,3 +7,6 @@
   - random tool
   - report gui
   - death walk
+
+- removed the skill setup functions - from now on we assume the user has setup their player properly
+
