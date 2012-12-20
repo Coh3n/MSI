@@ -62,7 +62,6 @@ anything from randomness percentage to bank symbol accuracy.
 const
   ANTI_BAN_CHANCE      = 10;    // The chance (in %) of performing antiban
   RANDOM_TIME_PERCENT  = 0.30;  // The percent of BreakLoads/TotalLoads/BreakTime/TotalTime to use for randomness.
-  DTM_TOLERANCE        = 10;    // Tolerance on the DTMs
 
   // PLB = Player Box (a tight box around the player); used in animations
   PLBX1 = MSCX - 10;
@@ -162,42 +161,6 @@ const
   SCRIPT_ARRAY_LENGTH = 127; // Change to the highest script constant
 
 (*
-Extras Constants
-~~~~~~~~~~~~~~~~
-
-Constants used in MSI Extras.  These do not represent an index of a global
-array, but specify certain settings when a scripter is declaring and extra for
-MSI.
-*)
-const
-  EXTRA_BETA       = 'BETA';
-  EXTRA_ALPHA      = 'ALPHA';
-  EXTRA_PRERELEASE = 'PRE-RELEASE';
-
-  EXTRA_CONTINUE   = 1;
-  EXTRA_EXIT       = -1;
-
-(*
-Pointer Constants
-~~~~~~~~~~~~~~~~~
-
-The Pointer constants are used primarily with Extras where the scripter can set
-which procedures to call the extra in place of or in addition to.  These are
-also used for declaring an extra.
-
-Example:
-
-.. code-block:: pascal
-
-  MSI_Pointers[MSI_OnDebugCall] := @Coh3n_Debug; // Where Coh3n_Debug would be in an extra I wrote
-*)
-const
-  MSI_OnResetRemoteCall = 0;
-  MSI_OnGetSkillLevels  = 1;
-
-  POINTER_ARRAY_LENGTH  = 2;
-
-(*
 Path Constants
 ~~~~~~~~~~~~~~
 
@@ -205,12 +168,10 @@ These constants represent the different paths to files accessed by MSI, such as
 the saved player's information, the debug/report files, and the settings file.
 *)
 const
-  PATH_PLAYER       = IncludePath + 'MSI\Player.txt';        // Path for all the player information
-  PATH_REPORT       = IncludePath + 'MSI\Progress Reports\'; // Path for progress report
-  PATH_DEBUG        = IncludePath + 'MSI\Debug Logs\';       // Path for debug
-  PATH_SETTINGS     = IncludePath + 'MSI\Settings.txt';      // Path for script settings
-  PATH_FORM_BITMAPS = IncludePath + 'MSI\MSI\Form\Bitmaps\'; // Path to all the form images
-  PATH_EXTRAS       = IncludePath + 'MSI\MSI\Extras\';       // Path to all the extras
+  PATH_PLAYER   = IncludePath + 'MSI\players.txt';       // Path for all the player information
+  PATH_REPORT   = IncludePath + 'MSI\progress_reports\'; // Path for progress report
+  PATH_DEBUG    = IncludePath + 'MSI\logs\';             // Path for debug
+  PATH_SETTINGS = IncludePath + 'MSI\settings.txt';      // Path for script settings
 
 (*
 Location Constants
@@ -819,9 +780,6 @@ const
   SETUP_PRINT_REPORT  = 15;
   SETUP_QC_LEVELUP    = 16;
   SETUP_RANDOM_NP     = 17;
-  SETUP_DEATH_WALK    = 18;
-  SETUP_REPORT_GUI    = 19;
-  SETUP_RANDOM_TOOL   = 20;
 
   // Integers
   SETUP_BREAK_TIME    = 30;
@@ -876,26 +834,6 @@ type
   TMSObjectArray = array of TMSObject;
 
 (*
-TItem
-~~~~~
-
-The type that holds all the attributes of any item used in the inventory
-or bank throughout MSI scripts.
-*)
-type
-  TItem = record
-    Name      : string;
-    StatsName : string;
-    UpText    : TStringArray;
-    InvSlot   : Integer;
-    Stackable : Boolean;
-    EquipLevel: Integer;
-    DTM       : Integer;
-  end;
-
-  TItemArray = array of TItem;
-
-(*
 TMaterial
 ~~~~~~~~~
 
@@ -921,24 +859,6 @@ declaring a TScript record.
 *)
 type
   TBank = (Bank, DBox, NoBank, Drop, NPC);
-
-(*
-TMouseOption
-~~~~~~~~~~~~
-
-Used to tell the object routines which type of mouse action to perform.
-*)
-type
-  TMouseOption = (moRight, moLeft, moMove, moNothing);
-
-(*
-TStaffType
-~~~~~~~~~~
-
-Used when setting up magic scripts to determine which staff to use.
-*)
-type
-  TStaffType = (LeastCasts, MostCasts, Cheapest);
 
 (*
 TPath
@@ -1032,44 +952,6 @@ type
   end;
 
   TScriptArray = array of TScript;
-
-(*
-TPointer
-~~~~~~~~
-
-Used to call different functions in place or at the same time as MSI functions.
-Mainly used in MSI extras.
-*)
-type
-  TPointer = record
-    Constant    : Integer;
-    FunctionCall: string;
-    UsedBy      : Integer;
-  end;
-
-  TPointerArray = array of TPointer;
-
-(*
-TExtra
-~~~~~~
-
-Used for declaring new extras. Stores all the necessary information needed to
-properly implement an extra.
-*)
-type
-  TExtra = record
-    Name        : string;
-    Author      : string;
-    Version     : string;
-    Enabled     : Boolean;
-    Settings    : TVariantArray;
-    Setup       : function: Boolean;
-    PointerCount: Integer;
-    Constant    : Integer;
-    Pointers    : TPointerArray;
-  end;
-
-  TExtraArray = array of TExtra;
 
 (*
 TProggy
@@ -1234,14 +1116,9 @@ type
 
 // Miscellaneous variables used throughout the include
 var
-  CurrentScript    : Integer;
-  CurrDebugLevel   : Integer;
-  CurrentExtra     : Integer;
-  CurrentPointer   : Integer;
   ScriptStart      : string;
   NextAntiban      : Integer;
   NextRandCheck    : Integer;
-  DebugFile        : Integer;
 
 // Arrays that store all the necessary "go-to" information for MSI
 var
@@ -1250,7 +1127,5 @@ var
   MSI_Items     : array[0..ITEM_ARRAY_LENGTH] of TItem;
   MSI_Locations : array[0..LOC_ARRAY_LENGTH] of TLocation;
   MSI_Scripts   : array[0..SCRIPT_ARRAY_LENGTH] of TScript;
-  MSI_Extras    : TExtraArray;
-  MSI_Pointers  : array[0..POINTER_ARRAY_LENGTH] of TPointer;
   MSI_Spells    : array[0..SPELL_ARRAY_LENGTH] of TMagicSpell;
 

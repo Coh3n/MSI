@@ -9,6 +9,10 @@ The source for can be found
 
 *)
 
+var
+  debugLevel = 1;
+  debugFile: integer;
+
 (*
 MSI_Debug
 ~~~~~~~~~
@@ -41,20 +45,20 @@ begin
     debugMSG := debugMSG + '[ ' + Capitalize(MSI_Players[CurrentPlayer].Name)+' ] ';
   except end;
 
-  debugMSG := debugMSG + Replicate('-', CurrDebugLevel * 2) + ' ';
+  debugMSG := debugMSG + Replicate('-', debugLevel * 2) + ' ';
   debugMSG := debugMSG + debug;
 
   // Add debug message to the debug file
   if (MSI_Settings[SETUP_SAVE_DEBUG]) then
     try
-      if (DebugFile <> -1) then
-        if (not WriteFileString(DebugFile, debugMSG + #13+#10)) then
+      if (debugFile <> -1) then
+        if (not WriteFileString(debugFile, debugMSG + #13+#10)) then
           Writeln('MSI_Debug: Failed to write to file');
     except
       Writeln(ExceptionToString(ExceptionType, ExceptionParam));
     end;
 
-  if (CurrDebugLevel <= MSI_Settings[SETUP_DEBUG_LEVEL]) then
+  if (debugLevel <= MSI_Settings[SETUP_DEBUG_LEVEL]) then
     Writeln(DebugMSG)
   else
     Debugln(DebugMSG);
@@ -89,7 +93,7 @@ Example:
 procedure MSI_AddHeader(header: string);
 begin
   MSI_Debug(header);
-  inc(CurrDebugLevel);
+  inc(debugLevel);
 end;
 
 (*
@@ -118,7 +122,7 @@ Example:
 *)
 procedure MSI_CloseHeader(closer: string);
 begin
-  Dec(CurrDebugLevel);
+  Dec(debugLevel);
   MSI_Debug(closer);
 end;
 
@@ -150,9 +154,9 @@ Example:
 *)
 procedure MSI_SubDebug(debug: string);
 begin
-  Inc(CurrDebugLevel);
+  Inc(debugLevel);
   MSI_Debug(debug);
-  Dec(CurrDebugLevel);
+  Dec(debugLevel);
 end;
 
 (*
